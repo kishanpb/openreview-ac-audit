@@ -45,6 +45,10 @@ def fail(message: str) -> None:
 def check_report_basics(text: str) -> None:
     required = [
         "Area Chairs vs Paper Weights: What ACs Add, and How to AC Well",
+        "## TL;DR",
+        "Reviewer scores are real signal, not decorative metadata.",
+        "The core claim is about legibility.",
+        "The practical reform is not mechanical acceptance rules.",
         "I am not affiliated with, advising, collaborating with, or writing on behalf of any author",
         "None of my own ML papers appears in the qualitative case analysis",
         "I am not associated with any of the authors corresponding to papers discussed in this blog.",

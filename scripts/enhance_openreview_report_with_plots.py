@@ -2022,6 +2022,15 @@ def enhance_markdown(plot_paths: list[Path], meta_rows: list[dict[str, Any]], cl
         "The research question, interpretation, and final judgment remain human-directed; the quantitative claims are tied to local scripts, CSVs, and public sources rather than model memory.\n\n"
         "_Disclosure and non-affiliation._ I am not affiliated with, advising, collaborating with, or writing on behalf of any author of the papers named or qualitatively discussed in this post. None of my own ML papers appears in the qualitative case analysis, named override examples, or paper-level case readings; the named cases are used only because their OpenReview records are public and illustrate process patterns. The separately labeled RLC anecdote is my own process experience, anonymized and kept outside the public-data qualitative sample.\n\n"
     )
+    tldr = """## TL;DR
+
+Reviewer scores are real signal, not decorative metadata. In the cleanest public setting, ICLR, a simple confidence-weighted score predicts many decisions well. But that is not the same as saying ACs should be replaced by paper weights: the important cases are the borderline overrides where reviewer-majority signal and final decision diverge.
+
+The core claim is about legibility. When an AC rejects a score-positive paper, accepts a score-negative paper, relies on a holistic review, or makes a low-confidence call outside their expertise, the meta-review should show what evidence mattered, how rebuttal changed the decision, and why reviewer evidence was weighted the way it was. Thin public reasoning may hide good private work, but it leaves authors and future ACs with no teachable decision record.
+
+The practical reform is not mechanical acceptance rules. It is expertise- and interest-gated AC bidding, structured rebuttal and override deltas, SAC repair queues for weak meta-reviews before release, and author-controlled revision carry-forward for revised borderline rejects without importing old reviews or scores.
+
+"""
     opener = (
         "_Area chairs are not paper weights. But when AC judgment diverges from reviewer-score weighting, the reasoning has to be legible._ "
         "Dan Roy's one-line provocation, \"Area chairs <= paper weights,\" is the right starting point because it turns a familiar complaint "
@@ -2044,6 +2053,7 @@ def enhance_markdown(plot_paths: list[Path], meta_rows: list[dict[str, Any]], cl
         "decision surface is visible, especially at ICLR. But the public data also shows a nontrivial set of AC/PC overrides: papers with "
         "majority-positive reviews that are rejected, and papers with majority-negative reviews that are accepted. That override set is where "
         "the review system does its most human work. It is also where venues owe authors, reviewers, and future ACs the clearest explanations.\n\n"
+        + tldr
         + process_note
     )
     text = re.sub(r"_Process inspiration\._.*?\n\n", "", text, flags=re.S)

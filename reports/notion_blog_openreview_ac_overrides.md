@@ -12,6 +12,14 @@ _Why this got more urgent._ Two newer X posts map accepted papers as global scor
 
 The answer is neither a simple indictment of ACs nor a defense of unexplained judgment. Reviewer scores are strongly predictive where the full public decision surface is visible, especially at ICLR. But the public data also shows a nontrivial set of AC/PC overrides: papers with majority-positive reviews that are rejected, and papers with majority-negative reviews that are accepted. That override set is where the review system does its most human work. It is also where venues owe authors, reviewers, and future ACs the clearest explanations.
 
+## TL;DR
+
+Reviewer scores are real signal, not decorative metadata. In the cleanest public setting, ICLR, a simple confidence-weighted score predicts many decisions well. But that is not the same as saying ACs should be replaced by paper weights: the important cases are the borderline overrides where reviewer-majority signal and final decision diverge.
+
+The core claim is about legibility. When an AC rejects a score-positive paper, accepts a score-negative paper, relies on a holistic review, or makes a low-confidence call outside their expertise, the meta-review should show what evidence mattered, how rebuttal changed the decision, and why reviewer evidence was weighted the way it was. Thin public reasoning may hide good private work, but it leaves authors and future ACs with no teachable decision record.
+
+The practical reform is not mechanical acceptance rules. It is expertise- and interest-gated AC bidding, structured rebuttal and override deltas, SAC repair queues for weak meta-reviews before release, and author-controlled revision carry-forward for revised borderline rejects without importing old reviews or scores.
+
 _Co-written with Codex._ This essay was developed with Codex as a research, coding, and editorial partner: fetching public OpenReview data, writing analysis scripts, building plots, packaging the Notion import, and tightening the narrative. The research question, interpretation, and final judgment remain human-directed; the quantitative claims are tied to local scripts, CSVs, and public sources rather than model memory.
 
 _Disclosure and non-affiliation._ I am not affiliated with, advising, collaborating with, or writing on behalf of any author of the papers named or qualitatively discussed in this post. None of my own ML papers appears in the qualitative case analysis, named override examples, or paper-level case readings; the named cases are used only because their OpenReview records are public and illustrate process patterns. The separately labeled RLC anecdote is my own process experience, anonymized and kept outside the public-data qualitative sample.
