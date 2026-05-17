@@ -14,7 +14,7 @@ The answer is neither a simple indictment of ACs nor a defense of unexplained ju
 
 _Co-written with Codex._ This essay was developed with Codex as a research, coding, and editorial partner: fetching public OpenReview data, writing analysis scripts, building plots, packaging the Notion import, and tightening the narrative. The research question, interpretation, and final judgment remain human-directed; the quantitative claims are tied to local scripts, CSVs, and public sources rather than model memory.
 
-_Disclosure and non-affiliation._ I am not affiliated with, advising, collaborating with, or writing on behalf of any author of the papers named or qualitatively discussed in this post. None of my own ML papers appears in the qualitative case analysis, named override examples, or paper-level case readings; the named cases are used only because their OpenReview records are public and illustrate process patterns.
+_Disclosure and non-affiliation._ I am not affiliated with, advising, collaborating with, or writing on behalf of any author of the papers named or qualitatively discussed in this post. None of my own ML papers appears in the qualitative case analysis, named override examples, or paper-level case readings; the named cases are used only because their OpenReview records are public and illustrate process patterns. The separately labeled RLC anecdote is my own process experience, anonymized and kept outside the public-data qualitative sample.
 
 ## Claims and Evidence Map
 
@@ -337,13 +337,15 @@ The failure mode is not only a wrong decision. The failure mode is an unteachabl
 
 That institutional memory should travel carefully. If a borderline reject is substantially revised for a later conference, authors should be able to say what changed relative to the prior version and which decision-critical concern the update targets. The next conference should not inherit old reviews or scores, because that can bias independent assessment; it should receive a compact, author-controlled update record that helps the new AC look at the right delta.
 
-## A Personal Story: Missing Meta-Review as Decision Debt
+## A Personal Story: Thin Meta-Review as Decision Debt
 
-One personal double-blind RLC 2026 case motivates this section. The decision could plausibly have moved from reject to accept if the AC/SAC had engaged with the positive evidence, reviewer disagreement, and author response. Instead, the final process gave no meaningful meta-review to learn from. A missing meta-review converts a scientific disagreement into an institutional dead end.
+One personal double-blind RLC 2026 case motivates this section. The decision could plausibly have moved from reject to accept if the AC/SAC had engaged with the positive evidence, reviewer disagreement, and author response. Instead, the final process produced a low-confidence, non-expert meta-review that leaned on the holistic review without showing its own rebuttal delta. That converts a scientific disagreement into institutional debt.
 
-The frustrating part is not simply rejection. Rejection can be correct. The frustrating part is that the process did not produce a decision record. Without a meta-review, authors cannot tell whether the decisive issue was novelty, correctness, empirical support, scope, reviewer calibration, venue budget, or simple non-engagement. Future ACs also cannot learn what standard was applied. To authors, the decision can look like private judgment without a public reasoning trail.
+The relevant public signal is precise. The AC wrote that they were "not an expert on the topic" and were "basing my decision on the holistic review." The recommendation was reject, with `Confidence: 2: The area chair is not sure.` I cannot infer what happened privately, and rejection may still be correct. But the meta-review does not show any rebuttal delta, does not say which author-response points were considered, and does not explain why the holistic review remained decisive after rebuttal.
 
-The publicly detailed RLC review-process design I could verify, from RLC 2024, makes this especially salient because it explicitly gives the SAC/AC a synthesizing role: they check review quality, can ask authors direct questions, write a meta-review, and PC review is expected when a rejection recommendation goes against a senior-reviewer acceptance recommendation. The RLC/RLJ 2026 submission page confirms the use of OpenReview for submissions and review correspondence, but does not expose the same detailed process text on that page. The architecture is still the right lesson. But architecture does not guarantee service. If an AC is not engaged in the synthesis work, the authors can experience the process as under-explained no matter how thoughtful the written policy is.
+The frustrating part is not simply rejection. Rejection can be correct. The frustrating part is that the process did not produce a usable decision record. With a thin meta-review, authors cannot tell whether the decisive issue was novelty, correctness, empirical support, scope, reviewer calibration, venue budget, or simple non-engagement. Future ACs also cannot learn what standard was applied. To authors, the decision can look like private judgment without a public reasoning trail.
+
+The publicly detailed RLC review-process design I could verify, from RLC 2024, makes this especially salient because it explicitly gives the SAC/AC a synthesizing role: they check review quality, can ask authors direct questions, write a meta-review, and PC review is expected when a rejection recommendation goes against a senior-reviewer acceptance recommendation. The RLC/RLJ 2026 submission page confirms the use of OpenReview for submissions and review correspondence, but does not expose the same detailed process text on that page. The architecture is still the right lesson. But architecture does not guarantee service. If an AC is not engaged in the synthesis work, or is low-confidence and non-expert while relying on one holistic review, the authors can experience the process as under-explained no matter how thoughtful the written policy is.
 
 This is why "please write better meta-reviews" is too weak as a reform. Venues need incentives that make minimum AC service observable, repairable, and consequential during the cycle, before decisions are released. The goal is not to punish harsh decisions. The goal is to prevent unreasoned decisions.
 
@@ -353,9 +355,9 @@ The audit suggests an incentive mechanism that is process-based rather than outc
 
 A practical mechanism could work like this:
 
-1. Every paper gets a machine-checkable decision record before author notification: reviewer aggregate, AC/SAC recommendation, final decision, meta-review word count, rebuttal mention, reviewer-weighting statement, and override-delta field.
-2. High-risk cases are automatically flagged: no meta-review, very short meta-review, no rebuttal delta after author response, reviewer-majority override, unanimous-reviewer override, and 3+ accept-leaning reviews with final reject.
-3. SACs get a pre-release repair queue. The goal is to fix missing explanations before authors see decisions, not to punish ACs afterward.
+1. Every paper gets a machine-checkable decision record before author notification: reviewer aggregate, AC/SAC recommendation, final decision, meta-review word count, rebuttal mention, reviewer-weighting statement, AC confidence/expertise signal, and override-delta field.
+2. High-risk cases are automatically flagged: no meta-review, very short meta-review, no rebuttal delta after author response, low-confidence non-expert AC recommendation, reviewer-majority override, unanimous-reviewer override, and 3+ accept-leaning reviews with final reject.
+3. SACs get a pre-release repair queue. The goal is to fix missing explanations before authors see decisions, not to punish ACs afterward. A low-confidence rejection from a non-expert AC should receive SAC/domain co-AC repair before release, especially when it relies on one holistic review.
 4. ACs receive a private service-quality score based on rationale completeness, discussion engagement, override explanation, timeliness, and review-quality auditing.
 5. Good service is rewarded with visible credit: public service certificates, future AC preference, reduced emergency-review load, and optional letters to department chairs or advisors.
 6. Incomplete service has consequences: own-paper review access can be delayed until assigned meta-reviews are complete, future AC invitations can be paused, and chronic non-engagement can be escalated to PCs.
@@ -398,7 +400,7 @@ Nested forum comments, rebuttals, and follow-ups are counted as public engagemen
 
 ICML 2025 and NeurIPS 2025 are public-sample analyses, not full rejected-paper pools. AISTATS 2026, RLC 2025, and AAAI 2025 are used only as process/context references because comparable public review-score and meta-review fields were not available.
 
-I am not associated with any of the authors corresponding to papers discussed in this blog. My own ML papers do not appear in the qualitative analysis. The point is to improve process legibility, not to relitigate individual accept/reject outcomes.
+I am not associated with any of the authors corresponding to papers discussed in this blog. My own ML papers do not appear in the qualitative analysis. The separately labeled RLC 2026 anecdote is my own process experience, anonymized and kept outside the public-data qualitative sample. The point is to improve process legibility, not to relitigate individual accept/reject outcomes.
 
 
 ## Sources

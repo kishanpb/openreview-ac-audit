@@ -57,6 +57,12 @@ def check_report_basics(text: str) -> None:
         "fun transfer sanity check rather than a validation claim",
         "Official rates in the sources here run roughly 24-32%",
         "chance at cleaner conversion, not a promise of acceptance",
+        "The separately labeled RLC anecdote is my own process experience",
+        "## A Personal Story: Thin Meta-Review as Decision Debt",
+        "low-confidence, non-expert meta-review",
+        "does not show any rebuttal delta",
+        "Confidence: 2: The area chair is not sure.",
+        "SAC/domain co-AC repair before release",
     ]
     for phrase in required:
         if phrase not in text:
