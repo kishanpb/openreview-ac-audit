@@ -51,6 +51,7 @@ def check_report_basics(text: str) -> None:
         "14_neurips_2026_ac_playbook",
         "15_how_to_ac_lifecycle",
         "16_ac_incentive_mechanism",
+        "Public rationale themes:",
         "Advisor",
     ]
     for phrase in forbidden:
@@ -129,6 +130,34 @@ def check_borderline_matching_claim(text: str) -> None:
         fail("borderline AC-matching subset claim mismatch")
 
 
+def check_representative_rationale_consistency(text: str) -> None:
+    rows = {row["paper_id"]: row for row in read_csv(DATA / "meta_decision_text_rows.csv")}
+    bullets = re.findall(
+        r"^- \[[^\]]+\]\(https://openreview\.net/forum\?id=([^)]+)\).*?Public rationale: ([^\n]+)$",
+        text,
+        flags=re.M,
+    )
+    if not bullets:
+        fail("no representative-case rationale bullets found")
+    for paper_id, rationale in bullets:
+        row = rows.get(paper_id)
+        if not row:
+            fail(f"representative case {paper_id} is missing from meta decision rows")
+        has_meta = row["has_public_meta_review"] == "True"
+        has_decision = row["has_public_decision_comment"] == "True"
+        if has_meta and "public meta-review" not in rationale:
+            fail(f"representative case {paper_id} omits public meta-review source")
+        if has_decision and not has_meta and "decision comment" not in rationale:
+            fail(f"representative case {paper_id} omits decision-comment source")
+        if (has_meta or has_decision) and "no public rationale" in rationale.lower():
+            fail(f"representative case {paper_id} falsely says no public rationale")
+    gym = [rationale for paper_id, rationale in bullets if paper_id == "feFlfuOse1"]
+    if not gym:
+        fail("Gymnasium feFlfuOse1 representative case is missing")
+    if "public meta-review" not in gym[0] or "Scope / significance" not in gym[0]:
+        fail("Gymnasium feFlfuOse1 representative case does not reflect its public meta-review themes")
+
+
 def check_optional_package(text: str) -> None:
     if IMPORT_REPORT.exists() and IMPORT_REPORT.read_text(encoding="utf-8") != text:
         fail("Notion import Markdown is out of sync with canonical report")
@@ -153,6 +182,7 @@ def main() -> int:
     check_quant_table(text)
     check_acceptance_claims(text)
     check_borderline_matching_claim(text)
+    check_representative_rationale_consistency(text)
     check_optional_package(text)
     print("validated report, CSV claims, plot refs, disclosures, and optional Notion package")
     return 0
@@ -164,4 +194,3 @@ if __name__ == "__main__":
     except AssertionError as exc:
         print(f"validation failed: {exc}", file=sys.stderr)
         raise SystemExit(1)
-

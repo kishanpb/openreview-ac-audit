@@ -29,8 +29,8 @@
 <rect x="295" y="266.6666666666667" width="599.0" height="15" rx="2" fill="#7158a8"/>
 <text x="902.0" y="278.7" font-family="Inter, Arial, sans-serif" font-size="12" font-weight="400" fill="#374151" text-anchor="start">95%</text>
 <text x="28.0" y="326.3" font-family="Inter, Arial, sans-serif" font-size="15" font-weight="600" fill="#17202a" text-anchor="start">Rebuttal/discussion</text>
-<rect x="295" y="299.33333333333337" width="512.5" height="15" rx="2" fill="#2f6f73"/>
-<text x="815.5" y="311.3" font-family="Inter, Arial, sans-serif" font-size="12" font-weight="400" fill="#374151" text-anchor="start">82%</text>
+<rect x="295" y="299.33333333333337" width="512.4" height="15" rx="2" fill="#2f6f73"/>
+<text x="815.4" y="311.3" font-family="Inter, Arial, sans-serif" font-size="12" font-weight="400" fill="#374151" text-anchor="start">82%</text>
 <rect x="295" y="320.33333333333337" width="528.8" height="15" rx="2" fill="#d58c2a"/>
 <text x="831.8" y="332.3" font-family="Inter, Arial, sans-serif" font-size="12" font-weight="400" fill="#374151" text-anchor="start">84%</text>
 <rect x="295" y="341.33333333333337" width="493.4" height="15" rx="2" fill="#7158a8"/>
@@ -57,7 +57,7 @@
 <rect x="295" y="565.3333333333334" width="443.3" height="15" rx="2" fill="#7158a8"/>
 <text x="746.3" y="577.3" font-family="Inter, Arial, sans-serif" font-size="12" font-weight="400" fill="#374151" text-anchor="start">71%</text>
 <rect x="938" y="148" width="15" height="15" fill="#2f6f73"/>
-<text x="960.0" y="161.0" font-family="Inter, Arial, sans-serif" font-size="12" font-weight="400" fill="#17202a" text-anchor="start">Aligned decisions (n=19624)</text>
+<text x="960.0" y="161.0" font-family="Inter, Arial, sans-serif" font-size="12" font-weight="400" fill="#17202a" text-anchor="start">Aligned decisions (n=19619)</text>
 <rect x="938" y="176" width="15" height="15" fill="#d58c2a"/>
 <text x="960.0" y="189.0" font-family="Inter, Arial, sans-serif" font-size="12" font-weight="400" fill="#17202a" text-anchor="start">Override decisions (n=3044)</text>
 <rect x="938" y="204" width="15" height="15" fill="#7158a8"/>

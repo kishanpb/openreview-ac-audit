@@ -33,7 +33,7 @@ Regenerate the enhanced report and SVG plots from cached public-data rows:
 Refresh from the current public OpenReview API surface:
 
     python3 scripts/analyze_openreview_ac_overrides.py
-    python3 scripts/enhance_openreview_report_with_plots.py
+    python3 scripts/enhance_openreview_report_with_plots.py --refresh
     python3 scripts/validate_outputs.py
 
 The refresh path depends on what venues currently expose through public OpenReview APIs. The cached CSVs capture the public-data snapshot used by the blog draft.
@@ -47,4 +47,3 @@ The qualitative reading is intentionally bounded: paper-level cases are used bec
 ## Data License Notes
 
 The scripts and local documentation in this repository are released under the MIT License. The CSVs are derived from public OpenReview records and public source pages; downstream users should respect the terms and norms of those source platforms.
-

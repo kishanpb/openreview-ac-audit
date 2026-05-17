@@ -55,7 +55,7 @@ Context-only venues excluded from aggregate tables: AISTATS 2026, RLC 2025, AAAI
 
 | Venue | Public papers | With scores | Analyzable A/R | Accept/Reject | Point-biserial r | AUC | Weighted threshold acc. | Maj. accept->reject / reject->accept | All accept->reject / reject->accept |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| ICLR 2026 | 19814 | 19474 | 13731 | 5352/8379 | 0.629 | 0.889 | 0.708 | 481/919 | 12/73 |
+| ICLR 2026 | 19814 | 19474 | 13723 | 5352/8371 | 0.629 | 0.889 | 0.708 | 481/919 | 12/73 |
 | ICLR 2025 | 11672 | 11520 | 8614 | 3703/4911 | 0.707 | 0.944 | 0.880 | 894/97 | 70/3 |
 | ICLR 2024 | 7404 | 7262 | 5691 | 2260/3431 | 0.697 | 0.938 | 0.868 | 582/71 | 74/6 |
 | ICML 2025 | 3422 | 3422 | 3422 | 3260/162 | 0.298 | 0.812 | 0.832 | 83/70 | 32/0 |
@@ -84,7 +84,7 @@ The reason this can happen is visible in the score distributions. Accepted and r
 
 ![ICLR score overlap](plots/png/03_score_overlap_iclr.png)
 
-This turns the question into a transparency question. When an AC overrides the reviewer-majority signal, do we get a public rationale strong enough to learn from? ICLR is relatively good here: public meta-reviews are exposed for the override cases. ICML and NeurIPS expose public decision comments in the sampled cases, but not separate public meta-reviews in the same way. AISTATS, RLC, and AAAI do not expose enough public review/meta-review structure for the same audit.
+This turns the question into a transparency question. When an AC overrides the reviewer-majority signal, do we get a public rationale strong enough to learn from? The plot separates public meta-reviews from decision-only rationale comments. ICLR exposes public meta-reviews for many override cases; ICML and NeurIPS expose public decision comments in the sampled cases, but not separate public meta-reviews in the same way. AISTATS, RLC, and AAAI do not expose enough public review/meta-review structure for the same audit.
 
 ![Public rationale availability](plots/png/04_public_rationale_availability.png)
 
@@ -131,22 +131,22 @@ The full CSVs keep the exhaustive paper-level records. The blog should not read 
 
 ### Majority reviewer accept -> final reject
 
-- [Unified Cross-Scale 3D Generation and Understanding via Autoregressive Modeling](https://openreview.net/forum?id=mnI8CFj2WP) (ICLR 2026, #8646): scores 10 6 8 4, threshold 6.0, confidence-weighted mean 7.00, reviewer majority accept, final reject. Public rationale themes: No public meta-review exposed.
-- [Auto-Regressive Surface Cutting](https://openreview.net/forum?id=9HeKCYl1zl) (ICLR 2026, #12546): scores 6 4 10 6, threshold 6.0, confidence-weighted mean 6.88, reviewer majority accept, final reject. Public rationale themes: No public meta-review exposed.
-- [Gymnasium: A Standard Interface for Reinforcement Learning Environments](https://openreview.net/forum?id=feFlfuOse1) (ICLR 2025, #5227): scores 8 6 10 5, threshold 6.0, confidence-weighted mean 7.80, reviewer majority accept, final reject. Public rationale themes: No public meta-review exposed.
-- [A is for Absorption: Studying Feature Splitting and Absorption in Sparse Autoencoders](https://openreview.net/forum?id=LC2KxRwC3n) (ICLR 2025, #8043): scores 8 8 6 8, threshold 6.0, confidence-weighted mean 7.57, reviewer majority accept, final reject. Public rationale themes: No public meta-review exposed.
-- [Differentiable Trajectory Optimization as a Policy Class for Reinforcement and Imitation Learning](https://openreview.net/forum?id=HL5P4H8eO2) (ICLR 2024, #1693): scores 10 8 6 8, threshold 6.0, confidence-weighted mean 8.13, reviewer majority accept, final reject. Public rationale themes: No public meta-review exposed.
-- [Flexible Residual Binarization for Image Super-Resolution](https://openreview.net/forum?id=MEbNz44926) (ICLR 2024, #1953): scores 8 8 8 8, threshold 6.0, confidence-weighted mean 8.00, reviewer majority accept, final reject. Public rationale themes: No public meta-review exposed.
-- [$Q\sharp$: Provably Optimal Distributional RL for LLM Post-Training](https://openreview.net/forum?id=1J1Kju4rto) (ICML 2025, #5010): scores 4 4 4, threshold 3.0, confidence-weighted mean 4.00, reviewer majority accept, final reject. Public rationale themes: No public meta-review exposed.
-- [Aya Vision: Advancing the Frontier of Multilingual Multimodality](https://openreview.net/forum?id=BJBje1IHI9) (NeurIPS 2025, #10890): scores 5 5 5 6, threshold 4.0, confidence-weighted mean 5.21, reviewer majority accept, final reject. Public rationale themes: No public meta-review exposed.
+- [Unified Cross-Scale 3D Generation and Understanding via Autoregressive Modeling](https://openreview.net/forum?id=mnI8CFj2WP) (ICLR 2026, #8646): scores 10 6 8 4, threshold 6.0, confidence-weighted mean 7.00, reviewer majority accept, final reject. Public rationale: public meta-review and decision comment; themes: Novelty / related work, Correctness / theory, Unresolved rebuttal, Scope / significance, Presentation / clarity.
+- [Auto-Regressive Surface Cutting](https://openreview.net/forum?id=9HeKCYl1zl) (ICLR 2026, #12546): scores 6 4 10 6, threshold 6.0, confidence-weighted mean 6.88, reviewer majority accept, final reject. Public rationale: public meta-review and decision comment; themes: Novelty / related work, Evidence / baselines, Unresolved rebuttal, Scope / significance, Calibration / review quality.
+- [Gymnasium: A Standard Interface for Reinforcement Learning Environments](https://openreview.net/forum?id=feFlfuOse1) (ICLR 2025, #5227): scores 8 6 10 5, threshold 6.0, confidence-weighted mean 7.80, reviewer majority accept, final reject. Public rationale: public meta-review and decision comment; themes: Novelty / related work, Evidence / baselines, Scope / significance, Calibration / review quality.
+- [A is for Absorption: Studying Feature Splitting and Absorption in Sparse Autoencoders](https://openreview.net/forum?id=LC2KxRwC3n) (ICLR 2025, #8043): scores 8 8 6 8, threshold 6.0, confidence-weighted mean 7.57, reviewer majority accept, final reject. Public rationale: public meta-review and decision comment; themes: Novelty / related work, Evidence / baselines, Scope / significance, Presentation / clarity, Calibration / review quality.
+- [Differentiable Trajectory Optimization as a Policy Class for Reinforcement and Imitation Learning](https://openreview.net/forum?id=HL5P4H8eO2) (ICLR 2024, #1693): scores 10 8 6 8, threshold 6.0, confidence-weighted mean 8.13, reviewer majority accept, final reject. Public rationale: public meta-review and decision comment; themes: Novelty / related work, Calibration / review quality.
+- [Flexible Residual Binarization for Image Super-Resolution](https://openreview.net/forum?id=MEbNz44926) (ICLR 2024, #1953): scores 8 8 8 8, threshold 6.0, confidence-weighted mean 8.00, reviewer majority accept, final reject. Public rationale: public meta-review and decision comment; themes: Novelty / related work, Calibration / review quality.
+- [$Q\sharp$: Provably Optimal Distributional RL for LLM Post-Training](https://openreview.net/forum?id=1J1Kju4rto) (ICML 2025, #5010): scores 4 4 4, threshold 3.0, confidence-weighted mean 4.00, reviewer majority accept, final reject. Public rationale: decision comment; themes: Novelty / related work, Evidence / baselines, Correctness / theory, Scope / significance, Implementation / reproducibility.
+- [Aya Vision: Advancing the Frontier of Multilingual Multimodality](https://openreview.net/forum?id=BJBje1IHI9) (NeurIPS 2025, #10890): scores 5 5 5 6, threshold 4.0, confidence-weighted mean 5.21, reviewer majority accept, final reject. Public rationale: decision comment; themes: Novelty / related work, Evidence / baselines, Scope / significance, Calibration / review quality.
 
 ### Majority reviewer reject -> final accept
 
-- [PLAGUE: Plug-and-play Framework for Lifelong Adaptive Generation of Multi-turn Jailbreaks](https://openreview.net/forum?id=05hNleYOcG) (ICLR 2026, #9695): scores 2 4 2 2, threshold 6.0, confidence-weighted mean 2.35, reviewer majority reject, final accept. Public rationale themes: No public meta-review exposed.
-- [System 1.x: Learning to Balance Fast and Slow Planning with Language Models](https://openreview.net/forum?id=zd0iX5xBhA) (ICLR 2025, #8744): scores 1 3 6 5, threshold 6.0, confidence-weighted mean 3.56, reviewer majority reject, final accept. Public rationale themes: No public meta-review exposed.
-- [Reclaiming the Source of Programmatic Policies: Programmatic versus Latent Spaces](https://openreview.net/forum?id=NGVljI6HkR) (ICLR 2024, #6536): scores 5 3 3, threshold 6.0, confidence-weighted mean 3.73, reviewer majority reject, final accept. Public rationale themes: No public meta-review exposed.
-- [Latent Preference Coding: Aligning Large Language Models via Discrete Latent Codes](https://openreview.net/forum?id=ZWZLYVFgDL) (ICML 2025, #3233): scores 1 1 2 3, threshold 3.0, confidence-weighted mean 1.75, reviewer majority reject, final accept. Public rationale themes: No public meta-review exposed.
-- [Convergence of Clipped SGD on Convex $(L_0,L_1)$-Smooth Functions](https://openreview.net/forum?id=VyjFOO9cFi) (NeurIPS 2025, #10891): scores 5 2 3 2, threshold 4.0, confidence-weighted mean 2.71, reviewer majority reject, final accept. Public rationale themes: No public meta-review exposed.
+- [PLAGUE: Plug-and-play Framework for Lifelong Adaptive Generation of Multi-turn Jailbreaks](https://openreview.net/forum?id=05hNleYOcG) (ICLR 2026, #9695): scores 2 4 2 2, threshold 6.0, confidence-weighted mean 2.35, reviewer majority reject, final accept. Public rationale: public meta-review and decision comment; themes: Novelty / related work, Evidence / baselines, Presentation / clarity.
+- [System 1.x: Learning to Balance Fast and Slow Planning with Language Models](https://openreview.net/forum?id=zd0iX5xBhA) (ICLR 2025, #8744): scores 1 3 6 5, threshold 6.0, confidence-weighted mean 3.56, reviewer majority reject, final accept. Public rationale: public meta-review and decision comment; themes: Novelty / related work, Evidence / baselines, Correctness / theory, Unresolved rebuttal, Scope / significance.
+- [Reclaiming the Source of Programmatic Policies: Programmatic versus Latent Spaces](https://openreview.net/forum?id=NGVljI6HkR) (ICLR 2024, #6536): scores 5 3 3, threshold 6.0, confidence-weighted mean 3.73, reviewer majority reject, final accept. Public rationale: public meta-review and decision comment; themes: Novelty / related work, Correctness / theory.
+- [Latent Preference Coding: Aligning Large Language Models via Discrete Latent Codes](https://openreview.net/forum?id=ZWZLYVFgDL) (ICML 2025, #3233): scores 1 1 2 3, threshold 3.0, confidence-weighted mean 1.75, reviewer majority reject, final accept. Public rationale: decision comment; themes: Novelty / related work, Correctness / theory, Scope / significance.
+- [Convergence of Clipped SGD on Convex $(L_0,L_1)$-Smooth Functions](https://openreview.net/forum?id=VyjFOO9cFi) (NeurIPS 2025, #10891): scores 5 2 3 2, threshold 4.0, confidence-weighted mean 2.71, reviewer majority reject, final accept. Public rationale: decision comment; themes: Novelty / related work, Evidence / baselines, Correctness / theory, Scope / significance, Presentation / clarity.
 
 These examples are not claims that the final decisions were wrong. They are examples of where public explanation quality matters most: if a decision moves against reviewer majority, the decision record should show what evidence outweighed the scores.
 
@@ -380,11 +380,27 @@ I am not associated with any of the authors corresponding to papers discussed in
 ## Sources
 
 - Tweet inspiration on ACs vs paper weights: [https://x.com/roydanroy/status/2049948895690510736](https://x.com/roydanroy/status/2049948895690510736)
+- ICLR 2026 process context: [A Retrospective on the ICLR 2026 Review Process](https://blog.iclr.cc/2026/03/31/a-retrospective-on-the-iclr-2026-review-process/)
+- ICLR 2026 reviewer/AC workflow: [ICLR 2026 Reviewer Guide](https://iclr.cc/Conferences/2026/ReviewerGuide)
 - Tweet inspiration on 3 accepts / acceptance-rate pressure: [https://x.com/apsarathchandar/status/2050377912864342048](https://x.com/apsarathchandar/status/2050377912864342048)
 - X post on ICLR 2026 accepted-paper affiliation distribution: [https://x.com/CRC_8341/status/2053411384965407149](https://x.com/CRC_8341/status/2053411384965407149)
 - X post extending accepted-paper distribution to NeurIPS/ICLR/ICML 2025 with fractional author credit: [https://x.com/AmitLeViAI/status/2053588076551676199](https://x.com/AmitLeViAI/status/2053588076551676199)
-- ICLR 2026 process context: [A Retrospective on the ICLR 2026 Review Process](https://blog.iclr.cc/2026/03/31/a-retrospective-on-the-iclr-2026-review-process/)
-- ICLR, ICML, NeurIPS, AISTATS, and RLC public AC/review guidance pages cited in the local source list.
-- Acceptance-rate context: ICLR 2026 retrospective, ICLR 2024 fact sheet, and RIKEN AIP notes for ICLR/ICML/NeurIPS/RLC/AAAI.
-- Reciprocal reviewing incentive reference: [ACL Rolling Review 2026 incentives](https://aclrollingreview.org/incentives2026)
+- LinkedIn inspiration on submission scale and lottery framing: [https://www.linkedin.com/posts/ayan-banerjee-6337589_neurips-had-close-to-40k-submissions-the-share-7458685306699960320-BoIx](https://www.linkedin.com/posts/ayan-banerjee-6337589_neurips-had-close-to-40k-submissions-the-share-7458685306699960320-BoIx)
 - Conceptual inspiration: Rich Sutton's The Bitter Lesson: [http://www.incompleteideas.net/IncIdeas/BitterLesson.html](http://www.incompleteideas.net/IncIdeas/BitterLesson.html)
+- ICLR Area Chair guidance: [ICLR 2026 Area Chair Guide](https://iclr.cc/Conferences/2026/AreaChairGuide)
+- ICML Area Chair guidance: [ICML 2025 Area Chair Instructions](https://icml.cc/Conferences/2025/AreaChairInstructions)
+- NeurIPS Area Chair guidance: [NeurIPS 2025 AC Guidelines](https://nips.cc/Conferences/2025/AC-Guidelines)
+- NeurIPS 2026 Main Track Handbook: [https://nips.cc/Conferences/2026/MainTrackHandbook](https://nips.cc/Conferences/2026/MainTrackHandbook)
+- NeurIPS 2026 AC pilot: [https://blog.neurips.cc/2026/03/23/refining-the-review-cycle-neurips-2026-area-chair-pilot/](https://blog.neurips.cc/2026/03/23/refining-the-review-cycle-neurips-2026-area-chair-pilot/)
+- NeurIPS 2026 Reviewing Guidelines: [https://neurips.cc/Conferences/2026/ReviewerGuidelines](https://neurips.cc/Conferences/2026/ReviewerGuidelines)
+- AISTATS AC guidance: [AISTATS 2026 AC Guidelines](https://virtual.aistats.org/Conferences/2026/ACGuidelines)
+- AISTATS acceptance-rate context: [AISTATS 2026 Call for Papers](https://virtual.aistats.org/Conferences/2026/CallForPapers)
+- RLC process guidance: [RLC 2024 Review Process](https://rl-conference.cc/2024/review_process.html)
+- RLC/RLJ 2026 submission process context: [https://rl-conference.cc/submissionInstructions.html](https://rl-conference.cc/submissionInstructions.html)
+- RLC 2025 acceptance-rate context: [RIKEN AIP RLC 2025 acceptance note](https://aip.riken.jp/news/rlc2025/?lang=en)
+- Reciprocal reviewing incentive reference: [ACL Rolling Review 2026 incentives](https://aclrollingreview.org/incentives2026)
+- ICML 2025 acceptance-rate context: [RIKEN AIP ICML 2025 acceptance note](https://aip.riken.jp/news/icml2025/?lang=en)
+- NeurIPS 2025 acceptance-rate context: [RIKEN AIP NeurIPS 2025 acceptance note](https://aip.riken.jp/news/neurips2025/?lang=en)
+- AAAI 2025 acceptance-rate context: [RIKEN AIP AAAI-25 acceptance note](https://aip.riken.jp/news/202412_aaai25/)
+- OpenReview public API: [api2.openreview.net](https://api2.openreview.net)
+- OpenReview public submission pages: [ICLR 2026](https://openreview.net/submissions?venue=ICLR.cc%2F2026%2FConference), [ICLR 2025](https://openreview.net/submissions?venue=ICLR.cc%2F2025%2FConference), [ICLR 2024](https://openreview.net/submissions?venue=ICLR.cc%2F2024%2FConference), [ICML 2025](https://openreview.net/submissions?venue=ICML.cc%2F2025%2FConference), [NeurIPS 2025](https://openreview.net/submissions?venue=NeurIPS.cc%2F2025%2FConference), [AISTATS 2026](https://openreview.net/submissions?venue=aistats.org%2FAISTATS%2F2026%2FConference), [RLC 2025](https://openreview.net/submissions?venue=rl-conference.cc%2FRLC%2F2025%2FConference), [AAAI 2025](https://openreview.net/submissions?venue=AAAI.org%2F2025%2FConference)

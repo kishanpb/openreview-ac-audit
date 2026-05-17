@@ -358,9 +358,25 @@ def invitation_kind(note: dict[str, Any]) -> str:
     return invitation.rsplit("/", 1)[-1]
 
 
+def normalize_kind(value: str) -> str:
+    return re.sub(r"[^a-z0-9]+", "", value.lower())
+
+
 def is_kind(note: dict[str, Any], *kinds: str) -> bool:
-    kind = invitation_kind(note).lower()
-    return any(k.lower() in kind for k in kinds)
+    kind = normalize_kind(invitation_kind(note))
+    return any(normalize_kind(k) in kind for k in kinds)
+
+
+def submission_replies(note: dict[str, Any]) -> list[dict[str, Any]]:
+    details = note.get("details") or {}
+    replies = details.get("directReplies") or details.get("replies") or []
+    return replies if isinstance(replies, list) else []
+
+
+def has_content_field(note: dict[str, Any], *fields: str) -> bool:
+    content = note.get("content") or {}
+    keys = [normalize_kind(key) for key in content.keys()]
+    return any(any(normalize_kind(field) in key for key in keys) for field in fields)
 
 
 def openreview_get(params: dict[str, Any], tries: int = 7) -> dict[str, Any]:
@@ -425,12 +441,16 @@ def classify_decision(domain: str, content: dict[str, Any]) -> tuple[str, str]:
 
 
 def extract_decision_note(replies: list[dict[str, Any]]) -> dict[str, Any] | None:
-    notes = [reply for reply in replies if is_kind(reply, "Decision")]
+    notes = [reply for reply in replies if is_kind(reply, "Decision") or has_content_field(reply, "decision")]
     return sorted(notes, key=lambda note: note.get("tcdate") or note.get("cdate") or 0)[-1] if notes else None
 
 
 def extract_meta_note(replies: list[dict[str, Any]]) -> dict[str, Any] | None:
-    notes = [reply for reply in replies if is_kind(reply, "Meta_Review", "Metareview")]
+    notes = [
+        reply
+        for reply in replies
+        if is_kind(reply, "Meta_Review", "Meta Review", "Metareview") or has_content_field(reply, "metareview")
+    ]
     return sorted(notes, key=lambda note: note.get("tcdate") or note.get("cdate") or 0)[-1] if notes else None
 
 
@@ -541,9 +561,41 @@ def theme_flags(text: str) -> dict[str, bool]:
     return {name: bool(re.search(pattern, lower)) for name, pattern in THEMES}
 
 
+def truthy(value: Any) -> bool:
+    if isinstance(value, bool):
+        return value
+    if isinstance(value, (int, float)):
+        return bool(value)
+    return str(value).strip().lower() in {"true", "1", "yes"}
+
+
+def rationale_source_label(has_meta: bool, has_decision: bool) -> str:
+    if has_meta and has_decision:
+        return "public meta-review and decision comment"
+    if has_meta:
+        return "public meta-review"
+    if has_decision:
+        return "decision comment"
+    return "none"
+
+
+def public_rationale_source(row: dict[str, Any]) -> str:
+    return rationale_source_label(truthy(row.get("has_public_meta_review")), truthy(row.get("has_public_decision_comment")))
+
+
+def public_rationale_theme_summary(row: dict[str, Any]) -> str:
+    source = public_rationale_source(row)
+    themes = [name for name, _ in THEMES if truthy(row.get(f"theme_{name}"))]
+    if themes:
+        return f"{source}; themes: {', '.join(themes[:5])}"
+    if source != "none":
+        return f"{source}; no keyword theme matched"
+    return "no public rationale found in the fetched public notes"
+
+
 def reduce_submission(config: dict[str, Any], note: dict[str, Any]) -> dict[str, Any]:
     content = note.get("content") or {}
-    replies = note.get("details", {}).get("directReplies", []) or []
+    replies = submission_replies(note)
     decision_note = extract_decision_note(replies)
     meta_note = extract_meta_note(replies)
     decision_source = dict(content)
@@ -568,6 +620,8 @@ def reduce_submission(config: dict[str, Any], note: dict[str, Any]) -> dict[str,
     )
     meta = note_text(meta_note)
     decision_text = note_text(decision_note)
+    has_public_meta = bool(meta)
+    has_public_decision = word_count(decision_text) > 4
     features = boolean_features(meta, decision_text)
     feature_score = sum(features.values()) / len(features)
     themes = theme_flags(f"{meta} {decision_text}")
@@ -589,8 +643,9 @@ def reduce_submission(config: dict[str, Any], note: dict[str, Any]) -> dict[str,
         "reviewer_majority": reviewer_majority,
         "override_type": override_type,
         "strong_override": strong_override,
-        "has_public_meta_review": bool(meta),
-        "has_public_decision_comment": word_count(decision_text) > 4,
+        "has_public_meta_review": has_public_meta,
+        "has_public_decision_comment": has_public_decision,
+        "public_rationale_source": rationale_source_label(has_public_meta, has_public_decision),
         "meta_word_count": word_count(meta),
         "decision_word_count": word_count(decision_text),
         "public_rationale_word_count": word_count(meta) + word_count(decision_text),
@@ -638,6 +693,8 @@ def read_csv(path: Path) -> list[dict[str, Any]]:
             key for key in row.keys() if key.startswith("feature_") or key.startswith("theme_")
         ]:
             row[field] = str(row.get(field)).lower() == "true"
+        if not row.get("public_rationale_source"):
+            row["public_rationale_source"] = public_rationale_source(row)
     return rows
 
 
@@ -661,6 +718,7 @@ def fetch_or_load_meta_rows(refresh: bool = False) -> list[dict[str, Any]]:
                     "n_scored_reviews": 0,
                     "has_public_meta_review": False,
                     "has_public_decision_comment": False,
+                    "public_rationale_source": "none",
                     "meta_word_count": 0,
                     "decision_word_count": 0,
                     "public_rationale_word_count": 0,
@@ -692,6 +750,7 @@ def fetch_or_load_meta_rows(refresh: bool = False) -> list[dict[str, Any]]:
         "strong_override",
         "has_public_meta_review",
         "has_public_decision_comment",
+        "public_rationale_source",
         "meta_word_count",
         "decision_word_count",
         "public_rationale_word_count",
@@ -1013,40 +1072,50 @@ def plot_rationale_availability(meta_rows: list[dict[str, Any]]) -> Path:
         subset = [r for r in meta_rows if r["venue"] == venue and r["override_type"] in {"accept_to_reject", "reject_to_accept"}]
         if not subset:
             continue
-        any_rationale = [r for r in subset if r["has_public_meta_review"] or r["has_public_decision_comment"]]
         with_meta = [r for r in subset if r["has_public_meta_review"]]
+        decision_only = [r for r in subset if not r["has_public_meta_review"] and r["has_public_decision_comment"]]
+        no_public_rationale = [r for r in subset if not r["has_public_meta_review"] and not r["has_public_decision_comment"]]
+        any_rationale = [r for r in subset if r["has_public_meta_review"] or r["has_public_decision_comment"]]
         med_words = median([r["public_rationale_word_count"] for r in any_rationale]) if any_rationale else 0
-        rows.append((venue, len(subset), len(with_meta) / len(subset), len(any_rationale) / len(subset), med_words))
+        rows.append((venue, len(subset), len(with_meta), len(decision_only), len(no_public_rationale), med_words))
     width, height = 980, 450
     parts, left, right, top, bottom = svg_frame(
         width,
         height,
-        "Do public override cases expose an AC/PC rationale?",
-        "Bars show the share of majority-signal overrides with a public meta-review and with any public rationale. Labels show median public-rationale length when a rationale exists.",
+        "Which public rationale source is visible in override cases?",
+        "Stacked bars separate public meta-reviews from decision-only rationale comments. Labels show median public-rationale length when a rationale exists.",
     )
-    x0, x1 = left, right - 190
+    x0, x1 = left, right - 250
     y_step = (bottom - top) / len(rows)
     for tick in [0, 0.25, 0.5, 0.75, 1.0]:
         x = x0 + (x1 - x0) * tick
         parts.append(f'<line x1="{x:.1f}" x2="{x:.1f}" y1="{top}" y2="{bottom}" stroke="#e5e7eb"/>')
         parts.append(svg_text(x, bottom + 18, f"{int(tick*100)}%", size=11, color="#6b7280", anchor="middle"))
-    for i, (venue, n, meta_share, any_share, med_words) in enumerate(rows):
+    legend_x = right - 235
+    for j, (label, color) in enumerate([
+        ("public meta-review", "#2f6f73"),
+        ("decision-only rationale", "#d58c2a"),
+        ("no public rationale", "#c7cdd4"),
+    ]):
+        yy = top + j * 22
+        parts.append(f'<rect x="{legend_x}" y="{yy-11}" width="12" height="12" rx="2" fill="{color}"/>')
+        parts.append(svg_text(legend_x + 18, yy, label, size=11, color="#374151"))
+    for i, (venue, n, meta_count, decision_only_count, none_count, med_words) in enumerate(rows):
         y = top + i * y_step + 12
         parts.append(svg_text(28, y + 24, venue, size=13, weight="600"))
-        for j, (label, share, color) in enumerate([
-            ("public meta-review", meta_share, "#2f6f73"),
-            ("any public rationale", any_share, "#d58c2a"),
-        ]):
-            yy = y + j * 21
-            if label == "public meta-review" and not venue.startswith("ICLR"):
-                parts.append(f'<rect x="{x0}" y="{yy}" width="{x1 - x0:.1f}" height="15" rx="2" fill="#e5e7eb"/>')
-                parts.append(svg_text(x0 + 8, yy + 12, "n/a: no comparable public meta-review field", size=11, color="#374151"))
-                continue
-            w = (x1 - x0) * share
-            parts.append(f'<rect x="{x0}" y="{yy}" width="{w:.1f}" height="15" rx="2" fill="{color}"/>')
-            parts.append(svg_text(x0 + w + 8, yy + 12, f"{share*100:.0f}% ({label})", size=11, color="#374151"))
-        parts.append(svg_text(right - 170, y + 22, f"n={n}; median words={med_words:.0f}", size=12, color="#374151"))
-    parts.append(svg_text(28, height - 16, "Absence of public rationale is not proof of absent private deliberation; it is a transparency gap.", size=11, color="#6b7280"))
+        cursor = x0
+        for count, color in [
+            (meta_count, "#2f6f73"),
+            (decision_only_count, "#d58c2a"),
+            (none_count, "#c7cdd4"),
+        ]:
+            w = (x1 - x0) * count / n
+            if w > 0:
+                parts.append(f'<rect x="{cursor:.1f}" y="{y+7}" width="{w:.1f}" height="22" rx="2" fill="{color}"/>')
+            cursor += w
+        parts.append(svg_text(x1 + 12, y + 23, f"meta {meta_count}; decision-only {decision_only_count}; none {none_count}", size=11, color="#374151"))
+        parts.append(svg_text(x1 + 12, y + 40, f"n={n}; median words={med_words:.0f}", size=11, color="#6b7280"))
+    parts.append(svg_text(28, height - 16, "Absence of public rationale is not proof of absent private deliberation; it is a visibility gap in fetched public notes.", size=11, color="#6b7280"))
     save_svg(path, parts)
     return path
 
@@ -1842,14 +1911,14 @@ def enhance_markdown(plot_paths: list[Path], meta_rows: list[dict[str, Any]], cl
     override_case_section = build_override_case_section(meta_rows)
     if "## Representative Override Cases" in text:
         text = re.sub(
-            r"## Representative Override Cases\n.*?(?=\n## Acceptance-Rate Pressure Readout)",
+            r"## Representative Override Cases\n.*?(?=\n## (?:Acceptance-Rate Pressure Readout|Qualitative Reading of the Override Cases))",
             lambda match: override_case_section.rstrip() + "\n\n",
             text,
             flags=re.S,
         )
     else:
         text = re.sub(
-            r"## Where AC/PC Judgment Visibly Overrides Reviewers\n.*?(?=\n## Acceptance-Rate Pressure Readout)",
+            r"## Where AC/PC Judgment Visibly Overrides Reviewers\n.*?(?=\n## (?:Acceptance-Rate Pressure Readout|Qualitative Reading of the Override Cases))",
             lambda match: override_case_section.rstrip() + "\n\n",
             text,
             flags=re.S,
@@ -2021,7 +2090,7 @@ The reason this can happen is visible in the score distributions. Accepted and r
 
 ![ICLR score overlap](plots/png/03_score_overlap_iclr.png)
 
-This turns the question into a transparency question. When an AC overrides the reviewer-majority signal, do we get a public rationale strong enough to learn from? ICLR is relatively good here: public meta-reviews are exposed for the override cases. ICML and NeurIPS expose public decision comments in the sampled cases, but not separate public meta-reviews in the same way. AISTATS, RLC, and AAAI do not expose enough public review/meta-review structure for the same audit.
+This turns the question into a transparency question. When an AC overrides the reviewer-majority signal, do we get a public rationale strong enough to learn from? The plot separates public meta-reviews from decision-only rationale comments. ICLR exposes public meta-reviews for many override cases; ICML and NeurIPS expose public decision comments in the sampled cases, but not separate public meta-reviews in the same way. AISTATS, RLC, and AAAI do not expose enough public review/meta-review structure for the same audit.
 
 ![Public rationale availability](plots/png/04_public_rationale_availability.png)
 
@@ -2065,13 +2134,13 @@ The new meta-review layer covers {len(iclr_overrides):,} public ICLR majority-si
 
 
 def case_bullet(row: dict[str, Any]) -> str:
-    themes = row.get("theme_summary") or "No public meta-review exposed"
+    themes = public_rationale_theme_summary(row)
     return (
         f"- [{row['title']}]({row['forum_url']}) ({row['venue']}, #{row['paper_number']}): "
         f"scores {row['scores']}, threshold {row['threshold']}, "
         f"confidence-weighted mean {float(row['weighted_mean']):.2f}, "
         f"reviewer majority {row['reviewer_majority']}, final {row['decision']}. "
-        f"Public rationale themes: {themes}."
+        f"Public rationale: {themes}."
     )
 
 

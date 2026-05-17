@@ -163,9 +163,25 @@ def invitation_kind(note: dict[str, Any]) -> str:
     return invitation.rsplit("/-/", 1)[-1]
 
 
+def normalize_kind(value: str) -> str:
+    return re.sub(r"[^a-z0-9]+", "", value.lower())
+
+
 def is_kind(note: dict[str, Any], *kinds: str) -> bool:
-    kind = invitation_kind(note).lower()
-    return any(k.lower() in kind for k in kinds)
+    kind = normalize_kind(invitation_kind(note))
+    return any(normalize_kind(k) in kind for k in kinds)
+
+
+def submission_replies(note: dict[str, Any]) -> list[dict[str, Any]]:
+    details = note.get("details") or {}
+    replies = details.get("directReplies") or details.get("replies") or []
+    return replies if isinstance(replies, list) else []
+
+
+def has_content_field(note: dict[str, Any], *fields: str) -> bool:
+    content = note.get("content") or {}
+    keys = [normalize_kind(key) for key in content.keys()]
+    return any(any(normalize_kind(field) in key for key in keys) for field in fields)
 
 
 def openreview_get(base_url: str, params: dict[str, Any], tries: int = 6) -> dict[str, Any]:
@@ -251,14 +267,18 @@ def classify_decision(domain: str, content: dict[str, Any]) -> tuple[str, str]:
 
 
 def extract_decision_note(replies: list[dict[str, Any]]) -> dict[str, Any] | None:
-    decisions = [reply for reply in replies if is_kind(reply, "Decision")]
+    decisions = [reply for reply in replies if is_kind(reply, "Decision") or has_content_field(reply, "decision")]
     if not decisions:
         return None
     return sorted(decisions, key=lambda note: note.get("tcdate") or note.get("cdate") or 0)[-1]
 
 
 def extract_meta_note(replies: list[dict[str, Any]]) -> dict[str, Any] | None:
-    metas = [reply for reply in replies if is_kind(reply, "Meta_Review", "Meta_Review", "Metareview")]
+    metas = [
+        reply
+        for reply in replies
+        if is_kind(reply, "Meta_Review", "Meta Review", "Metareview") or has_content_field(reply, "metareview")
+    ]
     if not metas:
         return None
     return sorted(metas, key=lambda note: note.get("tcdate") or note.get("cdate") or 0)[-1]
@@ -353,7 +373,7 @@ def summarize_decision_content(decision_note: dict[str, Any] | None) -> str:
 
 def reduce_submission(config: VenueConfig, note: dict[str, Any]) -> dict[str, Any]:
     content = note.get("content") or {}
-    replies = note.get("details", {}).get("directReplies", []) or []
+    replies = submission_replies(note)
     decision_note = extract_decision_note(replies)
     decision_source_content = dict(content)
     if decision_note:
@@ -600,7 +620,7 @@ def case_line(row: dict[str, Any]) -> str:
         f"threshold `{fmt_float(row['accept_threshold'], 1)}`, "
         f"confidence-weighted mean `{fmt_float(row['confidence_weighted_mean'], 2)}`, "
         f"reviewer majority `{row['reviewer_majority']}`, final `{row['decision']}`. "
-        f"Public AC/meta-review themes: {row['meta_review']}."
+        f"Public meta-review themes: {row['meta_review']}."
     )
 
 

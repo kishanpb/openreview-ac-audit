@@ -92,7 +92,7 @@ PiB9VXYFZE,ICLR 2026,UniFast-HGR: Scalable and Efficient Maximal Correlation for
 oLBIcEHhxs,ICLR 2026,CoSpaDi: Compressing LLMs via Calibration-Guided Sparse Dictionary Learning,accept_to_reject,0,Benchmark and evaluation adequacy
 ONpyYavBqR,ICLR 2026,A Graph Meta-Network for Learning on Kolmogorov–Arnold Networks,reject_to_accept,0,Benchmark and evaluation adequacy
 MHA8oTxoei,ICLR 2026,Investigating the Link Between Representational Similarity and Model Interactions,accept_to_reject,0,Benchmark and evaluation adequacy
-quxeCxJwKm,ICLR 2026,Shrinking Proteins with Diffusion,reject_to_accept,0,Benchmark and evaluation adequacy
+quxeCxJwKm,ICLR 2026,A Diffusion Model to Shrink Proteins While Maintaining Their Function,reject_to_accept,0,Benchmark and evaluation adequacy
 g6xbW1FFXf,ICLR 2026,First Try Matters: Revisiting the Role of Reflection in Reasoning Models,accept_to_reject,0,Benchmark and evaluation adequacy
 VI2YaggHIF,ICLR 2026,DeepRAG: Thinking to Retrieve Step by Step for Large Language Models,reject_to_accept,0,Benchmark and evaluation adequacy
 5og80LMVxG,ICLR 2026,Latent Wavelet Diffusion For Ultra High-Resolution Image Synthesis,reject_to_accept,0,Benchmark and evaluation adequacy
@@ -399,7 +399,7 @@ AAHBCpfzRs,ICLR 2026,CE-SSL: Computation-Efficient Semi-Supervised Learning for 
 GLELajHnCo,ICLR 2026,GAPrune: Gradient-Alignment Pruning for Domain-Aware Embeddings,reject_to_accept,0,Benchmark and evaluation adequacy
 Nc3dl43s5Z,ICLR 2026,ST-HHOL: Spatio-Temporal Hierarchical Hypergraph Online Learning for Crime Prediction,reject_to_accept,0,Benchmark and evaluation adequacy
 s4U2FWEMTU,ICLR 2026,Online time series prediction using feature adjustment,reject_to_accept,0,Benchmark and evaluation adequacy
-haQ0QIor4J,ICLR 2026,Physics-Inspired All-Pair Interaction Learning for 3D Dynamics Modeling,reject_to_accept,0,Benchmark and evaluation adequacy
+haQ0QIor4J,ICLR 2026,PAINET: A Principled Efficient Transformer for 3D Dynamics Modeling,reject_to_accept,0,Benchmark and evaluation adequacy
 VwztK6dMn0,ICLR 2026,UDIS: A User-query Driven Framework for Image Forgery Localization,accept_to_reject,0,Benchmark and evaluation adequacy
 IdF6JqXWzx,ICLR 2026,Stronger-MAS: Multi-Agent Reinforcement Learning for Collaborative LLMs,reject_to_accept,0,Benchmark and evaluation adequacy
 Rhvigj4V8R,ICLR 2026,MarkovScale: Towards Optimal Sequential Scaling at Inference Time,accept_to_reject,0,Benchmark and evaluation adequacy
@@ -2881,7 +2881,7 @@ vOGb8gUMZB,ICLR 2026,Latent Diffusion Pretraining for Crystal Property Predictio
 uZ5AmOJKqV,ICLR 2026,PEA-DPO: Perception-Enhanced Alignment Direct Preference Optimization for MLLMs Alignment,accept_to_reject,6,Rebuttal did not resolve concerns
 RKDkqkkZ5m,ICLR 2026,TS-DDAE: A Novel Temporal-Spectral Denoising Diffusion AutoEncoder for Wireless Signal Recognition Model Pre-training,reject_to_accept,6,Rebuttal did not resolve concerns
 BZ1vutP53o,ICLR 2026,TEN-DM: Topology-Enhanced Diffusion Model for Spatio-Temporal Event Prediction,reject_to_accept,6,Rebuttal did not resolve concerns
-NwgwWxrD0l,ICLR 2026,STEER AWAY FROM MODE COLLISIONS: IMPROVING COMPOSITION IN DIFFUSION MODELS,reject_to_accept,6,Rebuttal did not resolve concerns
+NwgwWxrD0l,ICLR 2026,Steer Away From Mode Collisions: Improving Composition In Diffusion Models,reject_to_accept,6,Rebuttal did not resolve concerns
 ZWwNVIr0PV,ICLR 2026,DiSA: Diffusion Step Annealing in Autoregressive Image Generation,accept_to_reject,6,Rebuttal did not resolve concerns
 kWl13kRJTQ,ICLR 2026,AC-Sampler: Accelerate and Correct Diffusion Sampling with Metropolis-Hastings Algorithm,reject_to_accept,6,Rebuttal did not resolve concerns
 CeOIVXMl4r,ICLR 2026,STORK: Faster Diffusion and Flow Matching Sampling by Resolving both Stiffness and Structure-Dependence,reject_to_accept,6,Rebuttal did not resolve concerns

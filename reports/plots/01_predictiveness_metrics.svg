@@ -16,8 +16,8 @@
 <text x="28.0" y="153.0" font-family="Inter, Arial, sans-serif" font-size="13" font-weight="600" fill="#17202a" text-anchor="start">ICLR 2026</text>
 <rect x="185" y="130.0" width="545.2" height="12" rx="2" fill="#2f6f73"/>
 <text x="736.2" y="140.0" font-family="Inter, Arial, sans-serif" font-size="11" font-weight="400" fill="#374151" text-anchor="start">0.89</text>
-<rect x="185" y="148.0" width="434.1" height="12" rx="2" fill="#d58c2a"/>
-<text x="625.1" y="158.0" font-family="Inter, Arial, sans-serif" font-size="11" font-weight="400" fill="#374151" text-anchor="start">0.71</text>
+<rect x="185" y="148.0" width="434.0" height="12" rx="2" fill="#d58c2a"/>
+<text x="625.0" y="158.0" font-family="Inter, Arial, sans-serif" font-size="11" font-weight="400" fill="#374151" text-anchor="start">0.71</text>
 <rect x="185" y="166.0" width="531.0" height="12" rx="2" fill="#7158a8"/>
 <text x="722.0" y="176.0" font-family="Inter, Arial, sans-serif" font-size="11" font-weight="400" fill="#374151" text-anchor="start">0.87</text>
 <text x="28.0" y="210.2" font-family="Inter, Arial, sans-serif" font-size="13" font-weight="600" fill="#17202a" text-anchor="start">ICLR 2025</text>
