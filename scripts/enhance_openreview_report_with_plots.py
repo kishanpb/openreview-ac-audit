@@ -2022,13 +2022,18 @@ def enhance_markdown(plot_paths: list[Path], meta_rows: list[dict[str, Any]], cl
         "The research question, interpretation, and final judgment remain human-directed; the quantitative claims are tied to local scripts, CSVs, and public sources rather than model memory.\n\n"
         "_Disclosure and non-affiliation._ I am not affiliated with, advising, collaborating with, or writing on behalf of any author of the papers named or qualitatively discussed in this post. None of my own ML papers appears in the qualitative case analysis, named override examples, or paper-level case readings; the named cases are used only because their OpenReview records are public and illustrate process patterns. The separately labeled RLC anecdote is my own process experience, anonymized and kept outside the public-data qualitative sample.\n\n"
     )
-    tldr = """## Bottom Line
+    tldr = """## TLDR: Scores Predict, ACs Explain
+
+<details open>
+<summary>Expand/collapse the short version</summary>
 
 Scores predict. They do not explain. In the cleanest public setting, ICLR, confidence-weighted reviewer scores carry a lot of signal; the story starts where scores and final decisions split: majority-accept rejects, majority-reject accepts, and low-confidence decisions that lean on someone else's review.
 
 That split is where ACs earn trust or lose it. A good meta-review says what outweighed the scores, what changed after rebuttal, which reviews mattered, and what uncertainty remains. If the record does not say that, even a correct decision becomes unteachable.
 
 The fix is to score service, not taste: expertise-gated AC bidding, mandatory rebuttal and override deltas, SAC repair queues before release, and author-controlled carry-forward for revised borderline rejects without importing old reviews or scores.
+
+</details>
 
 """
     opener = (

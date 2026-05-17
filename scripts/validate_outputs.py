@@ -45,7 +45,9 @@ def fail(message: str) -> None:
 def check_report_basics(text: str) -> None:
     required = [
         "Area Chairs vs Paper Weights: What ACs Add, and How to AC Well",
-        "## Bottom Line",
+        "## TLDR: Scores Predict, ACs Explain",
+        "<details open>",
+        "Expand/collapse the short version",
         "Scores predict. They do not explain.",
         "That split is where ACs earn trust or lose it.",
         "The fix is to score service, not taste:",
