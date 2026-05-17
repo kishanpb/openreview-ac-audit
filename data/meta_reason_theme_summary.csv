@@ -1,0 +1,37 @@
+group,override_type,theme,count,denominator,share
+ICLR all override meta-reviews,accept_to_reject,Novelty / related work,1411,1957,0.7210015329586101
+ICLR all override meta-reviews,reject_to_accept,Novelty / related work,800,1087,0.7359705611775529
+ICLR all override meta-reviews,accept_to_reject,Evidence / baselines,1426,1957,0.7286663260091978
+ICLR all override meta-reviews,reject_to_accept,Evidence / baselines,882,1087,0.8114075436982521
+ICLR all override meta-reviews,accept_to_reject,Correctness / theory,680,1957,0.34747061829330605
+ICLR all override meta-reviews,reject_to_accept,Correctness / theory,394,1087,0.3624655013799448
+ICLR all override meta-reviews,accept_to_reject,Unresolved rebuttal,643,1957,0.32856412876852326
+ICLR all override meta-reviews,reject_to_accept,Unresolved rebuttal,370,1087,0.3403863845446182
+ICLR all override meta-reviews,accept_to_reject,Scope / significance,866,1957,0.44251405212059275
+ICLR all override meta-reviews,reject_to_accept,Scope / significance,481,1087,0.44250229990800366
+ICLR all override meta-reviews,accept_to_reject,Presentation / clarity,891,1957,0.45528870720490544
+ICLR all override meta-reviews,reject_to_accept,Presentation / clarity,472,1087,0.43422263109475623
+ICLR all override meta-reviews,accept_to_reject,Calibration / review quality,1198,1957,0.6121614716402657
+ICLR all override meta-reviews,reject_to_accept,Calibration / review quality,894,1087,0.8224471021159153
+ICLR all override meta-reviews,accept_to_reject,Implementation / reproducibility,721,1957,0.3684210526315789
+ICLR all override meta-reviews,reject_to_accept,Implementation / reproducibility,498,1087,0.45814167433302666
+ICLR all override meta-reviews,accept_to_reject,Ethics / safety,170,1957,0.08686765457332651
+ICLR all override meta-reviews,reject_to_accept,Ethics / safety,153,1087,0.140754369825207
+All public override cases,accept_to_reject,Novelty / related work,1551,2182,0.7108157653528873
+All public override cases,reject_to_accept,Novelty / related work,858,1169,0.7339606501283148
+All public override cases,accept_to_reject,Evidence / baselines,1578,2182,0.7231897341888176
+All public override cases,reject_to_accept,Evidence / baselines,937,1169,0.8015397775876818
+All public override cases,accept_to_reject,Correctness / theory,758,2182,0.3473877176901925
+All public override cases,reject_to_accept,Correctness / theory,417,1169,0.3567151411462789
+All public override cases,accept_to_reject,Unresolved rebuttal,671,2182,0.3075160403299725
+All public override cases,reject_to_accept,Unresolved rebuttal,375,1169,0.32078699743370404
+All public override cases,accept_to_reject,Scope / significance,962,2182,0.44087992667277726
+All public override cases,reject_to_accept,Scope / significance,512,1169,0.43798118049615054
+All public override cases,accept_to_reject,Presentation / clarity,969,2182,0.4440879926672777
+All public override cases,reject_to_accept,Presentation / clarity,492,1169,0.42087254063301965
+All public override cases,accept_to_reject,Calibration / review quality,1302,2182,0.5967002749770852
+All public override cases,reject_to_accept,Calibration / review quality,928,1169,0.7938408896492729
+All public override cases,accept_to_reject,Implementation / reproducibility,809,2182,0.3707607699358387
+All public override cases,reject_to_accept,Implementation / reproducibility,526,1169,0.4499572284003422
+All public override cases,accept_to_reject,Ethics / safety,188,2182,0.08615948670944087
+All public override cases,reject_to_accept,Ethics / safety,157,1169,0.1343028229255774

@@ -1,0 +1,50 @@
+# OpenReview AC Override Audit
+
+This repository contains the analysis code, cached public-data tables, plots, and blog draft for Area Chairs vs Paper Weights: What ACs Add, and How to AC Well.
+
+The audit asks how far public OpenReview final decisions move away from simple reviewer-score aggregation, then reads the visible override cases as a process-quality surface for area-chair work.
+
+## What Is Included
+
+- scripts/analyze_openreview_ac_overrides.py: fetches public OpenReview submissions, reviews, decisions, and meta-review fields, then writes base CSVs.
+- scripts/enhance_openreview_report_with_plots.py: builds the meta-review/rationale analysis, plot SVGs, and final Markdown report from cached rows.
+- scripts/validate_outputs.py: checks that the published Markdown, CSV summaries, plots, and packaged artifacts are internally consistent.
+- data/: cached derived CSVs from public OpenReview records and public source metadata.
+- reports/notion_blog_openreview_ac_overrides.md: canonical Markdown blog draft.
+- reports/plots/: generated SVG plots and PNG exports referenced by the Markdown.
+
+## Reproduce
+
+Install dependencies:
+
+    python3 -m venv .venv
+    . .venv/bin/activate
+    pip install -r requirements.txt
+
+Validate the committed artifacts:
+
+    python3 scripts/validate_outputs.py
+
+Regenerate the enhanced report and SVG plots from cached public-data rows:
+
+    python3 scripts/enhance_openreview_report_with_plots.py
+    python3 scripts/validate_outputs.py
+
+Refresh from the current public OpenReview API surface:
+
+    python3 scripts/analyze_openreview_ac_overrides.py
+    python3 scripts/enhance_openreview_report_with_plots.py
+    python3 scripts/validate_outputs.py
+
+The refresh path depends on what venues currently expose through public OpenReview APIs. The cached CSVs capture the public-data snapshot used by the blog draft.
+
+## Scope And Caveats
+
+This is a public-record audit, not a private-process audit. Missing public rationale does not prove missing private AC work, and named examples are not claims that individual decisions were wrong.
+
+The qualitative reading is intentionally bounded: paper-level cases are used because their OpenReview records are public and illustrate process patterns. The author is not affiliated with, advising, collaborating with, or writing on behalf of any author of the papers named or qualitatively discussed, and the author's own ML papers do not appear in the qualitative case analysis.
+
+## Data License Notes
+
+The scripts and local documentation in this repository are released under the MIT License. The CSVs are derived from public OpenReview records and public source pages; downstream users should respect the terms and norms of those source platforms.
+

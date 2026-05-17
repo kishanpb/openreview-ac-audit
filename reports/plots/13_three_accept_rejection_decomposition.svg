@@ -1,0 +1,42 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1180" height="640" viewBox="0 0 1180 640">
+<rect width="100%" height="100%" fill="#fbfbf8"/>
+<text x="28.0" y="36.0" font-family="Inter, Arial, sans-serif" font-size="24" font-weight="700" fill="#111827" text-anchor="start">How much of 3+ accept-vote rejection is simple capacity pressure?</text>
+<text x="28.0" y="64.0" font-family="Inter, Arial, sans-serif" font-size="14" font-weight="400" fill="#4b5563" text-anchor="start">A conservative decomposition: capacity arithmetic can explain at most the shortfall between 3+</text>
+<text x="28.0" y="82.0" font-family="Inter, Arial, sans-serif" font-size="14" font-weight="400" fill="#4b5563" text-anchor="start">accept-vote papers and official accept slots. The remaining public cases require substantive AC/PC</text>
+<text x="28.0" y="100.0" font-family="Inter, Arial, sans-serif" font-size="14" font-weight="400" fill="#4b5563" text-anchor="start">rationale.</text>
+<line x1="275.0" x2="275.0" y1="138" y2="576" stroke="#e5e7eb"/>
+<text x="275.0" y="598.0" font-family="Inter, Arial, sans-serif" font-size="13" font-weight="400" fill="#6b7280" text-anchor="middle">0</text>
+<line x1="428.2" x2="428.2" y1="138" y2="576" stroke="#e5e7eb"/>
+<text x="428.2" y="598.0" font-family="Inter, Arial, sans-serif" font-size="13" font-weight="400" fill="#6b7280" text-anchor="middle">193</text>
+<line x1="581.5" x2="581.5" y1="138" y2="576" stroke="#e5e7eb"/>
+<text x="581.5" y="598.0" font-family="Inter, Arial, sans-serif" font-size="13" font-weight="400" fill="#6b7280" text-anchor="middle">386</text>
+<line x1="734.8" x2="734.8" y1="138" y2="576" stroke="#e5e7eb"/>
+<text x="734.8" y="598.0" font-family="Inter, Arial, sans-serif" font-size="13" font-weight="400" fill="#6b7280" text-anchor="middle">579</text>
+<line x1="888.0" x2="888.0" y1="138" y2="576" stroke="#e5e7eb"/>
+<text x="888.0" y="598.0" font-family="Inter, Arial, sans-serif" font-size="13" font-weight="400" fill="#6b7280" text-anchor="middle">772</text>
+<text x="28.0" y="175.0" font-family="Inter, Arial, sans-serif" font-size="16" font-weight="700" fill="#17202a" text-anchor="start">ICLR 2026</text>
+<rect x="275" y="158.0" width="0.0" height="22" rx="2" fill="#d58c2a"/>
+<rect x="275.0" y="158.0" width="244.6" height="22" rx="2" fill="#7158a8"/>
+<text x="275.0" y="202.0" font-family="Inter, Arial, sans-serif" font-size="13" font-weight="400" fill="#17202a" text-anchor="start">308 rejected; capacity &lt;= 0; rationale &gt;= 308</text>
+<text x="28.0" y="262.6" font-family="Inter, Arial, sans-serif" font-size="16" font-weight="700" fill="#17202a" text-anchor="start">ICLR 2025</text>
+<rect x="275" y="245.6" width="182.6" height="22" rx="2" fill="#d58c2a"/>
+<rect x="457.6" y="245.6" width="430.4" height="22" rx="2" fill="#7158a8"/>
+<text x="275.0" y="289.6" font-family="Inter, Arial, sans-serif" font-size="13" font-weight="400" fill="#17202a" text-anchor="start">772 rejected; capacity &lt;= 230; rationale &gt;= 542</text>
+<text x="28.0" y="350.2" font-family="Inter, Arial, sans-serif" font-size="16" font-weight="700" fill="#17202a" text-anchor="start">ICLR 2024</text>
+<rect x="275" y="333.2" width="0.0" height="22" rx="2" fill="#d58c2a"/>
+<rect x="275.0" y="333.2" width="314.4" height="22" rx="2" fill="#7158a8"/>
+<text x="275.0" y="377.2" font-family="Inter, Arial, sans-serif" font-size="13" font-weight="400" fill="#17202a" text-anchor="start">396 rejected; capacity &lt;= 0; rationale &gt;= 396</text>
+<text x="28.0" y="437.8" font-family="Inter, Arial, sans-serif" font-size="16" font-weight="700" fill="#17202a" text-anchor="start">ICML 2025</text>
+<rect x="275" y="420.79999999999995" width="0.0" height="22" rx="2" fill="#d58c2a"/>
+<rect x="275.0" y="420.79999999999995" width="57.2" height="22" rx="2" fill="#7158a8"/>
+<text x="275.0" y="464.8" font-family="Inter, Arial, sans-serif" font-size="13" font-weight="400" fill="#17202a" text-anchor="start">72 rejected; capacity &lt;= 0; rationale &gt;= 72</text>
+<text x="28.0" y="525.4" font-family="Inter, Arial, sans-serif" font-size="16" font-weight="700" fill="#17202a" text-anchor="start">NeurIPS 2025</text>
+<rect x="275" y="508.4" width="0.0" height="22" rx="2" fill="#d58c2a"/>
+<rect x="275.0" y="508.4" width="106.4" height="22" rx="2" fill="#7158a8"/>
+<text x="275.0" y="552.4" font-family="Inter, Arial, sans-serif" font-size="13" font-weight="400" fill="#17202a" text-anchor="start">134 rejected; capacity &lt;= 0; rationale &gt;= 134</text>
+<rect x="902" y="148" width="15" height="15" fill="#d58c2a"/>
+<text x="924.0" y="161.0" font-family="Inter, Arial, sans-serif" font-size="13" font-weight="400" fill="#17202a" text-anchor="start">capacity shortfall upper bound</text>
+<rect x="902" y="176" width="15" height="15" fill="#7158a8"/>
+<text x="924.0" y="189.0" font-family="Inter, Arial, sans-serif" font-size="13" font-weight="400" fill="#17202a" text-anchor="start">requires public rationale</text>
+<text x="28.0" y="622.0" font-family="Inter, Arial, sans-serif" font-size="12" font-weight="400" fill="#6b7280" text-anchor="start">This is not a causal claim about individual papers; it is a slot-count sanity check for the 25% acceptance-rate hypothesis.</text>
+</svg>

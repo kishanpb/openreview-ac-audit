@@ -1,0 +1,8 @@
+cluster_id,cluster_label,top_terms,n,accept_to_reject,reject_to_accept,top_theme
+5,Evidence / baselines,"data, learning, experiments, training, neural, interesting, how, see",618,503,115,Evidence / baselines
+3,Novelty and related-work positioning,"novelty, performance, experiments, limited, tasks, llms, language, novel",573,465,108,Novelty / related work
+0,Benchmark and evaluation adequacy,"rebuttal, likely, novelty, baselines, empirical, experiments, remain, evaluation",511,161,350,Evidence / baselines
+2,Rebuttal did not resolve concerns,"rebuttal, provided, experiments, additional, acceptance, comments, positive, novelty",444,205,239,Calibration / review quality
+1,Correctness and theoretical support,"theoretical, algorithm, empirical, assumptions, analysis, learning, practical, theory",366,283,83,Evidence / baselines
+4,Benchmark and evaluation adequacy,"benchmark, dataset, data, evaluation, reasoning, human, quality, real",347,202,145,Evidence / baselines
+6,Rebuttal did not resolve concerns,"diffusion, image, generation, images, generative, training, experiments, rebuttal",182,135,47,Evidence / baselines

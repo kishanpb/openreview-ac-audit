@@ -1,0 +1,39 @@
+{
+  "__typename": "Tweet",
+  "conversation_count": 1,
+  "created_at": "2026-04-30T20:27:57.000Z",
+  "display_text_range": [
+    0,
+    30
+  ],
+  "edit_control": {
+    "edit_tweet_ids": [
+      "2049948895690510736"
+    ],
+    "editable_until_msecs": "1777584477000",
+    "edits_remaining": "5",
+    "is_edit_eligible": true
+  },
+  "entities": {
+    "hashtags": [],
+    "symbols": [],
+    "urls": [],
+    "user_mentions": []
+  },
+  "favorite_count": 25,
+  "id_str": "2049948895690510736",
+  "isEdited": false,
+  "isStaleEdit": false,
+  "lang": "en",
+  "news_action_type": "conversation",
+  "text": "Area chairs \\le paper weights.",
+  "user": {
+    "id_str": "44073696",
+    "is_blue_verified": true,
+    "name": "Dan Roy",
+    "profile_image_shape": "Circle",
+    "profile_image_url_https": "https://pbs.twimg.com/profile_images/647245794249015296/575wCuTG_normal.jpg",
+    "screen_name": "roydanroy",
+    "verified": false
+  }
+}

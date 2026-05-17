@@ -1,0 +1,58 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="980" height="470" viewBox="0 0 980 470">
+<rect width="100%" height="100%" fill="#fbfbf8"/>
+<text x="28.0" y="36.0" font-family="Inter, Arial, sans-serif" font-size="24" font-weight="700" fill="#111827" text-anchor="start">How well do simple reviewer-score rules predict final decisions?</text>
+<text x="28.0" y="64.0" font-family="Inter, Arial, sans-serif" font-size="14" font-weight="400" fill="#4b5563" text-anchor="start">AUC measures ranking quality of confidence-weighted review scores; threshold and majority accuracy are</text>
+<text x="28.0" y="82.0" font-family="Inter, Arial, sans-serif" font-size="14" font-weight="400" fill="#4b5563" text-anchor="start">direct accept/reject rules. ICML/NeurIPS are public samples, not full reject pools.</text>
+<line x1="185.0" x2="185.0" y1="120" y2="406" stroke="#e5e7eb" stroke-width="1"/>
+<text x="185.0" y="424.0" font-family="Inter, Arial, sans-serif" font-size="11" font-weight="400" fill="#6b7280" text-anchor="middle">0.00</text>
+<line x1="338.2" x2="338.2" y1="120" y2="406" stroke="#e5e7eb" stroke-width="1"/>
+<text x="338.2" y="424.0" font-family="Inter, Arial, sans-serif" font-size="11" font-weight="400" fill="#6b7280" text-anchor="middle">0.25</text>
+<line x1="491.5" x2="491.5" y1="120" y2="406" stroke="#e5e7eb" stroke-width="1"/>
+<text x="491.5" y="424.0" font-family="Inter, Arial, sans-serif" font-size="11" font-weight="400" fill="#6b7280" text-anchor="middle">0.50</text>
+<line x1="644.8" x2="644.8" y1="120" y2="406" stroke="#e5e7eb" stroke-width="1"/>
+<text x="644.8" y="424.0" font-family="Inter, Arial, sans-serif" font-size="11" font-weight="400" fill="#6b7280" text-anchor="middle">0.75</text>
+<line x1="798.0" x2="798.0" y1="120" y2="406" stroke="#e5e7eb" stroke-width="1"/>
+<text x="798.0" y="424.0" font-family="Inter, Arial, sans-serif" font-size="11" font-weight="400" fill="#6b7280" text-anchor="middle">1.00</text>
+<text x="28.0" y="153.0" font-family="Inter, Arial, sans-serif" font-size="13" font-weight="600" fill="#17202a" text-anchor="start">ICLR 2026</text>
+<rect x="185" y="130.0" width="545.2" height="12" rx="2" fill="#2f6f73"/>
+<text x="736.2" y="140.0" font-family="Inter, Arial, sans-serif" font-size="11" font-weight="400" fill="#374151" text-anchor="start">0.89</text>
+<rect x="185" y="148.0" width="434.1" height="12" rx="2" fill="#d58c2a"/>
+<text x="625.1" y="158.0" font-family="Inter, Arial, sans-serif" font-size="11" font-weight="400" fill="#374151" text-anchor="start">0.71</text>
+<rect x="185" y="166.0" width="531.0" height="12" rx="2" fill="#7158a8"/>
+<text x="722.0" y="176.0" font-family="Inter, Arial, sans-serif" font-size="11" font-weight="400" fill="#374151" text-anchor="start">0.87</text>
+<text x="28.0" y="210.2" font-family="Inter, Arial, sans-serif" font-size="13" font-weight="600" fill="#17202a" text-anchor="start">ICLR 2025</text>
+<rect x="185" y="187.2" width="578.5" height="12" rx="2" fill="#2f6f73"/>
+<text x="769.5" y="197.2" font-family="Inter, Arial, sans-serif" font-size="11" font-weight="400" fill="#374151" text-anchor="start">0.94</text>
+<rect x="185" y="205.2" width="539.7" height="12" rx="2" fill="#d58c2a"/>
+<text x="730.7" y="215.2" font-family="Inter, Arial, sans-serif" font-size="11" font-weight="400" fill="#374151" text-anchor="start">0.88</text>
+<rect x="185" y="223.2" width="530.1" height="12" rx="2" fill="#7158a8"/>
+<text x="721.1" y="233.2" font-family="Inter, Arial, sans-serif" font-size="11" font-weight="400" fill="#374151" text-anchor="start">0.86</text>
+<text x="28.0" y="267.4" font-family="Inter, Arial, sans-serif" font-size="13" font-weight="600" fill="#17202a" text-anchor="start">ICLR 2024</text>
+<rect x="185" y="244.4" width="575.3" height="12" rx="2" fill="#2f6f73"/>
+<text x="766.3" y="254.4" font-family="Inter, Arial, sans-serif" font-size="11" font-weight="400" fill="#374151" text-anchor="start">0.94</text>
+<rect x="185" y="262.4" width="532.0" height="12" rx="2" fill="#d58c2a"/>
+<text x="723.0" y="272.4" font-family="Inter, Arial, sans-serif" font-size="11" font-weight="400" fill="#374151" text-anchor="start">0.87</text>
+<rect x="185" y="280.4" width="530.8" height="12" rx="2" fill="#7158a8"/>
+<text x="721.8" y="290.4" font-family="Inter, Arial, sans-serif" font-size="11" font-weight="400" fill="#374151" text-anchor="start">0.87</text>
+<text x="28.0" y="324.6" font-family="Inter, Arial, sans-serif" font-size="13" font-weight="600" fill="#17202a" text-anchor="start">ICML 2025</text>
+<rect x="185" y="301.6" width="497.8" height="12" rx="2" fill="#2f6f73"/>
+<text x="688.8" y="311.6" font-family="Inter, Arial, sans-serif" font-size="11" font-weight="400" fill="#374151" text-anchor="start">0.81</text>
+<rect x="185" y="319.6" width="509.8" height="12" rx="2" fill="#d58c2a"/>
+<text x="700.8" y="329.6" font-family="Inter, Arial, sans-serif" font-size="11" font-weight="400" fill="#374151" text-anchor="start">0.83</text>
+<rect x="185" y="337.6" width="583.5" height="12" rx="2" fill="#7158a8"/>
+<text x="774.5" y="347.6" font-family="Inter, Arial, sans-serif" font-size="11" font-weight="400" fill="#374151" text-anchor="start">0.95</text>
+<text x="28.0" y="381.8" font-family="Inter, Arial, sans-serif" font-size="13" font-weight="600" fill="#17202a" text-anchor="start">NeurIPS 2025</text>
+<rect x="185" y="358.8" width="508.3" height="12" rx="2" fill="#2f6f73"/>
+<text x="699.3" y="368.8" font-family="Inter, Arial, sans-serif" font-size="11" font-weight="400" fill="#374151" text-anchor="start">0.83</text>
+<rect x="185" y="376.8" width="537.0" height="12" rx="2" fill="#d58c2a"/>
+<text x="728.0" y="386.8" font-family="Inter, Arial, sans-serif" font-size="11" font-weight="400" fill="#374151" text-anchor="start">0.88</text>
+<rect x="185" y="394.8" width="595.4" height="12" rx="2" fill="#7158a8"/>
+<text x="786.4" y="404.8" font-family="Inter, Arial, sans-serif" font-size="11" font-weight="400" fill="#374151" text-anchor="start">0.97</text>
+<rect x="822" y="132" width="13" height="13" fill="#2f6f73"/>
+<text x="842.0" y="143.0" font-family="Inter, Arial, sans-serif" font-size="12" font-weight="400" fill="#17202a" text-anchor="start">AUC</text>
+<rect x="822" y="156" width="13" height="13" fill="#d58c2a"/>
+<text x="842.0" y="167.0" font-family="Inter, Arial, sans-serif" font-size="12" font-weight="400" fill="#17202a" text-anchor="start">Threshold acc.</text>
+<rect x="822" y="180" width="13" height="13" fill="#7158a8"/>
+<text x="842.0" y="191.0" font-family="Inter, Arial, sans-serif" font-size="12" font-weight="400" fill="#17202a" text-anchor="start">Majority acc.</text>
+<text x="28.0" y="454.0" font-family="Inter, Arial, sans-serif" font-size="11" font-weight="400" fill="#6b7280" text-anchor="start">Source: public OpenReview notes fetched via api2.openreview.net; thresholds: ICLR=6, ICML=3, NeurIPS=4.</text>
+</svg>
