@@ -1141,57 +1141,69 @@ def plot_score_overlap(meta_rows: list[dict[str, Any]]) -> Path:
     return path
 
 
-def plot_rationale_availability(meta_rows: list[dict[str, Any]]) -> Path:
+def plot_rationale_completeness(meta_rows: list[dict[str, Any]]) -> Path:
     path = PLOT_DIR / "04_public_rationale_availability.svg"
     rows = []
+    categories = [
+        ("strong", "#2f6f73", "strong: 150+ words, all signals"),
+        ("usable", "#7da96b", "usable: 60+ words, review + signal"),
+        ("long_understructured", "#d58c2a", "long, missing signals"),
+        ("thin", "#b94a48", "thin"),
+    ]
     for venue in ["ICLR 2026", "ICLR 2025", "ICLR 2024", "ICML 2025", "NeurIPS 2025"]:
         subset = [r for r in meta_rows if r["venue"] == venue and r["override_type"] in {"accept_to_reject", "reject_to_accept"}]
         if not subset:
             continue
-        with_meta = [r for r in subset if r["has_public_meta_review"]]
-        decision_only = [r for r in subset if not r["has_public_meta_review"] and r["has_public_decision_comment"]]
-        no_public_rationale = [r for r in subset if not r["has_public_meta_review"] and not r["has_public_decision_comment"]]
-        any_rationale = [r for r in subset if r["has_public_meta_review"] or r["has_public_decision_comment"]]
-        med_words = median([r["public_rationale_word_count"] for r in any_rationale]) if any_rationale else 0
-        rows.append((venue, len(subset), len(with_meta), len(decision_only), len(no_public_rationale), med_words))
-    width, height = 980, 450
+        counts = Counter()
+        for row in subset:
+            words = row["public_rationale_word_count"]
+            has_reviews = row["feature_mentions_reviews"]
+            has_rebuttal = row["feature_mentions_rebuttal"]
+            has_causal = row["feature_causal_justification"]
+            if words >= 150 and has_reviews and has_rebuttal and has_causal:
+                counts["strong"] += 1
+            elif words >= 60 and has_reviews and (has_rebuttal or has_causal):
+                counts["usable"] += 1
+            elif words >= 60:
+                counts["long_understructured"] += 1
+            else:
+                counts["thin"] += 1
+        med_words = median([r["public_rationale_word_count"] for r in subset])
+        rows.append((venue, len(subset), counts, med_words))
+    width, height = 1060, 500
     parts, left, right, top, bottom = svg_frame(
         width,
         height,
-        "Which public rationale source is visible in override cases?",
-        "Stacked bars separate public meta-reviews from decision-only rationale comments. Labels show median public-rationale length when a rationale exists.",
+        "How complete are public rationales in override cases?",
+        "Because availability is saturated in this fetched sample, bars group public text by length and review, rebuttal, and causal-language signals.",
     )
     x0, x1 = left, right - 250
+    for j, (_, color, label) in enumerate(categories):
+        xx = x0 + j * 205
+        yy = top + 8
+        parts.append(f'<rect x="{xx}" y="{yy-11}" width="12" height="12" rx="2" fill="{color}"/>')
+        parts.append(svg_text(xx + 18, yy, label, size=11, color="#374151"))
+    top += 42
     y_step = (bottom - top) / len(rows)
     for tick in [0, 0.25, 0.5, 0.75, 1.0]:
         x = x0 + (x1 - x0) * tick
         parts.append(f'<line x1="{x:.1f}" x2="{x:.1f}" y1="{top}" y2="{bottom}" stroke="#e5e7eb"/>')
         parts.append(svg_text(x, bottom + 18, f"{int(tick*100)}%", size=11, color="#6b7280", anchor="middle"))
-    legend_x = right - 235
-    for j, (label, color) in enumerate([
-        ("public meta-review", "#2f6f73"),
-        ("decision-only rationale", "#d58c2a"),
-        ("no public rationale", "#c7cdd4"),
-    ]):
-        yy = top + j * 22
-        parts.append(f'<rect x="{legend_x}" y="{yy-11}" width="12" height="12" rx="2" fill="{color}"/>')
-        parts.append(svg_text(legend_x + 18, yy, label, size=11, color="#374151"))
-    for i, (venue, n, meta_count, decision_only_count, none_count, med_words) in enumerate(rows):
+    for i, (venue, n, counts, med_words) in enumerate(rows):
         y = top + i * y_step + 12
         parts.append(svg_text(28, y + 24, venue, size=13, weight="600"))
         cursor = x0
-        for count, color in [
-            (meta_count, "#2f6f73"),
-            (decision_only_count, "#d58c2a"),
-            (none_count, "#c7cdd4"),
-        ]:
+        for key, color, _ in categories:
+            count = counts[key]
             w = (x1 - x0) * count / n
             if w > 0:
                 parts.append(f'<rect x="{cursor:.1f}" y="{y+7}" width="{w:.1f}" height="22" rx="2" fill="{color}"/>')
+                if w > 32:
+                    parts.append(svg_text(cursor + w / 2, y + 23, f"{count/n*100:.0f}%", size=10, color="#ffffff", anchor="middle", weight="700"))
             cursor += w
-        parts.append(svg_text(x1 + 12, y + 23, f"meta {meta_count}; decision-only {decision_only_count}; none {none_count}", size=11, color="#374151"))
-        parts.append(svg_text(x1 + 12, y + 40, f"n={n}; median words={med_words:.0f}", size=11, color="#6b7280"))
-    parts.append(svg_text(28, height - 16, "Absence of public rationale is not proof of absent private deliberation; it is a visibility gap in fetched public notes.", size=11, color="#6b7280"))
+        parts.append(svg_text(x1 + 12, y + 23, f"strong {counts['strong']}; usable {counts['usable']}", size=11, color="#374151"))
+        parts.append(svg_text(x1 + 12, y + 40, f"understructured {counts['long_understructured']}; thin {counts['thin']}; median words={med_words:.0f}", size=11, color="#6b7280"))
+    parts.append(svg_text(28, height - 16, "Public evidence of rationale structure, not private AC effort or decision correctness.", size=11, color="#6b7280"))
     save_svg(path, parts)
     return path
 
@@ -2329,9 +2341,9 @@ The reason this can happen is visible in the score distributions. Accepted and r
 
 ![ICLR score overlap](plots/png/03_score_overlap_iclr.png)
 
-This turns the question into a transparency question. When an AC overrides the reviewer-majority signal, do we get a public rationale strong enough to learn from? The plot separates public meta-reviews from decision-only rationale comments. ICLR exposes public meta-reviews for many override cases; ICML and NeurIPS expose public decision comments in the sampled cases, but not separate public meta-reviews in the same way. AISTATS, RLC, and AAAI do not expose enough public review/meta-review structure for the same audit. Separately, the parser now captures nested public forum discussion: among {len(discussion_rows):,} analyzable accept/reject papers, {discussion_cases:,} have at least one public non-review/non-decision discussion note after excluding administrative acknowledgements and withdrawals, {reviewer_followups:,} have reviewer follow-up, and {author_responses:,} have author response. Those notes are engagement evidence, not a substitute for final rationale.
+This turns the question into a transparency question. When an AC overrides the reviewer-majority signal, do we get a public rationale strong enough to learn from? In this fetched sample, availability alone is nearly saturated, so the plot below uses a stricter public-evidence screen: longer rationales score higher when they also mention reviews, rebuttal, and why the decision moved. These bins are not judgments about decision correctness. Separately, the parser now captures nested public forum discussion: among {len(discussion_rows):,} analyzable accept/reject papers, {discussion_cases:,} have at least one public non-review/non-decision discussion note after excluding administrative acknowledgements and withdrawals, {reviewer_followups:,} have reviewer follow-up, and {author_responses:,} have author response. Those notes are engagement evidence, not a substitute for final rationale.
 
-![Public rationale availability](plots/png/04_public_rationale_availability.png)
+![Public rationale completeness](plots/png/04_public_rationale_availability.png)
 
 For ICLR, the public rationales can be coded into broad reasons. The dominant pattern is not mysterious: novelty and related work, evidence and baselines, calibration of reviewer scores, and unresolved rebuttal concerns show up repeatedly. This is important because it suggests AC discretion is often doing a real synthesis job, not merely enforcing a hidden quota.
 
@@ -2702,11 +2714,11 @@ One personal double-blind RLC 2026 case motivates this section. The decision cou
 
 The relevant public signal is precise. The AC wrote that they were "not an expert on the topic" and were "basing my decision on the holistic review." The recommendation was reject, with `Confidence: 2: The area chair is not sure.` I cannot infer what happened privately, and rejection may still be correct. But the meta-review does not show any rebuttal delta, does not say which author-response points were considered, and does not explain why the holistic review remained decisive after rebuttal.
 
-The frustrating part is not simply rejection. Rejection can be correct. The frustrating part is that the process did not produce a usable decision record. With a thin meta-review, authors cannot tell whether the decisive issue was novelty, correctness, empirical support, scope, reviewer calibration, venue budget, or simple non-engagement. Future ACs also cannot learn what standard was applied. To authors, the decision can look like private judgment without a public reasoning trail.
+The frustrating part is not simply rejection. Rejection can be correct. The frustrating part is that the process did not produce a usable decision record. With a thin meta-review, authors cannot tell whether the decisive issue was novelty, correctness, empirical support, scope, reviewer calibration, venue budget, or missing public synthesis. Future ACs also cannot learn what standard was applied. To authors, the decision can look like private judgment without a public reasoning trail.
 
-The publicly detailed RLC review-process design I could verify, from RLC 2024, makes this especially salient because it explicitly gives the SAC/AC a synthesizing role: they check review quality, can ask authors direct questions, write a meta-review, and PC review is expected when a rejection recommendation goes against a senior-reviewer acceptance recommendation. The RLC/RLJ 2026 submission page confirms the use of OpenReview for submissions and review correspondence, but does not expose the same detailed process text on that page. The architecture is still the right lesson. But architecture does not guarantee service. If an AC is not engaged in the synthesis work, or is low-confidence and non-expert while relying on one holistic review, the authors can experience the process as under-explained no matter how thoughtful the written policy is.
+The publicly detailed RLC review-process design I could verify, from RLC 2024, makes this especially salient because it explicitly gives the SAC/AC a synthesizing role: they check review quality, can ask authors direct questions, write a meta-review, and PC review is expected when a rejection recommendation goes against a senior-reviewer acceptance recommendation. The RLC/RLJ 2026 submission page confirms the use of OpenReview for submissions and review correspondence, but does not expose the same detailed process text on that page. The architecture is still the right lesson. But architecture does not guarantee service. If the public record does not show engaged synthesis, or if the decisive recommendation comes from a low-confidence non-expert AC relying on one holistic review, the authors can experience the process as under-explained no matter how thoughtful the written policy is.
 
-This is why "please write better meta-reviews" is too weak as a reform. Venues need incentives that make minimum AC service observable, repairable, and consequential during the cycle, before decisions are released. The goal is not to punish harsh decisions. The goal is to prevent unreasoned decisions.
+This is why "please write better meta-reviews" is too weak as a reform. Venues need incentives that make minimum AC service observable, repairable, and consequential during the cycle, before decisions are released. The goal is not to punish harsh decisions. The goal is to prevent under-explained decisions.
 
 ## Data-Inspired AC Incentives
 
@@ -2724,6 +2736,8 @@ A practical mechanism could work like this:
 8. The venue publishes only aggregate diagnostics: percentage of decisions with complete meta-reviews, number of repaired meta-reviews before release, override-rationale completeness, and reviewer-engagement rates by area.
 
 This mechanism borrows the spirit of reciprocal reviewing policies that withhold benefits from authors who do not complete service, but adapts it to AC work. The clean version is a service escrow: if you submit to the venue and accept AC/reviewer duties, you owe the venue timely, auditable service. If that service is incomplete, the system should notice before authors receive an under-explained decision.
+
+The community-facing ask is deliberately modest. Do not make ACs prove that every hard decision was right. Make venues prove that high-risk decisions received a repairable public record before release. That changes the argument from "was my paper robbed?" to "did the process leave enough evidence for authors, SACs, and future ACs to learn from the call?"
 
 The key guardrail is that the metric must never evaluate whether the AC made the "right" accept/reject call. That would create perverse incentives and punish legitimate judgment. The metric should evaluate whether the decision is explainable, whether reviewer evidence was handled responsibly, and whether high-disagreement cases were escalated. In other words: score the service, not the taste.
 
@@ -2747,7 +2761,7 @@ def main() -> int:
         plot_predictiveness(summary_rows),
         plot_override_counts(summary_rows),
         plot_score_overlap(meta_rows),
-        plot_rationale_availability(meta_rows),
+        plot_rationale_completeness(meta_rows),
         plot_theme_frequency(meta_rows),
         plot_reason_clusters(cluster_rows),
         plot_guideline_evidence(meta_rows),
