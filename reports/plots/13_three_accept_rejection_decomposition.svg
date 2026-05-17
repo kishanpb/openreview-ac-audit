@@ -38,5 +38,5 @@
 <text x="924.0" y="161.0" font-family="Inter, Arial, sans-serif" font-size="13" font-weight="400" fill="#17202a" text-anchor="start">capacity shortfall upper bound</text>
 <rect x="902" y="176" width="15" height="15" fill="#7158a8"/>
 <text x="924.0" y="189.0" font-family="Inter, Arial, sans-serif" font-size="13" font-weight="400" fill="#17202a" text-anchor="start">requires public rationale</text>
-<text x="28.0" y="622.0" font-family="Inter, Arial, sans-serif" font-size="12" font-weight="400" fill="#6b7280" text-anchor="start">This is not a causal claim about individual papers; it is a slot-count sanity check for the 25% acceptance-rate hypothesis.</text>
+<text x="28.0" y="622.0" font-family="Inter, Arial, sans-serif" font-size="12" font-weight="400" fill="#6b7280" text-anchor="start">This is not a causal claim about individual papers; it is a slot-count sanity check for a low-acceptance-rate reference line.</text>
 </svg>

@@ -6,7 +6,7 @@ This essay is both an audit and a guide to ACing. The audit measures how much re
 
 _The test._ If we aggregate reviewer scores with a simple confidence weighting, do area-chair/meta-review decisions mostly reduce to paper weights, or do ACs visibly add judgment?
 
-_Second inspiration._ Sarath Chandar's May 2, 2026 tweet sharpened the capacity question: what should we infer when a paper has three accept-leaning reviews but is rejected in a conference culture that often talks about roughly 25% acceptance? This pass treats that as a quantitative stress test, not as a rule that three accept scores should mechanically force acceptance.
+_Second inspiration._ Sarath Chandar's May 2, 2026 tweet sharpened the low-acceptance-regime question: what should we infer when a paper has three accept-leaning reviews but is rejected in a conference culture that often talks about keeping acceptance rates low, around the mid-20s? This pass treats that as a quantitative stress test, not as a hard-number claim or as a rule that three accept scores should mechanically force acceptance.
 
 _Why this got more urgent._ Two newer X posts map accepted papers as global scoreboards: China Research Collective's ICLR 2026 institution/country treemap and Amit LeVi's fractional-author extension across NeurIPS, ICLR, and ICML 2025. They do not replace the ACs-vs-weights question; they raise its stakes. Top-conference accepts are read as career, institutional, and national capital, so thinly explained AC discretion is easily reduced to leaderboard narratives about where accepted papers cluster.
 
@@ -75,6 +75,17 @@ The first thing to notice is that reviewer scores are not decorative. A simple c
 
 ![Predictiveness metrics](plots/png/01_predictiveness_metrics.png)
 
+Here is a small score-weight transfer playground, included as a fun transfer sanity check rather than a validation claim. Learn the best confidence-weighted score cutoff on one ICLR year, apply that same cutoff to another ICLR year, and ask whether the rule travels well enough to make the AC override zone visible. The interesting column is the last one: near the learned gate, target-year accept-to-reject cases are exactly where borderline papers can suffer under selective acceptance pressure.
+
+| Learn cutoff on | Apply to | learned cutoff | source balanced acc. | target acc. | target accept recall | target reject recall | near-cutoff accept->reject cases |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+| ICLR 2024 | ICLR 2025 | 5.68 | 0.869 | 0.870 | 0.904 | 0.844 | 470 |
+| ICLR 2024 | ICLR 2026 | 5.68 | 0.869 | 0.730 | 0.328 | 0.987 | 67 |
+| ICLR 2025 | ICLR 2024 | 5.74 | 0.876 | 0.864 | 0.854 | 0.871 | 220 |
+| ICLR 2025 | ICLR 2026 | 5.74 | 0.876 | 0.724 | 0.310 | 0.989 | 59 |
+| ICLR 2026 | ICLR 2024 | 4.68 | 0.806 | 0.664 | 0.993 | 0.447 | 111 |
+| ICLR 2026 | ICLR 2025 | 4.68 | 0.806 | 0.672 | 0.993 | 0.430 | 165 |
+
 But prediction is not the same as governance. The interesting cases are the ones where the final decision moves against the reviewer-majority signal. Those are not rare enough to dismiss as clerical noise. In ICLR 2024 and 2025 especially, hundreds of papers sit in the region where the AC/PC decision visibly changes the outcome relative to a simple majority rule.
 
 ![Override counts](plots/png/02_override_counts.png)
@@ -103,7 +114,7 @@ The hardest cases are unanimous-reviewer overrides. If all reviewers point one w
 
 ![Unanimous override rationale](plots/png/08_unanimous_override_rationale.png)
 
-The 25% acceptance-rate complaint needs its own denominator check. Official acceptance rates are calculated over submitted or valid papers. ACs often experience a later decision pool after withdrawals and desk rejects. For ICLR, that later public pool has a substantially higher accept share than the headline acceptance rate. So the budget pressure is real, but a literal "25% of fully reviewed papers" interpretation is too crude.
+The low-acceptance-rate story needs its own denominator check. Official acceptance rates are calculated over submitted or valid papers. ACs often experience a later decision pool after withdrawals and desk rejects. Official rates in the sources here run roughly 24-32% for the main comparable venues, and ICLR's later public pool has a substantially higher accept share than the headline acceptance rate. So the budget pressure is real, but a literal "25% of fully reviewed papers" interpretation is too crude.
 
 The strongest version of the critique is: what happens when a paper gets at least three accept-leaning reviews? The answer is not "always accept." ICLR still rejects a meaningful minority of those papers, and the public rationales often point to novelty, correctness, missing evidence, or calibration concerns. The better norm is not a mechanical 3-accept rule; it is a high-rationale burden for rejecting such papers.
 
@@ -152,17 +163,17 @@ These examples are not claims that the final decisions were wrong. They are exam
 
 ## Acceptance-Rate Pressure Readout
 
-Inspired by Sarath Chandar's May 2, 2026 tweet about three accept-leaning reviews and the "25% acceptance rate" constraint, I added a base-rate and capacity-counterfactual analysis. The safe reading is not "three accepts should automatically accept the paper." The safe reading is: if a paper has three or more accept-leaning reviews and is still rejected, the AC/PC rationale should be unusually legible, because authors and future ACs will naturally ask whether the decision was about paper substance, review calibration, or acceptance-budget pressure.
+Inspired by Sarath Chandar's May 2, 2026 tweet about three accept-leaning reviews and selective conference acceptance rates, I added a base-rate and capacity-counterfactual analysis. I do not read the tweet as asserting a hard 25% rule; the safer framing is a low-acceptance regime where official rates in the comparable sources run roughly 24-32%. The safe reading is not "three accepts should automatically accept the paper." The safe reading is: if a paper has three or more accept-leaning reviews and is still rejected, the AC/PC rationale should be unusually legible, because authors and future ACs will naturally ask whether the decision was about paper substance, review calibration, or acceptance-budget pressure.
 
 The first distinction is denominator choice. Official acceptance rates use submitted or valid papers. ACs often experience a later decision pool after desk rejects and withdrawals. For ICLR, that means an official 27-32% acceptance rate can coexist with a roughly 37-43% accept share among public non-withdrawn decision cases. That does not remove budget pressure, but it makes a literal "only 25% of fully reviewed papers can pass" story too crude.
 
-Relative to a literal 25% cap:
+Relative to a low-acceptance reference line:
 
-- ICLR 2026: official rate 27.4%, +474 accepted papers relative to an exact 25% cap.
-- ICLR 2025: official rate 32.1%, +819 accepted papers relative to an exact 25% cap.
-- ICLR 2024: official rate 31.0%, +444 accepted papers relative to an exact 25% cap.
-- ICML 2025: official rate 26.9%, +233 accepted papers relative to an exact 25% cap.
-- NeurIPS 2025: official rate 24.5%, -104 accepted papers relative to an exact 25% cap.
+- ICLR 2026: official rate 27.4%, +474 accepted papers relative to a 25% reference line.
+- ICLR 2025: official rate 32.1%, +819 accepted papers relative to a 25% reference line.
+- ICLR 2024: official rate 31.0%, +444 accepted papers relative to a 25% reference line.
+- ICML 2025: official rate 26.9%, +233 accepted papers relative to a 25% reference line.
+- NeurIPS 2025: official rate 24.5%, -104 accepted papers relative to a 25% reference line.
 - AISTATS 2026, RLC 2025, and AAAI 2025 are excluded from this arithmetic because comparable public review-score/meta-review data were unavailable.
 
 The strongest empirical version of the concern is the "3 accepts" test:
@@ -181,6 +192,8 @@ The second distinction is capacity arithmetic. Ask a counterfactual question: if
 - ICML 2025: capacity arithmetic can explain at most 0 of those 72 rejections; at least 72 require a substantive paper-level rationale.
 - NeurIPS 2025: capacity arithmetic can explain at most 0 of those 134 rejections; at least 134 require a substantive paper-level rationale.
 
+The gating pressure shows up most clearly in near-threshold accept-to-reject decisions, not in the existence of a single numerical cap. These are papers with reviewer evidence strong enough to sit near a simple score gate but final reject after AC/PC synthesis. If a later version addresses the stated decision-critical concern, an author-controlled revision carry-forward should prioritize it for high-expertise matching and early delta review at the next venue. That gives revised borderline work a chance at cleaner conversion, not a promise of acceptance.
+
 The newer accepted-paper distribution posts add a different pressure point. China Research Collective's ICLR 2026 treemap presents accepted papers as a country/institution map, with China (Mainland) at 43.7%, the USA at 31.9%, Hong Kong at 7.7%, and Singapore at 5.5% in that visualization. Amit LeVi's fractional-author extension makes the same kind of public scoreboard across NeurIPS, ICLR, and ICML 2025; in that chart, China and the United States are the top two countries in all three venues, with the order flipping by conference.
 
 I would not use those charts to infer anything about a specific AC decision. Their value is qualitative: they show how quickly review outcomes become status metrics for labs, countries, and careers. That raises the cost of opaque discretion. If ACs are doing real synthesis work, the community needs to see enough of that synthesis to avoid two oversimplified stories: "the process is mostly noise" and "the leaderboard itself explains merit."
@@ -191,7 +204,7 @@ The empirical question is whether the equal-probability premise holds. The publi
 
 The verified version of the post's point is therefore not "quality does not matter." It is: at massive submission scale, even a noisy-but-informative review process can make repeated marginal submission strategically powerful, especially if LLMs reduce the cost of producing many non-desk-rejected papers. That weakens "number of top-conference accepts" as a proxy for research depth. It also raises the burden on ACs and venues: preserving signal requires review-quality auditing, explicit rationale for high-risk decisions, and enough public reasoning that repeated draws are not mistaken for a clean measure of research depth.
 
-Interpretation: a hard global target creates real pressure at the margin, and ICLR 2025 shows a concrete version of it. But capacity arithmetic alone cannot explain most public 3+ accept-vote rejections in the audited years. That supports a stronger transparency norm: if an AC/PC rejects a paper with 3+ accept-leaning reviews, the public rationale should say what outweighed the scores: novelty, correctness, missing evidence, review calibration, unresolved rebuttal, area calibration, or another explicit reason.
+Interpretation: low acceptance rates create real pressure at the margin, and ICLR 2025 shows a concrete version of it. But capacity arithmetic alone cannot explain most public 3+ accept-vote rejections in the audited years. That supports a stronger transparency norm: if an AC/PC rejects a paper with 3+ accept-leaning reviews, the public rationale should say what outweighed the scores: novelty, correctness, missing evidence, review calibration, unresolved rebuttal, area calibration, or another explicit reason.
 
 ## Guideline-Compliance Readout
 
@@ -241,7 +254,7 @@ That is not evidence about individual AC expertise. It is evidence that low-cont
 
 The practical norm is direct: AC bidding is part of review quality, not scheduling metadata. An AC should bid high only when they have enough domain expertise to identify the live technical issue and enough interest to run the discussion. If a paper is borderline and the assigned AC cannot write a specific decision-critical question before rebuttal, the system should reassign it or add a domain co-AC/SAC before the final decision. Otherwise, a legitimate expert veto and a weakly documented low-engagement reversal can look the same to authors: a score-positive paper turned into a reject with too little explanation to learn from.
 
-There is a second-cycle version of the same problem. A borderline accept-to-reject paper should not have to restart from institutional amnesia at the next conference if the authors have materially addressed the decision-critical concern. Resharing old reviews or scores would create anchoring bias and should not become a portable shadow record. But conference management teams should explore an author-controlled revision carry-forward: a short structured update saying what changed since the previous public version, which prior decision-critical concern it addresses, and what evidence the new AC should inspect first. The next AC should see the update, not the old verdict.
+There is a second-cycle version of the same problem. A borderline accept-to-reject paper should not have to restart from institutional amnesia at the next conference if the authors have materially addressed the decision-critical concern. Resharing old reviews or scores would create anchoring bias and should not become a portable shadow record. But conference management teams should explore an author-controlled revision carry-forward: a short structured update saying what changed since the previous public version, which prior decision-critical concern it addresses, and what evidence the new AC should inspect first. The next AC should see the update, not the old verdict. For papers that previously fell just below a selective gate despite accept-leaning reviews, this record could also prioritize them for high-expertise matching and early delta review in the next conference pool, giving revised work a better chance at cleaner conversion without promising acceptance.
 
 
 ### AC Lessons
@@ -250,7 +263,7 @@ There is a second-cycle version of the same problem. A borderline accept-to-reje
 - Weak public AC stories are not necessarily bad private AC work. They are cases where the venue provides too little public rationale for the community to learn from the decision.
 - The highest-value process intervention is not replacing ACs with weighted scores; it is requiring high-expertise AC matching plus a structured decision delta whenever the AC/PC moves against reviewer majority or unanimity.
 - Reviewer incentives should reward calibrated post-rebuttal updates. If a reviewer does not engage after an author response, the AC should mark whether that review was downweighted and why.
-- For borderline accept-to-reject papers, venues should test author-controlled revision carry-forward records that highlight what changed in the next version without importing old reviews, scores, or decisions as anchoring evidence.
+- For borderline accept-to-reject papers, venues should test author-controlled revision carry-forward records that highlight what changed in the next version without importing old reviews, scores, or decisions as anchoring evidence; the record can prioritize expert matching and early delta review rather than bias the decision.
 - Venue dashboards should report override rates, rationale availability, and guideline-evidence scores by area, without naming ACs publicly. This creates accountability while reducing shaming incentives.
 
 ## NeurIPS 2026 AC Recommendations
@@ -266,7 +279,7 @@ For the upcoming NeurIPS 2026 cycle, I would recommend seven operational norms:
 3. Add a structured final-decision delta. The final meta-review should explicitly say what changed after rebuttal/discussion, what did not change, and why the final decision differs from the reviewer-majority signal when it does.
 4. Escalate high-disagreement papers early. Three accept-leaning reviews plus a reject inclination, or three reject-leaning reviews plus an accept inclination, should automatically get SAC attention before author notification.
 5. Track reviewer update quality. Reviewers who engage after rebuttal, correct mistakes, or revise scores with clear reasoning should receive credit. Reviews that remain stale after a substantive author response should be explicitly downweighted.
-6. Explore an author-controlled revision carry-forward for borderline accept-to-reject papers resubmitted to a later conference. The record should summarize what changed and which prior decision-critical concern was addressed, but should not share old reviews, scores, or decisions with the new AC.
+6. Explore an author-controlled revision carry-forward for borderline accept-to-reject papers resubmitted to a later conference. The record should summarize what changed and which prior decision-critical concern was addressed, prioritize expert matching and early delta review, but not share old reviews, scores, or decisions with the new AC.
 7. Publish post-cycle aggregate diagnostics. NeurIPS does not need to name ACs publicly, but it should publish area-level override rates, public-rationale completeness, reviewer-engagement rates, AC expertise-match diagnostics, and how often initial meta-review concerns were resolved.
 
 Personally, as a first-time AC at NeurIPS 2026, I want to treat this essay as a checklist I am accountable to. For every assigned paper, I will write an initial decision hypothesis before author response, ask reviewers concrete post-rebuttal questions, track which reviews actually updated, and make any final override legible rather than hidden behind the score average. If a paper sits in a high-risk zone, such as 3+ accept-leaning reviews with a reject inclination, reviewer-majority reject with an accept inclination, or a stale decisive review after rebuttal, I will try to surface that explicitly to the SACs. My hope is to convince SACs and PCs that this is not extra bureaucracy; it is how we make hard decisions teachable, auditable, and less opaque for the next cycle.
@@ -367,7 +380,7 @@ The low-feedback borderline subset is the warning sign. When an accept-to-reject
 2. Require a structured decision delta for reviewer-majority overrides, unanimous-reviewer overrides, and 3+ accept-vote rejects.
 3. Track reviewer update quality after rebuttal, not just review submission timing.
 4. Add SAC repair queues for missing or very short rationales before decisions are released.
-5. Pilot author-controlled revision carry-forward records for borderline accept-to-reject papers, without resharing old reviews or scores.
+5. Pilot author-controlled revision carry-forward records for borderline accept-to-reject papers, without resharing old reviews or scores; use the record to prioritize expert matching and early delta review for revised work.
 6. Publish aggregate venue diagnostics on override rates and rationale completeness without naming ACs publicly.
 
 

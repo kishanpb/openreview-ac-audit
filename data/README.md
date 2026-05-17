@@ -11,4 +11,5 @@ These CSVs are derived from public OpenReview records and public source pages. T
 - meta_reason_theme_summary.csv: theme counts across override groups.
 - guideline_public_evidence_summary.csv: public evidence of guideline-like meta-review behavior and nested forum engagement.
 - acceptance_budget_analysis.csv: acceptance-rate and 3+ accept-vote counterfactuals.
+- weighted_score_transfer_playground.csv: cross-year ICLR weighted-score cutoff transfers used as a playful robustness check, not a validation claim.
 - tweet.json: cached public tweet metadata used by the original prompt framing.

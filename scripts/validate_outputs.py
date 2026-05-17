@@ -53,6 +53,10 @@ def check_report_basics(text: str) -> None:
         "Nested forum comments, rebuttals, and follow-ups are counted as public engagement evidence after excluding administrative acknowledgements and withdrawals.",
         "author-controlled revision carry-forward",
         "The next AC should see the update, not the old verdict.",
+        "score-weight transfer playground",
+        "fun transfer sanity check rather than a validation claim",
+        "Official rates in the sources here run roughly 24-32%",
+        "chance at cleaner conversion, not a promise of acceptance",
     ]
     for phrase in required:
         if phrase not in text:
@@ -115,6 +119,36 @@ def check_acceptance_claims(text: str) -> None:
             fail(f"missing capacity decomposition claim for {venue}")
         if f"{load:.0f}% of official accept slots" not in text:
             fail(f"missing slot-load claim for {venue}")
+
+
+def check_score_transfer_playground(text: str) -> None:
+    rows = read_csv(DATA / "weighted_score_transfer_playground.csv")
+    if not rows:
+        fail("missing weighted-score transfer rows")
+    required = {
+        "source_venue",
+        "target_venue",
+        "learned_cutoff",
+        "source_balanced_accuracy",
+        "target_accuracy",
+        "target_accept_recall",
+        "target_reject_recall",
+        "target_borderline_accept_to_reject",
+    }
+    if missing := required.difference(rows[0]):
+        fail(f"weighted-score transfer CSV missing fields: {sorted(missing)}")
+    for source, target in [("ICLR 2024", "ICLR 2025"), ("ICLR 2025", "ICLR 2026")]:
+        row = next((item for item in rows if item["source_venue"] == source and item["target_venue"] == target), None)
+        if not row:
+            fail(f"missing score-transfer row for {source} to {target}")
+        expected = (
+            f"| {source} | {target} | {float(row['learned_cutoff']):.2f} | "
+            f"{float(row['source_balanced_accuracy']):.3f} | {float(row['target_accuracy']):.3f} | "
+            f"{float(row['target_accept_recall']):.3f} | {float(row['target_reject_recall']):.3f} | "
+            f"{int(float(row['target_borderline_accept_to_reject']))} |"
+        )
+        if expected not in text:
+            fail(f"missing score-transfer table row for {source} to {target}")
 
 
 def check_borderline_matching_claim(text: str) -> None:
@@ -231,6 +265,7 @@ def main() -> int:
     check_plot_refs(text)
     check_quant_table(text)
     check_acceptance_claims(text)
+    check_score_transfer_playground(text)
     check_borderline_matching_claim(text)
     check_public_discussion_fields(text)
     check_representative_rationale_consistency(text)
