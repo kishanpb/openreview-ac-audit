@@ -1954,7 +1954,6 @@ def enhance_markdown(plot_paths: list[Path], meta_rows: list[dict[str, Any]], cl
 | Accepted-paper leaderboards raise the stakes. | Public affiliation and country-distribution posts for ICLR/ICML/NeurIPS accepted papers. | That country or institution share explains any paper-level decision. |
 | AC matching should privilege expertise and interest. | Borderline accept-to-reject cases with short or weakly structured public rationale, plus qualitative examples requiring domain judgment. | That text length proves low expertise or that every terse reject was wrong. |
 | Better incentives should score service, not taste. | High-risk decision flags, missing-rationale patterns, and reciprocal-service precedents. | That we can objectively know the "right" decision after the fact. |
-
 """
     if "## Claims and Evidence Map" in text:
         text = re.sub(
@@ -2064,7 +2063,8 @@ The low-feedback borderline subset is the warning sign. When an accept-to-reject
 2. Require a structured decision delta for reviewer-majority overrides, unanimous-reviewer overrides, and 3+ accept-vote rejects.
 3. Track reviewer update quality after rebuttal, not just review submission timing.
 4. Add SAC repair queues for missing or very short rationales before decisions are released.
-5. Publish aggregate venue diagnostics on override rates and rationale completeness without naming ACs publicly.
+5. Pilot author-controlled revision carry-forward records for borderline accept-to-reject papers, without resharing old reviews or scores.
+6. Publish aggregate venue diagnostics on override rates and rationale completeness without naming ACs publicly.
 
 """
     caveats = """## Caveats
@@ -2349,6 +2349,8 @@ That is not evidence about individual AC expertise. It is evidence that low-cont
 
 The practical norm is direct: AC bidding is part of review quality, not scheduling metadata. An AC should bid high only when they have enough domain expertise to identify the live technical issue and enough interest to run the discussion. If a paper is borderline and the assigned AC cannot write a specific decision-critical question before rebuttal, the system should reassign it or add a domain co-AC/SAC before the final decision. Otherwise, a legitimate expert veto and a weakly documented low-engagement reversal can look the same to authors: a score-positive paper turned into a reject with too little explanation to learn from.
 
+There is a second-cycle version of the same problem. A borderline accept-to-reject paper should not have to restart from institutional amnesia at the next conference if the authors have materially addressed the decision-critical concern. Resharing old reviews or scores would create anchoring bias and should not become a portable shadow record. But conference management teams should explore an author-controlled revision carry-forward: a short structured update saying what changed since the previous public version, which prior decision-critical concern it addresses, and what evidence the new AC should inspect first. The next AC should see the update, not the old verdict.
+
 """
     acceptance_rows = acceptance_counterfactual_rows(meta_rows)
     neurips_2025_overrides = [
@@ -2477,6 +2479,7 @@ The data should not be read as a scoreboard of individual ACs. It is better read
 - Weak public AC stories are not necessarily bad private AC work. They are cases where the venue provides too little public rationale for the community to learn from the decision.
 - The highest-value process intervention is not replacing ACs with weighted scores; it is requiring high-expertise AC matching plus a structured decision delta whenever the AC/PC moves against reviewer majority or unanimity.
 - Reviewer incentives should reward calibrated post-rebuttal updates. If a reviewer does not engage after an author response, the AC should mark whether that review was downweighted and why.
+- For borderline accept-to-reject papers, venues should test author-controlled revision carry-forward records that highlight what changed in the next version without importing old reviews, scores, or decisions as anchoring evidence.
 - Venue dashboards should report override rates, rationale availability, and guideline-evidence scores by area, without naming ACs publicly. This creates accountability while reducing shaming incentives.
 
 ## NeurIPS 2026 AC Recommendations
@@ -2485,14 +2488,15 @@ NeurIPS 2026 is already moving toward the right target. The public 2026 handbook
 
 That policy direction matches the stress points in this audit. In the public NeurIPS 2025 sample, there are {neurips_2025_accept_to_reject} majority-accept-to-reject cases and {neurips_2025_reject_to_accept} majority-reject-to-accept cases. Among papers with at least three accept-leaning public reviews, {int(neurips_2025_three_plus['three_plus_accept_vote_rejected']) if neurips_2025_three_plus else 0}/{int(neurips_2025_three_plus['three_plus_accept_vote_papers']) if neurips_2025_three_plus else 0} were rejected; because the public rejected sample is incomplete, that is a lower bound rather than a full-conference estimate. The actionable lesson for 2026 is not to ban overrides; it is to make the override reasoning durable enough that authors, SACs, and future ACs can learn from it.
 
-For the upcoming NeurIPS 2026 cycle, I would recommend six operational norms:
+For the upcoming NeurIPS 2026 cycle, I would recommend seven operational norms:
 
 1. Treat AC bidding as the first quality gate. ACs should bid high only on papers where they have enough expertise and interest to identify decision-critical questions; SACs should add a domain co-AC or reassign when a borderline paper lands with a low-expertise, low-interest match.
 2. Treat the initial meta-review as a contract with the author. It should say which concerns are decision-critical, which concerns are peripheral, and what evidence would actually move the paper.
 3. Add a structured final-decision delta. The final meta-review should explicitly say what changed after rebuttal/discussion, what did not change, and why the final decision differs from the reviewer-majority signal when it does.
 4. Escalate high-disagreement papers early. Three accept-leaning reviews plus a reject inclination, or three reject-leaning reviews plus an accept inclination, should automatically get SAC attention before author notification.
 5. Track reviewer update quality. Reviewers who engage after rebuttal, correct mistakes, or revise scores with clear reasoning should receive credit. Reviews that remain stale after a substantive author response should be explicitly downweighted.
-6. Publish post-cycle aggregate diagnostics. NeurIPS does not need to name ACs publicly, but it should publish area-level override rates, public-rationale completeness, reviewer-engagement rates, AC expertise-match diagnostics, and how often initial meta-review concerns were resolved.
+6. Explore an author-controlled revision carry-forward for borderline accept-to-reject papers resubmitted to a later conference. The record should summarize what changed and which prior decision-critical concern was addressed, but should not share old reviews, scores, or decisions with the new AC.
+7. Publish post-cycle aggregate diagnostics. NeurIPS does not need to name ACs publicly, but it should publish area-level override rates, public-rationale completeness, reviewer-engagement rates, AC expertise-match diagnostics, and how often initial meta-review concerns were resolved.
 
 Personally, as a first-time AC at NeurIPS 2026, I want to treat this essay as a checklist I am accountable to. For every assigned paper, I will write an initial decision hypothesis before author response, ask reviewers concrete post-rebuttal questions, track which reviews actually updated, and make any final override legible rather than hidden behind the score average. If a paper sits in a high-risk zone, such as 3+ accept-leaning reviews with a reject inclination, reviewer-majority reject with an accept inclination, or a stale decisive review after rebuttal, I will try to surface that explicitly to the SACs. My hope is to convince SACs and PCs that this is not extra bureaucracy; it is how we make hard decisions teachable, auditable, and less opaque for the next cycle.
 
@@ -2547,6 +2551,8 @@ Good AC work is often quiet. It looks like noticing that two reviewers used "nov
 
 The failure mode is not only a wrong decision. The failure mode is an unteachable decision. If future ACs, reviewers, and authors cannot tell why a reviewer-majority signal was overridden, the process loses institutional memory. The practical standard should be: every hard AC call should leave behind enough reasoning that the next AC can make a better one.
 
+That institutional memory should travel carefully. If a borderline reject is substantially revised for a later conference, authors should be able to say what changed relative to the prior version and which decision-critical concern the update targets. The next conference should not inherit old reviews or scores, because that can bias independent assessment; it should receive a compact, author-controlled update record that helps the new AC look at the right delta.
+
 ## A Personal Story: Missing Meta-Review as Decision Debt
 
 One personal double-blind RLC 2026 case motivates this section. The decision could plausibly have moved from reject to accept if the AC/SAC had engaged with the positive evidence, reviewer disagreement, and author response. Instead, the final process gave no meaningful meta-review to learn from. A missing meta-review converts a scientific disagreement into an institutional dead end.
@@ -2569,7 +2575,8 @@ A practical mechanism could work like this:
 4. ACs receive a private service-quality score based on rationale completeness, discussion engagement, override explanation, timeliness, and review-quality auditing.
 5. Good service is rewarded with visible credit: public service certificates, future AC preference, reduced emergency-review load, and optional letters to department chairs or advisors.
 6. Incomplete service has consequences: own-paper review access can be delayed until assigned meta-reviews are complete, future AC invitations can be paused, and chronic non-engagement can be escalated to PCs.
-7. The venue publishes only aggregate diagnostics: percentage of decisions with complete meta-reviews, number of repaired meta-reviews before release, override-rationale completeness, and reviewer-engagement rates by area.
+7. Borderline accept-to-reject decisions can optionally produce an author-controlled revision-carry-forward field for a later submission, separate from reviews and scores.
+8. The venue publishes only aggregate diagnostics: percentage of decisions with complete meta-reviews, number of repaired meta-reviews before release, override-rationale completeness, and reviewer-engagement rates by area.
 
 This mechanism borrows the spirit of reciprocal reviewing policies that withhold benefits from authors who do not complete service, but adapts it to AC work. The clean version is a service escrow: if you submit to the venue and accept AC/reviewer duties, you owe the venue timely, auditable service. If that service is incomplete, the system should notice before authors receive an under-explained decision.
 

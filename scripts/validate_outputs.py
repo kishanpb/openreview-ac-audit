@@ -51,6 +51,8 @@ def check_report_basics(text: str) -> None:
         "My own ML papers do not appear in the qualitative analysis.",
         "## Reproducibility Package",
         "Nested forum comments, rebuttals, and follow-ups are counted as public engagement evidence after excluding administrative acknowledgements and withdrawals.",
+        "author-controlled revision carry-forward",
+        "The next AC should see the update, not the old verdict.",
     ]
     for phrase in required:
         if phrase not in text:
