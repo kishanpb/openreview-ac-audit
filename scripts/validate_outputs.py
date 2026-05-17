@@ -14,6 +14,13 @@ IMPORT_REPORT = ROOT / "reports" / "notion_import" / "notion_blog_openreview_ac_
 ZIP_REPORT = ROOT / "reports" / "notion_blog_openreview_ac_overrides.zip"
 DATA = ROOT / "data"
 ANALYZABLE_VENUES = ["ICLR 2026", "ICLR 2025", "ICLR 2024", "ICML 2025", "NeurIPS 2025"]
+DISCUSSION_FIELDS = [
+    "public_discussion_count",
+    "public_discussion_word_count",
+    "public_author_response_count",
+    "public_reviewer_followup_count",
+    "public_ac_pc_comment_count",
+]
 
 
 def read_csv(path: Path) -> list[dict[str, str]]:
@@ -25,6 +32,10 @@ def as_float(value: str) -> float | None:
     if value in {"", "None", "nan"}:
         return None
     return float(value)
+
+
+def as_int(value: str) -> int:
+    return int(float(value or 0))
 
 
 def fail(message: str) -> None:
@@ -39,6 +50,7 @@ def check_report_basics(text: str) -> None:
         "I am not associated with any of the authors corresponding to papers discussed in this blog.",
         "My own ML papers do not appear in the qualitative analysis.",
         "## Reproducibility Package",
+        "Nested forum comments, rebuttals, and follow-ups are counted as public engagement evidence after excluding administrative acknowledgements and withdrawals.",
     ]
     for phrase in required:
         if phrase not in text:
@@ -121,13 +133,49 @@ def check_borderline_matching_claim(text: str) -> None:
     short = [row for row in borderline if int(row["public_rationale_word_count"]) < 120]
     no_rebuttal = [row for row in borderline if row["feature_mentions_rebuttal"] != "True"]
     no_reviews = [row for row in borderline if row["feature_mentions_reviews"] != "True"]
+    discussion = [row for row in borderline if as_int(row["public_discussion_count"]) > 0]
+    reviewer_discussion = [row for row in borderline if as_int(row["public_reviewer_followup_count"]) > 0]
+    author_discussion = [row for row in borderline if as_int(row["public_author_response_count"]) > 0]
+    ac_pc_discussion = [row for row in borderline if as_int(row["public_ac_pc_comment_count"]) > 0]
     claim = (
         f"{len(borderline):,} accept-to-reject cases sit within 0.75 points of the venue accept threshold "
         f"with at least three scored reviews. Of those, {len(short):,} have fewer than 120 public rationale words, "
-        f"{len(no_rebuttal):,} have no public rebuttal/discussion marker, and {len(no_reviews):,} have no public review-synthesis marker."
+        f"{len(no_rebuttal):,} have no rebuttal/discussion marker in the meta-review or decision text, "
+        f"and {len(no_reviews):,} have no public review-synthesis marker."
     )
     if claim not in text:
         fail("borderline AC-matching subset claim mismatch")
+    discussion_claim = (
+        f"Within the same borderline set, {len(discussion):,} cases have at least one public discussion note, "
+        f"{len(reviewer_discussion):,} have reviewer follow-up, {len(author_discussion):,} have author responses, "
+        f"and {len(ac_pc_discussion):,} have AC/PC-authored public discussion comments."
+    )
+    if discussion_claim not in text:
+        fail("borderline public-discussion claim mismatch")
+
+
+def check_public_discussion_fields(text: str) -> None:
+    rows = read_csv(DATA / "meta_decision_text_rows.csv")
+    for field in DISCUSSION_FIELDS:
+        if field not in rows[0]:
+            fail(f"meta decision rows missing {field}")
+    summary_rows = read_csv(DATA / "guideline_public_evidence_summary.csv")
+    for field in [
+        "public_discussion_share",
+        "public_reviewer_followup_share",
+        "public_author_response_share",
+        "public_ac_pc_comment_share",
+        "median_public_discussion_words",
+    ]:
+        if field not in summary_rows[0]:
+            fail(f"guideline summary missing {field}")
+    by_id = {row["paper_id"]: row for row in rows}
+    for paper_id in ["feFlfuOse1", "iJ4i5HE5ER"]:
+        row = by_id.get(paper_id)
+        if not row or as_int(row["public_discussion_count"]) == 0:
+            fail(f"{paper_id} should expose nested public discussion notes")
+    if "after excluding administrative acknowledgements and withdrawals" not in text:
+        fail("report missing nested public forum discussion readout")
 
 
 def check_representative_rationale_consistency(text: str) -> None:
@@ -182,6 +230,7 @@ def main() -> int:
     check_quant_table(text)
     check_acceptance_claims(text)
     check_borderline_matching_claim(text)
+    check_public_discussion_fields(text)
     check_representative_rationale_consistency(text)
     check_optional_package(text)
     print("validated report, CSV claims, plot refs, disclosures, and optional Notion package")

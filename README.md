@@ -6,8 +6,8 @@ The audit asks how far public OpenReview final decisions move away from simple r
 
 ## What Is Included
 
-- scripts/analyze_openreview_ac_overrides.py: fetches public OpenReview submissions, reviews, decisions, and meta-review fields, then writes base CSVs.
-- scripts/enhance_openreview_report_with_plots.py: builds the meta-review/rationale analysis, plot SVGs, and final Markdown report from cached rows.
+- scripts/analyze_openreview_ac_overrides.py: fetches public OpenReview submissions, reviews, decisions, meta-reviews, and non-administrative nested public discussion notes, then writes base CSVs.
+- scripts/enhance_openreview_report_with_plots.py: builds the meta-review/rationale and public-discussion analysis, plot SVGs, and final Markdown report from cached rows.
 - scripts/validate_outputs.py: checks that the published Markdown, CSV summaries, plots, and packaged artifacts are internally consistent.
 - data/: cached derived CSVs from public OpenReview records and public source metadata.
 - reports/notion_blog_openreview_ac_overrides.md: canonical Markdown blog draft.
@@ -36,7 +36,7 @@ Refresh from the current public OpenReview API surface:
     python3 scripts/enhance_openreview_report_with_plots.py --refresh
     python3 scripts/validate_outputs.py
 
-The refresh path depends on what venues currently expose through public OpenReview APIs. The cached CSVs capture the public-data snapshot used by the blog draft.
+The refresh path requests both directReplies and replies from the OpenReview API so nested public forum notes are captured separately from direct review/decision/meta-review records. Administrative acknowledgements and withdrawals are excluded from the discussion counts. The cached CSVs capture the public-data snapshot used by the blog draft.
 
 ## Scope And Caveats
 

@@ -217,6 +217,14 @@ GUIDELINE_FEATURES = [
     ("Causal justification", "Uses explicit reason/issue/concern language"),
 ]
 
+DISCUSSION_FIELDS = [
+    "public_discussion_count",
+    "public_discussion_word_count",
+    "public_author_response_count",
+    "public_reviewer_followup_count",
+    "public_ac_pc_comment_count",
+]
+
 STOPWORDS = {
     "about",
     "above",
@@ -369,14 +377,55 @@ def is_kind(note: dict[str, Any], *kinds: str) -> bool:
 
 def submission_replies(note: dict[str, Any]) -> list[dict[str, Any]]:
     details = note.get("details") or {}
-    replies = details.get("directReplies") or details.get("replies") or []
-    return replies if isinstance(replies, list) else []
+    replies: list[dict[str, Any]] = []
+    seen: set[str] = set()
+    for key in ["directReplies", "replies"]:
+        for reply in details.get(key) or []:
+            if not isinstance(reply, dict):
+                continue
+            reply_id = reply.get("id")
+            if reply_id and reply_id in seen:
+                continue
+            if reply_id:
+                seen.add(reply_id)
+            replies.append(reply)
+    return replies
 
 
 def has_content_field(note: dict[str, Any], *fields: str) -> bool:
     content = note.get("content") or {}
     keys = [normalize_kind(key) for key in content.keys()]
     return any(any(normalize_kind(field) in key for key in keys) for field in fields)
+
+
+def signature_role(note: dict[str, Any]) -> str:
+    signature = normalize_kind(";".join(note.get("signatures") or []))
+    if "programchair" in signature or "areachair" in signature:
+        return "ac_pc"
+    if "reviewer" in signature:
+        return "reviewer"
+    if "author" in signature:
+        return "author"
+    return "other"
+
+
+def is_review_note(note: dict[str, Any]) -> bool:
+    return is_kind(note, "Official_Review")
+
+
+def is_decision_note(note: dict[str, Any]) -> bool:
+    return is_kind(note, "Decision") or has_content_field(note, "decision")
+
+
+def is_meta_note(note: dict[str, Any]) -> bool:
+    return is_kind(note, "Meta_Review", "Meta Review", "Metareview") or has_content_field(note, "metareview")
+
+
+def is_discussion_note(note: dict[str, Any]) -> bool:
+    if is_review_note(note) or is_decision_note(note) or is_meta_note(note):
+        return False
+    kind = normalize_kind(invitation_kind(note))
+    return not any(marker in kind for marker in ["mandatoryacknowledgement", "withdrawal", "withdrawn"])
 
 
 def openreview_get(params: dict[str, Any], tries: int = 7) -> dict[str, Any]:
@@ -404,7 +453,7 @@ def fetch_submissions(config: dict[str, Any], limit: int = 1000) -> list[dict[st
                 "invitation": f"{config['domain']}/-/Submission",
                 "limit": limit,
                 "offset": offset,
-                "details": "directReplies",
+                "details": "directReplies,replies",
             }
         )
         notes = data.get("notes", [])
@@ -441,16 +490,12 @@ def classify_decision(domain: str, content: dict[str, Any]) -> tuple[str, str]:
 
 
 def extract_decision_note(replies: list[dict[str, Any]]) -> dict[str, Any] | None:
-    notes = [reply for reply in replies if is_kind(reply, "Decision") or has_content_field(reply, "decision")]
+    notes = [reply for reply in replies if is_decision_note(reply)]
     return sorted(notes, key=lambda note: note.get("tcdate") or note.get("cdate") or 0)[-1] if notes else None
 
 
 def extract_meta_note(replies: list[dict[str, Any]]) -> dict[str, Any] | None:
-    notes = [
-        reply
-        for reply in replies
-        if is_kind(reply, "Meta_Review", "Meta Review", "Metareview") or has_content_field(reply, "metareview")
-    ]
+    notes = [reply for reply in replies if is_meta_note(reply)]
     return sorted(notes, key=lambda note: note.get("tcdate") or note.get("cdate") or 0)[-1] if notes else None
 
 
@@ -508,7 +553,7 @@ def review_stats(replies: list[dict[str, Any]], threshold: float | None) -> dict
     scores = []
     confidences = []
     for reply in replies:
-        if not is_kind(reply, "Official_Review"):
+        if not is_review_note(reply):
             continue
         score, _, _ = extract_review_score(reply.get("content") or {})
         confidence = extract_review_confidence(reply.get("content") or {})
@@ -539,6 +584,32 @@ def review_stats(replies: list[dict[str, Any]], threshold: float | None) -> dict
 
 def word_count(text: str) -> int:
     return len(re.findall(r"[A-Za-z0-9]+", text))
+
+
+def discussion_stats(replies: list[dict[str, Any]]) -> dict[str, int]:
+    stats = {
+        "public_discussion_count": 0,
+        "public_discussion_word_count": 0,
+        "public_author_response_count": 0,
+        "public_reviewer_followup_count": 0,
+        "public_ac_pc_comment_count": 0,
+    }
+    for reply in replies:
+        if not is_discussion_note(reply):
+            continue
+        text = note_text(reply)
+        if not text:
+            continue
+        stats["public_discussion_count"] += 1
+        stats["public_discussion_word_count"] += word_count(text)
+        role = signature_role(reply)
+        if role == "author":
+            stats["public_author_response_count"] += 1
+        elif role == "reviewer":
+            stats["public_reviewer_followup_count"] += 1
+        elif role == "ac_pc":
+            stats["public_ac_pc_comment_count"] += 1
+    return stats
 
 
 def boolean_features(meta_text: str, decision_text: str) -> dict[str, bool]:
@@ -620,6 +691,7 @@ def reduce_submission(config: dict[str, Any], note: dict[str, Any]) -> dict[str,
     )
     meta = note_text(meta_note)
     decision_text = note_text(decision_note)
+    discussion = discussion_stats(replies)
     has_public_meta = bool(meta)
     has_public_decision = word_count(decision_text) > 4
     features = boolean_features(meta, decision_text)
@@ -652,6 +724,7 @@ def reduce_submission(config: dict[str, Any], note: dict[str, Any]) -> dict[str,
         "guideline_evidence_score": feature_score,
         "meta_text": meta,
         "decision_text": decision_text,
+        **discussion,
         **features,
         **{f"theme_{name}": value for name, value in themes.items()},
     }
@@ -686,6 +759,7 @@ def read_csv(path: Path) -> list[dict[str, Any]]:
             "meta_word_count",
             "decision_word_count",
             "public_rationale_word_count",
+            *DISCUSSION_FIELDS,
         ]:
             if row.get(field) not in {"", None}:
                 row[field] = int(float(row[field]))
@@ -725,6 +799,7 @@ def fetch_or_load_meta_rows(refresh: bool = False) -> list[dict[str, Any]]:
                     "guideline_evidence_score": 0.0,
                     "meta_text": "",
                     "decision_text": "",
+                    **{field: 0 for field in DISCUSSION_FIELDS},
                 }
             )
             continue
@@ -757,6 +832,7 @@ def fetch_or_load_meta_rows(refresh: bool = False) -> list[dict[str, Any]]:
         "guideline_evidence_score",
         "meta_text",
         "decision_text",
+        *DISCUSSION_FIELDS,
     ]
     fields += [feature for feature, _ in GUIDELINE_FEATURES]
     feature_key_map = {
@@ -1740,7 +1816,12 @@ def build_summaries(meta_rows: list[dict[str, Any]], cluster_rows: list[dict[str
                     "n": len(rows),
                     "public_meta_share": sum(1 for row in rows if row["has_public_meta_review"]) / len(rows),
                     "any_rationale_share": sum(1 for row in rows if row["has_public_meta_review"] or row["has_public_decision_comment"]) / len(rows),
+                    "public_discussion_share": sum(1 for row in rows if row["public_discussion_count"] > 0) / len(rows),
+                    "public_reviewer_followup_share": sum(1 for row in rows if row["public_reviewer_followup_count"] > 0) / len(rows),
+                    "public_author_response_share": sum(1 for row in rows if row["public_author_response_count"] > 0) / len(rows),
+                    "public_ac_pc_comment_share": sum(1 for row in rows if row["public_ac_pc_comment_count"] > 0) / len(rows),
                     "median_meta_words": median([row["meta_word_count"] for row in rows]),
+                    "median_public_discussion_words": median([row["public_discussion_word_count"] for row in rows]),
                     "mean_guideline_evidence_score": mean([row["guideline_evidence_score"] for row in rows]),
                     "feature_60_words_share": sum(1 for row in rows if row["feature_60_words"]) / len(rows),
                     "feature_rebuttal_share": sum(1 for row in rows if row["feature_mentions_rebuttal"]) / len(rows),
@@ -1756,7 +1837,12 @@ def build_summaries(meta_rows: list[dict[str, Any]], cluster_rows: list[dict[str
             "n",
             "public_meta_share",
             "any_rationale_share",
+            "public_discussion_share",
+            "public_reviewer_followup_share",
+            "public_author_response_share",
+            "public_ac_pc_comment_share",
             "median_meta_words",
+            "median_public_discussion_words",
             "mean_guideline_evidence_score",
             "feature_60_words_share",
             "feature_rebuttal_share",
@@ -1863,7 +1949,7 @@ def enhance_markdown(plot_paths: list[Path], meta_rows: list[dict[str, Any]], cl
 | --- | --- | --- |
 | Reviewer scores carry real signal. | Point-biserial correlations, AUC, and threshold accuracy across public ICLR/ICML/NeurIPS samples. | That scores are sufficient, calibrated across areas, or more important than review text. |
 | AC/PC discretion materially changes some outcomes. | Majority-signal override counts and strong unanimous-reviewer override counts. | That every override is good or bad; only that the override surface is large enough to audit. |
-| Public rationale quality is the central governance variable. | Meta-review availability, rationale word-count features, rebuttal/review-synthesis markers, and case-level reason tags. | That private AC work was absent when public rationale is thin. |
+| Public rationale quality is the central governance variable. | Meta-review availability, rationale word-count features, rebuttal/review-synthesis markers, nested forum-discussion counts, and case-level reason tags. | That private AC work was absent when public rationale is thin. |
 | The rough 25% acceptance story is incomplete. | Official acceptance-rate comparison, post-withdrawal public decision pools, and 3+ accept-vote capacity counterfactuals. | That any paper with three accept-leaning reviews should automatically be accepted. |
 | Accepted-paper leaderboards raise the stakes. | Public affiliation and country-distribution posts for ICLR/ICML/NeurIPS accepted papers. | That country or institution share explains any paper-level decision. |
 | AC matching should privilege expertise and interest. | Borderline accept-to-reject cases with short or weakly structured public rationale, plus qualitative examples requiring domain judgment. | That text length proves low expertise or that every terse reject was wrong. |
@@ -1985,6 +2071,8 @@ The low-feedback borderline subset is the warning sign. When an accept-to-reject
 
 This is a public-record audit, not a private-process audit. Missing public evidence does not prove missing private AC work, and individual examples should not be read as allegations that a decision was wrong.
 
+Nested forum comments, rebuttals, and follow-ups are counted as public engagement evidence after excluding administrative acknowledgements and withdrawals. They are not scored as final AC/PC rationale unless they appear in the public meta-review or decision comment.
+
 ICML 2025 and NeurIPS 2025 are public-sample analyses, not full rejected-paper pools. AISTATS 2026, RLC 2025, and AAAI 2025 are used only as process/context references because comparable public review-score and meta-review fields were not available.
 
 I am not associated with any of the authors corresponding to papers discussed in this blog. My own ML papers do not appear in the qualitative analysis. The point is to improve process legibility, not to relitigate individual accept/reject outcomes.
@@ -2075,6 +2163,16 @@ def replace_markdown_section(text: str, start: str, end: str, replacement: str) 
 def build_visual_section(plot_paths: list[Path], meta_rows: list[dict[str, Any]], cluster_rows: list[dict[str, Any]]) -> str:
     iclr_overrides = [row for row in meta_rows if row["venue"].startswith("ICLR") and row["override_type"] in {"accept_to_reject", "reject_to_accept"}]
     iclr_with_meta = [row for row in iclr_overrides if row["has_public_meta_review"]]
+    discussion_rows = [
+        row
+        for row in meta_rows
+        if row["venue"] in ANALYZABLE_VENUE_LABELS
+        and row["decision"] in {"accept", "reject"}
+        and row["n_scored_reviews"] >= 2
+    ]
+    discussion_cases = sum(1 for row in discussion_rows if row["public_discussion_count"] > 0)
+    reviewer_followups = sum(1 for row in discussion_rows if row["public_reviewer_followup_count"] > 0)
+    author_responses = sum(1 for row in discussion_rows if row["public_author_response_count"] > 0)
     total_clusters = sum(row["n"] for row in cluster_rows)
     return f"""## Visual Argument
 
@@ -2090,7 +2188,7 @@ The reason this can happen is visible in the score distributions. Accepted and r
 
 ![ICLR score overlap](plots/png/03_score_overlap_iclr.png)
 
-This turns the question into a transparency question. When an AC overrides the reviewer-majority signal, do we get a public rationale strong enough to learn from? The plot separates public meta-reviews from decision-only rationale comments. ICLR exposes public meta-reviews for many override cases; ICML and NeurIPS expose public decision comments in the sampled cases, but not separate public meta-reviews in the same way. AISTATS, RLC, and AAAI do not expose enough public review/meta-review structure for the same audit.
+This turns the question into a transparency question. When an AC overrides the reviewer-majority signal, do we get a public rationale strong enough to learn from? The plot separates public meta-reviews from decision-only rationale comments. ICLR exposes public meta-reviews for many override cases; ICML and NeurIPS expose public decision comments in the sampled cases, but not separate public meta-reviews in the same way. AISTATS, RLC, and AAAI do not expose enough public review/meta-review structure for the same audit. Separately, the parser now captures nested public forum discussion: among {len(discussion_rows):,} analyzable accept/reject papers, {discussion_cases:,} have at least one public non-review/non-decision discussion note after excluding administrative acknowledgements and withdrawals, {reviewer_followups:,} have reviewer follow-up, and {author_responses:,} have author response. Those notes are engagement evidence, not a substitute for final rationale.
 
 ![Public rationale availability](plots/png/04_public_rationale_availability.png)
 
@@ -2208,6 +2306,9 @@ def build_advisor_section(meta_rows: list[dict[str, Any]], cluster_rows: list[di
     ]
     rebuttal_share = sum(1 for row in override if row["feature_mentions_rebuttal"]) / len(override) if override else 0
     review_share = sum(1 for row in override if row["feature_mentions_reviews"]) / len(override) if override else 0
+    discussion_share = sum(1 for row in override if row["public_discussion_count"] > 0) / len(override) if override else 0
+    reviewer_followup_share = sum(1 for row in override if row["public_reviewer_followup_count"] > 0) / len(override) if override else 0
+    author_response_share = sum(1 for row in override if row["public_author_response_count"] > 0) / len(override) if override else 0
     cluster_lines = "\n".join(
         f"- {row['cluster_label']}: {row['n']} cases; top terms `{row['top_terms']}`."
         for row in cluster_rows[:5]
@@ -2225,6 +2326,10 @@ def build_advisor_section(meta_rows: list[dict[str, Any]], cluster_rows: list[di
     short_borderline = [row for row in borderline_accept_to_reject if row["public_rationale_word_count"] < 120]
     no_rebuttal_borderline = [row for row in borderline_accept_to_reject if not row["feature_mentions_rebuttal"]]
     no_review_synthesis_borderline = [row for row in borderline_accept_to_reject if not row["feature_mentions_reviews"]]
+    discussion_borderline = [row for row in borderline_accept_to_reject if row["public_discussion_count"] > 0]
+    reviewer_discussion_borderline = [row for row in borderline_accept_to_reject if row["public_reviewer_followup_count"] > 0]
+    author_discussion_borderline = [row for row in borderline_accept_to_reject if row["public_author_response_count"] > 0]
+    ac_pc_discussion_borderline = [row for row in borderline_accept_to_reject if row["public_ac_pc_comment_count"] > 0]
     short_theme_counts = Counter()
     for row in short_borderline:
         for theme, _ in THEMES:
@@ -2236,7 +2341,9 @@ def build_advisor_section(meta_rows: list[dict[str, Any]], cluster_rows: list[di
     matching_section = f"""
 ### Why AC Matching Should Be Expertise- and Interest-Gated
 
-The case for high-expertise, high-interest AC matching is strongest exactly where paper weights are weakest: borderline majority-accept papers that the AC/PC rejects. In the public sample, {len(borderline_accept_to_reject):,} accept-to-reject cases sit within 0.75 points of the venue accept threshold with at least three scored reviews. Of those, {len(short_borderline):,} have fewer than 120 public rationale words, {len(no_rebuttal_borderline):,} have no public rebuttal/discussion marker, and {len(no_review_synthesis_borderline):,} have no public review-synthesis marker.
+The case for high-expertise, high-interest AC matching is strongest exactly where paper weights are weakest: borderline majority-accept papers that the AC/PC rejects. In the public sample, {len(borderline_accept_to_reject):,} accept-to-reject cases sit within 0.75 points of the venue accept threshold with at least three scored reviews. Of those, {len(short_borderline):,} have fewer than 120 public rationale words, {len(no_rebuttal_borderline):,} have no rebuttal/discussion marker in the meta-review or decision text, and {len(no_review_synthesis_borderline):,} have no public review-synthesis marker.
+
+The nested-discussion pass changes the interpretation without removing the concern. Within the same borderline set, {len(discussion_borderline):,} cases have at least one public discussion note, {len(reviewer_discussion_borderline):,} have reviewer follow-up, {len(author_discussion_borderline):,} have author responses, and {len(ac_pc_discussion_borderline):,} have AC/PC-authored public discussion comments. That means visible engagement sometimes exists outside the final rationale field; the audit question is whether the final public rationale explains how that engagement changed the decision.
 
 That is not evidence about individual AC expertise. It is evidence that low-context public explanations make expertise hard to audit. The short-rationale cases are not generic: their recurring themes are {short_theme_line}. The decisive issues often require field taste and technical fluency: whether a causal-discovery permutation test really needs stronger exchangeability justification, whether a multilingual benchmark measures a new failure mode rather than dataset surface form, whether a privacy defense needs formal guarantees, whether regenerating recommender-system data violates the domain's realism assumptions, or whether an LLM/generalization claim is only recombining existing theory. Those are poor fits for an AC assignment made mainly for load balancing or weak topical overlap.
 
@@ -2343,7 +2450,7 @@ Interpretation: a hard global target creates real pressure at the margin, and IC
 
 The public AC guidelines are directionally consistent across venues: ACs should synthesize reviewer evidence, manage discussion, assess author response/rebuttal, write a meta-review that explains the decision, and explicitly justify decisions that go against reviewer signals. RLC's process is more structural: SACs can reject against senior-reviewer consensus only with PC review, and accepted papers are expected to have SAC/SR agreement.
 
-The data can test only public evidence of those norms, not private compliance. On public ICLR override cases, review-synthesis language appears in {review_share*100:.0f}% of public meta-reviews, while rebuttal/discussion language appears in {rebuttal_share*100:.0f}%. For unanimous-reviewer overrides, {len(strong_robust):,}/{len(strong):,} have a stronger public rationale signal: a 150+ word meta-review that mentions reviews and gives causal concern/issue language.
+The data can test only public evidence of those norms, not private compliance. On public ICLR override cases, review-synthesis language appears in {review_share*100:.0f}% of public meta-reviews, while rebuttal/discussion language appears in {rebuttal_share*100:.0f}%. The broader nested-thread audit finds public discussion notes in {discussion_share*100:.0f}% of ICLR override cases, reviewer follow-up in {reviewer_followup_share*100:.0f}%, and author responses in {author_response_share*100:.0f}%. For unanimous-reviewer overrides, {len(strong_robust):,}/{len(strong):,} have a stronger public rationale signal: a 150+ word meta-review that mentions reviews and gives causal concern/issue language.
 
 {example_text}
 

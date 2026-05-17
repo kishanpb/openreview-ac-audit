@@ -174,14 +174,55 @@ def is_kind(note: dict[str, Any], *kinds: str) -> bool:
 
 def submission_replies(note: dict[str, Any]) -> list[dict[str, Any]]:
     details = note.get("details") or {}
-    replies = details.get("directReplies") or details.get("replies") or []
-    return replies if isinstance(replies, list) else []
+    replies: list[dict[str, Any]] = []
+    seen: set[str] = set()
+    for key in ["directReplies", "replies"]:
+        for reply in details.get(key) or []:
+            if not isinstance(reply, dict):
+                continue
+            reply_id = reply.get("id")
+            if reply_id and reply_id in seen:
+                continue
+            if reply_id:
+                seen.add(reply_id)
+            replies.append(reply)
+    return replies
 
 
 def has_content_field(note: dict[str, Any], *fields: str) -> bool:
     content = note.get("content") or {}
     keys = [normalize_kind(key) for key in content.keys()]
     return any(any(normalize_kind(field) in key for key in keys) for field in fields)
+
+
+def signature_role(note: dict[str, Any]) -> str:
+    signature = normalize_kind(";".join(note.get("signatures") or []))
+    if "programchair" in signature or "areachair" in signature:
+        return "ac_pc"
+    if "reviewer" in signature:
+        return "reviewer"
+    if "author" in signature:
+        return "author"
+    return "other"
+
+
+def is_review_note(note: dict[str, Any]) -> bool:
+    return is_kind(note, "Official_Review")
+
+
+def is_decision_note(note: dict[str, Any]) -> bool:
+    return is_kind(note, "Decision") or has_content_field(note, "decision")
+
+
+def is_meta_note(note: dict[str, Any]) -> bool:
+    return is_kind(note, "Meta_Review", "Meta Review", "Metareview") or has_content_field(note, "metareview")
+
+
+def is_discussion_note(note: dict[str, Any]) -> bool:
+    if is_review_note(note) or is_decision_note(note) or is_meta_note(note):
+        return False
+    kind = normalize_kind(invitation_kind(note))
+    return not any(marker in kind for marker in ["mandatoryacknowledgement", "withdrawal", "withdrawn"])
 
 
 def openreview_get(base_url: str, params: dict[str, Any], tries: int = 6) -> dict[str, Any]:
@@ -229,7 +270,7 @@ def fetch_submissions(config: VenueConfig, limit: int = 1000) -> Iterable[dict[s
             "invitation": invitation,
             "limit": limit,
             "offset": offset,
-            "details": "directReplies",
+            "details": "directReplies,replies",
         }
         data = openreview_get(OPENREVIEW_API2, params)
         notes = data.get("notes", [])
@@ -267,18 +308,14 @@ def classify_decision(domain: str, content: dict[str, Any]) -> tuple[str, str]:
 
 
 def extract_decision_note(replies: list[dict[str, Any]]) -> dict[str, Any] | None:
-    decisions = [reply for reply in replies if is_kind(reply, "Decision") or has_content_field(reply, "decision")]
+    decisions = [reply for reply in replies if is_decision_note(reply)]
     if not decisions:
         return None
     return sorted(decisions, key=lambda note: note.get("tcdate") or note.get("cdate") or 0)[-1]
 
 
 def extract_meta_note(replies: list[dict[str, Any]]) -> dict[str, Any] | None:
-    metas = [
-        reply
-        for reply in replies
-        if is_kind(reply, "Meta_Review", "Meta Review", "Metareview") or has_content_field(reply, "metareview")
-    ]
+    metas = [reply for reply in replies if is_meta_note(reply)]
     if not metas:
         return None
     return sorted(metas, key=lambda note: note.get("tcdate") or note.get("cdate") or 0)[-1]
@@ -340,7 +377,6 @@ def meta_text(meta_note: dict[str, Any] | None) -> str:
 
 
 def meta_review_themes(meta_note: dict[str, Any] | None) -> str:
-    """Return non-verbatim qualitative labels for public meta-review content."""
     text = meta_text(meta_note).lower()
     if not text:
         return "No public meta-review exposed"
@@ -357,6 +393,36 @@ def meta_review_themes(meta_note: dict[str, Any] | None) -> str:
     ]
     themes = [label for label, pattern in theme_patterns if re.search(pattern, text)]
     return "; ".join(themes[:5]) if themes else "Meta-review rationale present, no simple keyword theme"
+
+
+def word_count(text: str) -> int:
+    return len(re.findall(r"[A-Za-z0-9]+", text))
+
+
+def discussion_stats(replies: list[dict[str, Any]]) -> dict[str, int]:
+    stats = {
+        "public_discussion_count": 0,
+        "public_discussion_word_count": 0,
+        "public_author_response_count": 0,
+        "public_reviewer_followup_count": 0,
+        "public_ac_pc_comment_count": 0,
+    }
+    for reply in replies:
+        if not is_discussion_note(reply):
+            continue
+        text = meta_text(reply)
+        if not text:
+            continue
+        stats["public_discussion_count"] += 1
+        stats["public_discussion_word_count"] += word_count(text)
+        role = signature_role(reply)
+        if role == "author":
+            stats["public_author_response_count"] += 1
+        elif role == "reviewer":
+            stats["public_reviewer_followup_count"] += 1
+        elif role == "ac_pc":
+            stats["public_ac_pc_comment_count"] += 1
+    return stats
 
 
 def summarize_decision_content(decision_note: dict[str, Any] | None) -> str:
@@ -382,7 +448,7 @@ def reduce_submission(config: VenueConfig, note: dict[str, Any]) -> dict[str, An
 
     review_rows = []
     for reply in replies:
-        if not is_kind(reply, "Official_Review"):
+        if not is_review_note(reply):
             continue
         review_content = reply.get("content") or {}
         score, score_field, score_text = extract_review_score(review_content)
@@ -420,6 +486,7 @@ def reduce_submission(config: VenueConfig, note: dict[str, Any]) -> dict[str, An
         reviewer_majority = "reject"
 
     meta_note = extract_meta_note(replies)
+    discussion = discussion_stats(replies)
     return {
         "venue": config.label,
         "domain": config.domain,
@@ -446,6 +513,7 @@ def reduce_submission(config: VenueConfig, note: dict[str, Any]) -> dict[str, An
         "meta_review": meta_review_themes(meta_note),
         "has_meta_review": bool(meta_note),
         "meta_signature": ";".join(meta_note.get("signatures") or []) if meta_note else "",
+        **discussion,
     }
 
 
@@ -819,6 +887,11 @@ def main() -> int:
         "has_meta_review",
         "meta_signature",
         "meta_review",
+        "public_discussion_count",
+        "public_discussion_word_count",
+        "public_author_response_count",
+        "public_reviewer_followup_count",
+        "public_ac_pc_comment_count",
     ]
     write_csv(DATA_DIR / "paper_decision_review_rows.csv", rows, paper_fields)
 
