@@ -12,13 +12,13 @@ _Why this got more urgent._ Two newer X posts map accepted papers as global scor
 
 The answer is neither a simple indictment of ACs nor a defense of unexplained judgment. Reviewer scores are strongly predictive where the full public decision surface is visible, especially at ICLR. But the public data also shows a nontrivial set of AC/PC overrides: papers with majority-positive reviews that are rejected, and papers with majority-negative reviews that are accepted. That override set is where the review system does its most human work. It is also where venues owe authors, reviewers, and future ACs the clearest explanations.
 
-## TL;DR
+## Bottom Line
 
-Reviewer scores are real signal, not decorative metadata. In the cleanest public setting, ICLR, a simple confidence-weighted score predicts many decisions well. But that is not the same as saying ACs should be replaced by paper weights: the important cases are the borderline overrides where reviewer-majority signal and final decision diverge.
+Scores predict. They do not explain. In the cleanest public setting, ICLR, confidence-weighted reviewer scores carry a lot of signal; the story starts where scores and final decisions split: majority-accept rejects, majority-reject accepts, and low-confidence decisions that lean on someone else's review.
 
-The core claim is about legibility. When an AC rejects a score-positive paper, accepts a score-negative paper, relies on a holistic review, or makes a low-confidence call outside their expertise, the meta-review should show what evidence mattered, how rebuttal changed the decision, and why reviewer evidence was weighted the way it was. Thin public reasoning may hide good private work, but it leaves authors and future ACs with no teachable decision record.
+That split is where ACs earn trust or lose it. A good meta-review says what outweighed the scores, what changed after rebuttal, which reviews mattered, and what uncertainty remains. If the record does not say that, even a correct decision becomes unteachable.
 
-The practical reform is not mechanical acceptance rules. It is expertise- and interest-gated AC bidding, structured rebuttal and override deltas, SAC repair queues for weak meta-reviews before release, and author-controlled revision carry-forward for revised borderline rejects without importing old reviews or scores.
+The fix is to score service, not taste: expertise-gated AC bidding, mandatory rebuttal and override deltas, SAC repair queues before release, and author-controlled carry-forward for revised borderline rejects without importing old reviews or scores.
 
 _Co-written with Codex._ This essay was developed with Codex as a research, coding, and editorial partner: fetching public OpenReview data, writing analysis scripts, building plots, packaging the Notion import, and tightening the narrative. The research question, interpretation, and final judgment remain human-directed; the quantitative claims are tied to local scripts, CSVs, and public sources rather than model memory.
 
