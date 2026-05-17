@@ -1215,42 +1215,52 @@ def plot_theme_frequency(meta_rows: list[dict[str, Any]]) -> Path:
         for row in meta_rows
         if row["venue"].startswith("ICLR") and row["override_type"] in {"accept_to_reject", "reject_to_accept"} and row["has_public_meta_review"]
     ]
-    directions = ["accept_to_reject", "reject_to_accept"]
+    by_direction = {
+        "accept_to_reject": [row for row in subset if row["override_type"] == "accept_to_reject"],
+        "reject_to_accept": [row for row in subset if row["override_type"] == "reject_to_accept"],
+    }
     rows = []
     for theme, _ in THEMES:
-        values = []
-        for direction in directions:
-            denom = [row for row in subset if row["override_type"] == direction]
-            pct = sum(1 for row in denom if row.get(f"theme_{theme}")) / len(denom) if denom else 0
-            values.append(pct)
-        rows.append((theme, values[0], values[1]))
-    width, height = 1120, 730
+        down = sum(1 for row in by_direction["accept_to_reject"] if row.get(f"theme_{theme}"))
+        up = sum(1 for row in by_direction["reject_to_accept"] if row.get(f"theme_{theme}"))
+        down_pct = down / len(by_direction["accept_to_reject"])
+        up_pct = up / len(by_direction["reject_to_accept"])
+        rows.append((theme, down_pct, up_pct, up_pct - down_pct))
+    rows.sort(key=lambda row: abs(row[3]), reverse=True)
+    width, height = 1160, 700
     parts, left, right, top, bottom = svg_frame(
         width,
         height,
-        "What reasons appear in public ICLR override meta-reviews?",
-        "Regex-coded themes over public ICLR meta-review text. Bars are percentages within each override direction; one meta-review can mention multiple themes.",
+        "Which ICLR rationale themes tilt by override direction?",
+        f"ICLR-only public rationale text; regex-coded themes are multi-label mentions, not causal labels. Percentages are within direction: A->R n={len(by_direction['accept_to_reject']):,}; R->A n={len(by_direction['reject_to_accept']):,}.",
     )
-    x0, x1 = left + 105, right - 165
+    x0, x1 = left + 105, right - 220
+    center = (x0 + x1) / 2
+    max_delta = 0.25
+    def sx(delta: float) -> float:
+        return center + (x1 - x0) * delta / (2 * max_delta)
     y_step = (bottom - top) / len(rows)
-    for tick in [0, 0.25, 0.5, 0.75, 1.0]:
-        x = x0 + (x1 - x0) * tick
+    for tick in [-0.25, -0.10, 0.0, 0.10, 0.25]:
+        x = sx(tick)
         parts.append(f'<line x1="{x:.1f}" x2="{x:.1f}" y1="{top}" y2="{bottom}" stroke="#e5e7eb"/>')
-        parts.append(svg_text(x, bottom + 22, f"{int(tick*100)}%", size=13, color="#6b7280", anchor="middle"))
-    for i, (theme, down, up) in enumerate(rows):
+        label = "0" if tick == 0 else f"{tick*100:+.0f} pp"
+        parts.append(svg_text(x, bottom + 22, label, size=12, color="#6b7280", anchor="middle"))
+    parts.append(svg_text(x0, top - 8, "more A->R", size=12, color="#b94a48", anchor="middle", weight="700"))
+    parts.append(svg_text(x1, top - 8, "more R->A", size=12, color="#3478a6", anchor="middle", weight="700"))
+    for i, (theme, down, up, delta) in enumerate(rows):
         y = top + i * y_step + 8
-        parts.append(svg_text(28, y + 25, theme, size=17, weight="600"))
-        for j, (value, color) in enumerate([(down, "#b94a48"), (up, "#3478a6")]):
-            yy = y + j * 22
-            w = (x1 - x0) * value
-            parts.append(f'<rect x="{x0}" y="{yy}" width="{w:.1f}" height="16" rx="2" fill="{color}"/>')
-            parts.append(svg_text(x0 + w + 8, yy + 14, f"{value*100:.0f}%", size=13, color="#374151"))
-    legend_x = right - 130
-    for j, (label, color) in enumerate([("accept->reject", "#b94a48"), ("reject->accept", "#3478a6")]):
-        yy = top + 10 + j * 24
-        parts.append(f'<rect x="{legend_x}" y="{yy}" width="14" height="14" fill="{color}"/>')
-        parts.append(svg_text(legend_x + 21, yy + 12, label, size=13))
-    parts.append(svg_text(28, height - 16, "Theme coding is reproducible and intentionally coarse; it detects public evidence, not private AC intent.", size=12, color="#6b7280"))
+        display_delta = 0.0 if abs(delta) < 0.0005 else delta
+        bar_x = sx(display_delta)
+        color = "#6b7280" if display_delta == 0 else "#3478a6" if display_delta > 0 else "#b94a48"
+        parts.append(svg_text(28, y + 18, theme, size=15, weight="600"))
+        parts.append(f'<line x1="{center:.1f}" x2="{bar_x:.1f}" y1="{y+14}" y2="{y+14}" stroke="{color}" stroke-width="10" stroke-linecap="round"/>')
+        parts.append(f'<circle cx="{bar_x:.1f}" cy="{y+14}" r="6" fill="{color}"/>')
+        delta_label_x = bar_x + (10 if display_delta >= 0 else -10)
+        delta_anchor = "start" if display_delta >= 0 else "end"
+        delta_label = "0.0 pp" if display_delta == 0 else f"{display_delta*100:+.1f} pp"
+        parts.append(svg_text(delta_label_x, y + 18, delta_label, size=12, color=color, anchor=delta_anchor, weight="700"))
+        parts.append(svg_text(x1 + 28, y + 18, f"A->R {down*100:.0f}% | R->A {up*100:.0f}%", size=12, color="#374151"))
+    parts.append(svg_text(28, height - 16, "Broad themes recur in both directions; the plot shows direction gaps in public mentions, not whether a theme caused the final call.", size=12, color="#6b7280"))
     save_svg(path, parts)
     return path
 
@@ -2345,7 +2355,7 @@ This turns the question into a transparency question. When an AC overrides the r
 
 ![Public rationale completeness](plots/png/04_public_rationale_availability.png)
 
-For ICLR, the public rationales can be coded into broad reasons. The dominant pattern is not mysterious: novelty and related work, evidence and baselines, calibration of reviewer scores, and unresolved rebuttal concerns show up repeatedly. This is important because it suggests AC discretion is often doing a real synthesis job, not merely enforcing a hidden quota.
+For ICLR, the public rationales can be coded into broad topic mentions. The assumption matters: these are regex-coded, multi-label flags over public rationale text, not sentiment labels, causal proof, or a claim that the same theme means the same thing in both directions. A novelty phrase in an accept-to-reject case can mean "the contribution was not novel enough"; a novelty phrase in a reject-to-accept case can mean "the AC found enough novelty despite reviewer concern." The improved plot therefore shows directional lift rather than two nearly identical frequency bars. The main result is that broad issue classes recur in both directions, while calibration/review-quality, evidence/baselines, and implementation/reproducibility tilt more toward reject-to-accept overrides.
 
 ![ICLR override reason themes](plots/png/05_iclr_override_reason_themes.png)
 

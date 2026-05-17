@@ -111,7 +111,7 @@ This turns the question into a transparency question. When an AC overrides the r
 
 ![Public rationale completeness](plots/png/04_public_rationale_availability.png)
 
-For ICLR, the public rationales can be coded into broad reasons. The dominant pattern is not mysterious: novelty and related work, evidence and baselines, calibration of reviewer scores, and unresolved rebuttal concerns show up repeatedly. This is important because it suggests AC discretion is often doing a real synthesis job, not merely enforcing a hidden quota.
+For ICLR, the public rationales can be coded into broad topic mentions. The assumption matters: these are regex-coded, multi-label flags over public rationale text, not sentiment labels, causal proof, or a claim that the same theme means the same thing in both directions. A novelty phrase in an accept-to-reject case can mean "the contribution was not novel enough"; a novelty phrase in a reject-to-accept case can mean "the AC found enough novelty despite reviewer concern." The improved plot therefore shows directional lift rather than two nearly identical frequency bars. The main result is that broad issue classes recur in both directions, while calibration/review-quality, evidence/baselines, and implementation/reproducibility tilt more toward reject-to-accept overrides.
 
 ![ICLR override reason themes](plots/png/05_iclr_override_reason_themes.png)
 

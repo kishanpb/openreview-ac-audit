@@ -69,6 +69,8 @@ def check_report_basics(text: str) -> None:
         "does not show any rebuttal delta",
         "Confidence: 2: The area chair is not sure.",
         "SAC/domain co-AC repair before release",
+        "regex-coded, multi-label flags over public rationale text",
+        "directional lift rather than two nearly identical frequency bars",
     ]
     for phrase in required:
         if phrase not in text:

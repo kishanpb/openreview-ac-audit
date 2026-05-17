@@ -1,66 +1,64 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="1120" height="730" viewBox="0 0 1120 730">
+<svg xmlns="http://www.w3.org/2000/svg" width="1160" height="700" viewBox="0 0 1160 700">
 <rect width="100%" height="100%" fill="#fbfbf8"/>
-<text x="28.0" y="36.0" font-family="Inter, Arial, sans-serif" font-size="24" font-weight="700" fill="#111827" text-anchor="start">What reasons appear in public ICLR override meta-reviews?</text>
-<text x="28.0" y="64.0" font-family="Inter, Arial, sans-serif" font-size="14" font-weight="400" fill="#4b5563" text-anchor="start">Regex-coded themes over public ICLR meta-review text. Bars are percentages within each override</text>
-<text x="28.0" y="82.0" font-family="Inter, Arial, sans-serif" font-size="14" font-weight="400" fill="#4b5563" text-anchor="start">direction; one meta-review can mention multiple themes.</text>
-<line x1="290.0" x2="290.0" y1="120" y2="666" stroke="#e5e7eb"/>
-<text x="290.0" y="688.0" font-family="Inter, Arial, sans-serif" font-size="13" font-weight="400" fill="#6b7280" text-anchor="middle">0%</text>
-<line x1="448.2" x2="448.2" y1="120" y2="666" stroke="#e5e7eb"/>
-<text x="448.2" y="688.0" font-family="Inter, Arial, sans-serif" font-size="13" font-weight="400" fill="#6b7280" text-anchor="middle">25%</text>
-<line x1="606.5" x2="606.5" y1="120" y2="666" stroke="#e5e7eb"/>
-<text x="606.5" y="688.0" font-family="Inter, Arial, sans-serif" font-size="13" font-weight="400" fill="#6b7280" text-anchor="middle">50%</text>
-<line x1="764.8" x2="764.8" y1="120" y2="666" stroke="#e5e7eb"/>
-<text x="764.8" y="688.0" font-family="Inter, Arial, sans-serif" font-size="13" font-weight="400" fill="#6b7280" text-anchor="middle">75%</text>
-<line x1="923.0" x2="923.0" y1="120" y2="666" stroke="#e5e7eb"/>
-<text x="923.0" y="688.0" font-family="Inter, Arial, sans-serif" font-size="13" font-weight="400" fill="#6b7280" text-anchor="middle">100%</text>
-<text x="28.0" y="153.0" font-family="Inter, Arial, sans-serif" font-size="17" font-weight="600" fill="#17202a" text-anchor="start">Novelty / related work</text>
-<rect x="290" y="128.0" width="456.4" height="16" rx="2" fill="#b94a48"/>
-<text x="754.4" y="142.0" font-family="Inter, Arial, sans-serif" font-size="13" font-weight="400" fill="#374151" text-anchor="start">72%</text>
-<rect x="290" y="150.0" width="465.9" height="16" rx="2" fill="#3478a6"/>
-<text x="763.9" y="164.0" font-family="Inter, Arial, sans-serif" font-size="13" font-weight="400" fill="#374151" text-anchor="start">74%</text>
-<text x="28.0" y="213.7" font-family="Inter, Arial, sans-serif" font-size="17" font-weight="600" fill="#17202a" text-anchor="start">Evidence / baselines</text>
-<rect x="290" y="188.66666666666666" width="461.2" height="16" rx="2" fill="#b94a48"/>
-<text x="759.2" y="202.7" font-family="Inter, Arial, sans-serif" font-size="13" font-weight="400" fill="#374151" text-anchor="start">73%</text>
-<rect x="290" y="210.66666666666666" width="513.6" height="16" rx="2" fill="#3478a6"/>
-<text x="811.6" y="224.7" font-family="Inter, Arial, sans-serif" font-size="13" font-weight="400" fill="#374151" text-anchor="start">81%</text>
-<text x="28.0" y="274.3" font-family="Inter, Arial, sans-serif" font-size="17" font-weight="600" fill="#17202a" text-anchor="start">Correctness / theory</text>
-<rect x="290" y="249.33333333333331" width="219.9" height="16" rx="2" fill="#b94a48"/>
-<text x="517.9" y="263.3" font-family="Inter, Arial, sans-serif" font-size="13" font-weight="400" fill="#374151" text-anchor="start">35%</text>
-<rect x="290" y="271.3333333333333" width="229.4" height="16" rx="2" fill="#3478a6"/>
-<text x="527.4" y="285.3" font-family="Inter, Arial, sans-serif" font-size="13" font-weight="400" fill="#374151" text-anchor="start">36%</text>
-<text x="28.0" y="335.0" font-family="Inter, Arial, sans-serif" font-size="17" font-weight="600" fill="#17202a" text-anchor="start">Unresolved rebuttal</text>
-<rect x="290" y="310.0" width="208.0" height="16" rx="2" fill="#b94a48"/>
-<text x="506.0" y="324.0" font-family="Inter, Arial, sans-serif" font-size="13" font-weight="400" fill="#374151" text-anchor="start">33%</text>
-<rect x="290" y="332.0" width="215.5" height="16" rx="2" fill="#3478a6"/>
-<text x="513.5" y="346.0" font-family="Inter, Arial, sans-serif" font-size="13" font-weight="400" fill="#374151" text-anchor="start">34%</text>
-<text x="28.0" y="395.7" font-family="Inter, Arial, sans-serif" font-size="17" font-weight="600" fill="#17202a" text-anchor="start">Scope / significance</text>
-<rect x="290" y="370.66666666666663" width="280.1" height="16" rx="2" fill="#b94a48"/>
-<text x="578.1" y="384.7" font-family="Inter, Arial, sans-serif" font-size="13" font-weight="400" fill="#374151" text-anchor="start">44%</text>
-<rect x="290" y="392.66666666666663" width="280.1" height="16" rx="2" fill="#3478a6"/>
-<text x="578.1" y="406.7" font-family="Inter, Arial, sans-serif" font-size="13" font-weight="400" fill="#374151" text-anchor="start">44%</text>
-<text x="28.0" y="456.3" font-family="Inter, Arial, sans-serif" font-size="17" font-weight="600" fill="#17202a" text-anchor="start">Presentation / clarity</text>
-<rect x="290" y="431.3333333333333" width="288.2" height="16" rx="2" fill="#b94a48"/>
-<text x="586.2" y="445.3" font-family="Inter, Arial, sans-serif" font-size="13" font-weight="400" fill="#374151" text-anchor="start">46%</text>
-<rect x="290" y="453.3333333333333" width="274.9" height="16" rx="2" fill="#3478a6"/>
-<text x="572.9" y="467.3" font-family="Inter, Arial, sans-serif" font-size="13" font-weight="400" fill="#374151" text-anchor="start">43%</text>
-<text x="28.0" y="517.0" font-family="Inter, Arial, sans-serif" font-size="17" font-weight="600" fill="#17202a" text-anchor="start">Calibration / review quality</text>
-<rect x="290" y="492.0" width="387.5" height="16" rx="2" fill="#b94a48"/>
-<text x="685.5" y="506.0" font-family="Inter, Arial, sans-serif" font-size="13" font-weight="400" fill="#374151" text-anchor="start">61%</text>
-<rect x="290" y="514.0" width="520.6" height="16" rx="2" fill="#3478a6"/>
-<text x="818.6" y="528.0" font-family="Inter, Arial, sans-serif" font-size="13" font-weight="400" fill="#374151" text-anchor="start">82%</text>
-<text x="28.0" y="577.7" font-family="Inter, Arial, sans-serif" font-size="17" font-weight="600" fill="#17202a" text-anchor="start">Implementation / reproducibility</text>
-<rect x="290" y="552.6666666666666" width="233.2" height="16" rx="2" fill="#b94a48"/>
-<text x="531.2" y="566.7" font-family="Inter, Arial, sans-serif" font-size="13" font-weight="400" fill="#374151" text-anchor="start">37%</text>
-<rect x="290" y="574.6666666666666" width="290.0" height="16" rx="2" fill="#3478a6"/>
-<text x="588.0" y="588.7" font-family="Inter, Arial, sans-serif" font-size="13" font-weight="400" fill="#374151" text-anchor="start">46%</text>
-<text x="28.0" y="638.3" font-family="Inter, Arial, sans-serif" font-size="17" font-weight="600" fill="#17202a" text-anchor="start">Ethics / safety</text>
-<rect x="290" y="613.3333333333333" width="55.0" height="16" rx="2" fill="#b94a48"/>
-<text x="353.0" y="627.3" font-family="Inter, Arial, sans-serif" font-size="13" font-weight="400" fill="#374151" text-anchor="start">9%</text>
-<rect x="290" y="635.3333333333333" width="89.1" height="16" rx="2" fill="#3478a6"/>
-<text x="387.1" y="649.3" font-family="Inter, Arial, sans-serif" font-size="13" font-weight="400" fill="#374151" text-anchor="start">14%</text>
-<rect x="958" y="130" width="14" height="14" fill="#b94a48"/>
-<text x="979.0" y="142.0" font-family="Inter, Arial, sans-serif" font-size="13" font-weight="400" fill="#17202a" text-anchor="start">accept-&gt;reject</text>
-<rect x="958" y="154" width="14" height="14" fill="#3478a6"/>
-<text x="979.0" y="166.0" font-family="Inter, Arial, sans-serif" font-size="13" font-weight="400" fill="#17202a" text-anchor="start">reject-&gt;accept</text>
-<text x="28.0" y="714.0" font-family="Inter, Arial, sans-serif" font-size="12" font-weight="400" fill="#6b7280" text-anchor="start">Theme coding is reproducible and intentionally coarse; it detects public evidence, not private AC intent.</text>
+<text x="28.0" y="36.0" font-family="Inter, Arial, sans-serif" font-size="24" font-weight="700" fill="#111827" text-anchor="start">Which ICLR rationale themes tilt by override direction?</text>
+<text x="28.0" y="64.0" font-family="Inter, Arial, sans-serif" font-size="14" font-weight="400" fill="#4b5563" text-anchor="start">ICLR-only public rationale text; regex-coded themes are multi-label mentions, not causal labels.</text>
+<text x="28.0" y="82.0" font-family="Inter, Arial, sans-serif" font-size="14" font-weight="400" fill="#4b5563" text-anchor="start">Percentages are within direction: A-&gt;R n=1,957; R-&gt;A n=1,087.</text>
+<line x1="290.0" x2="290.0" y1="120" y2="636" stroke="#e5e7eb"/>
+<text x="290.0" y="658.0" font-family="Inter, Arial, sans-serif" font-size="12" font-weight="400" fill="#6b7280" text-anchor="middle">-25 pp</text>
+<line x1="475.4" x2="475.4" y1="120" y2="636" stroke="#e5e7eb"/>
+<text x="475.4" y="658.0" font-family="Inter, Arial, sans-serif" font-size="12" font-weight="400" fill="#6b7280" text-anchor="middle">-10 pp</text>
+<line x1="599.0" x2="599.0" y1="120" y2="636" stroke="#e5e7eb"/>
+<text x="599.0" y="658.0" font-family="Inter, Arial, sans-serif" font-size="12" font-weight="400" fill="#6b7280" text-anchor="middle">0</text>
+<line x1="722.6" x2="722.6" y1="120" y2="636" stroke="#e5e7eb"/>
+<text x="722.6" y="658.0" font-family="Inter, Arial, sans-serif" font-size="12" font-weight="400" fill="#6b7280" text-anchor="middle">+10 pp</text>
+<line x1="908.0" x2="908.0" y1="120" y2="636" stroke="#e5e7eb"/>
+<text x="908.0" y="658.0" font-family="Inter, Arial, sans-serif" font-size="12" font-weight="400" fill="#6b7280" text-anchor="middle">+25 pp</text>
+<text x="290.0" y="112.0" font-family="Inter, Arial, sans-serif" font-size="12" font-weight="700" fill="#b94a48" text-anchor="middle">more A-&gt;R</text>
+<text x="908.0" y="112.0" font-family="Inter, Arial, sans-serif" font-size="12" font-weight="700" fill="#3478a6" text-anchor="middle">more R-&gt;A</text>
+<text x="28.0" y="146.0" font-family="Inter, Arial, sans-serif" font-size="15" font-weight="600" fill="#17202a" text-anchor="start">Calibration / review quality</text>
+<line x1="599.0" x2="858.9" y1="142.0" y2="142.0" stroke="#3478a6" stroke-width="10" stroke-linecap="round"/>
+<circle cx="858.9" cy="142.0" r="6" fill="#3478a6"/>
+<text x="868.9" y="146.0" font-family="Inter, Arial, sans-serif" font-size="12" font-weight="700" fill="#3478a6" text-anchor="start">+21.0 pp</text>
+<text x="936.0" y="146.0" font-family="Inter, Arial, sans-serif" font-size="12" font-weight="400" fill="#374151" text-anchor="start">A-&gt;R 61% | R-&gt;A 82%</text>
+<text x="28.0" y="203.3" font-family="Inter, Arial, sans-serif" font-size="15" font-weight="600" fill="#17202a" text-anchor="start">Implementation / reproducibility</text>
+<line x1="599.0" x2="709.9" y1="199.33333333333334" y2="199.33333333333334" stroke="#3478a6" stroke-width="10" stroke-linecap="round"/>
+<circle cx="709.9" cy="199.33333333333334" r="6" fill="#3478a6"/>
+<text x="719.9" y="203.3" font-family="Inter, Arial, sans-serif" font-size="12" font-weight="700" fill="#3478a6" text-anchor="start">+9.0 pp</text>
+<text x="936.0" y="203.3" font-family="Inter, Arial, sans-serif" font-size="12" font-weight="400" fill="#374151" text-anchor="start">A-&gt;R 37% | R-&gt;A 46%</text>
+<text x="28.0" y="260.7" font-family="Inter, Arial, sans-serif" font-size="15" font-weight="600" fill="#17202a" text-anchor="start">Evidence / baselines</text>
+<line x1="599.0" x2="701.3" y1="256.6666666666667" y2="256.6666666666667" stroke="#3478a6" stroke-width="10" stroke-linecap="round"/>
+<circle cx="701.3" cy="256.6666666666667" r="6" fill="#3478a6"/>
+<text x="711.3" y="260.7" font-family="Inter, Arial, sans-serif" font-size="12" font-weight="700" fill="#3478a6" text-anchor="start">+8.3 pp</text>
+<text x="936.0" y="260.7" font-family="Inter, Arial, sans-serif" font-size="12" font-weight="400" fill="#374151" text-anchor="start">A-&gt;R 73% | R-&gt;A 81%</text>
+<text x="28.0" y="318.0" font-family="Inter, Arial, sans-serif" font-size="15" font-weight="600" fill="#17202a" text-anchor="start">Ethics / safety</text>
+<line x1="599.0" x2="665.6" y1="314.0" y2="314.0" stroke="#3478a6" stroke-width="10" stroke-linecap="round"/>
+<circle cx="665.6" cy="314.0" r="6" fill="#3478a6"/>
+<text x="675.6" y="318.0" font-family="Inter, Arial, sans-serif" font-size="12" font-weight="700" fill="#3478a6" text-anchor="start">+5.4 pp</text>
+<text x="936.0" y="318.0" font-family="Inter, Arial, sans-serif" font-size="12" font-weight="400" fill="#374151" text-anchor="start">A-&gt;R 9% | R-&gt;A 14%</text>
+<text x="28.0" y="375.3" font-family="Inter, Arial, sans-serif" font-size="15" font-weight="600" fill="#17202a" text-anchor="start">Presentation / clarity</text>
+<line x1="599.0" x2="573.0" y1="371.33333333333337" y2="371.33333333333337" stroke="#b94a48" stroke-width="10" stroke-linecap="round"/>
+<circle cx="573.0" cy="371.33333333333337" r="6" fill="#b94a48"/>
+<text x="563.0" y="375.3" font-family="Inter, Arial, sans-serif" font-size="12" font-weight="700" fill="#b94a48" text-anchor="end">-2.1 pp</text>
+<text x="936.0" y="375.3" font-family="Inter, Arial, sans-serif" font-size="12" font-weight="400" fill="#374151" text-anchor="start">A-&gt;R 46% | R-&gt;A 43%</text>
+<text x="28.0" y="432.7" font-family="Inter, Arial, sans-serif" font-size="15" font-weight="600" fill="#17202a" text-anchor="start">Correctness / theory</text>
+<line x1="599.0" x2="617.5" y1="428.6666666666667" y2="428.6666666666667" stroke="#3478a6" stroke-width="10" stroke-linecap="round"/>
+<circle cx="617.5" cy="428.6666666666667" r="6" fill="#3478a6"/>
+<text x="627.5" y="432.7" font-family="Inter, Arial, sans-serif" font-size="12" font-weight="700" fill="#3478a6" text-anchor="start">+1.5 pp</text>
+<text x="936.0" y="432.7" font-family="Inter, Arial, sans-serif" font-size="12" font-weight="400" fill="#374151" text-anchor="start">A-&gt;R 35% | R-&gt;A 36%</text>
+<text x="28.0" y="490.0" font-family="Inter, Arial, sans-serif" font-size="15" font-weight="600" fill="#17202a" text-anchor="start">Novelty / related work</text>
+<line x1="599.0" x2="617.5" y1="486.0" y2="486.0" stroke="#3478a6" stroke-width="10" stroke-linecap="round"/>
+<circle cx="617.5" cy="486.0" r="6" fill="#3478a6"/>
+<text x="627.5" y="490.0" font-family="Inter, Arial, sans-serif" font-size="12" font-weight="700" fill="#3478a6" text-anchor="start">+1.5 pp</text>
+<text x="936.0" y="490.0" font-family="Inter, Arial, sans-serif" font-size="12" font-weight="400" fill="#374151" text-anchor="start">A-&gt;R 72% | R-&gt;A 74%</text>
+<text x="28.0" y="547.3" font-family="Inter, Arial, sans-serif" font-size="15" font-weight="600" fill="#17202a" text-anchor="start">Unresolved rebuttal</text>
+<line x1="599.0" x2="613.6" y1="543.3333333333334" y2="543.3333333333334" stroke="#3478a6" stroke-width="10" stroke-linecap="round"/>
+<circle cx="613.6" cy="543.3333333333334" r="6" fill="#3478a6"/>
+<text x="623.6" y="547.3" font-family="Inter, Arial, sans-serif" font-size="12" font-weight="700" fill="#3478a6" text-anchor="start">+1.2 pp</text>
+<text x="936.0" y="547.3" font-family="Inter, Arial, sans-serif" font-size="12" font-weight="400" fill="#374151" text-anchor="start">A-&gt;R 33% | R-&gt;A 34%</text>
+<text x="28.0" y="604.7" font-family="Inter, Arial, sans-serif" font-size="15" font-weight="600" fill="#17202a" text-anchor="start">Scope / significance</text>
+<line x1="599.0" x2="599.0" y1="600.6666666666667" y2="600.6666666666667" stroke="#6b7280" stroke-width="10" stroke-linecap="round"/>
+<circle cx="599.0" cy="600.6666666666667" r="6" fill="#6b7280"/>
+<text x="609.0" y="604.7" font-family="Inter, Arial, sans-serif" font-size="12" font-weight="700" fill="#6b7280" text-anchor="start">0.0 pp</text>
+<text x="936.0" y="604.7" font-family="Inter, Arial, sans-serif" font-size="12" font-weight="400" fill="#374151" text-anchor="start">A-&gt;R 44% | R-&gt;A 44%</text>
+<text x="28.0" y="684.0" font-family="Inter, Arial, sans-serif" font-size="12" font-weight="400" fill="#6b7280" text-anchor="start">Broad themes recur in both directions; the plot shows direction gaps in public mentions, not whether a theme caused the final call.</text>
 </svg>
