@@ -2,7 +2,7 @@
 
 ## Current Canonical Pass
 
-The current report keeps the polished canonical Markdown, cached public-data CSVs, and the 12 plot assets referenced by the blog. Earlier Notion import packages and partial browser-import attempts are treated as generated packaging artifacts rather than source-of-truth reports.
+The current public reading surface is the published Notion page linked from the repository README. The repository keeps cached public-data CSVs, analysis scripts, and the 12 SVG plot assets; full Markdown reports, PNG exports, and Notion import packages are generated local artifacts rather than source-of-truth reports.
 
 Key current constraints:
 

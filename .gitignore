@@ -3,5 +3,6 @@ __pycache__/
 *.py[cod]
 .venv/
 reports/notion_import/
+reports/notion_blog_openreview_ac_overrides.md
 reports/*.zip
-
+reports/plots/png/

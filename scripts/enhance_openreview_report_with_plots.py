@@ -2365,7 +2365,7 @@ def build_visual_section(plot_paths: list[Path], meta_rows: list[dict[str, Any]]
 
 The first thing to notice is that reviewer scores are not decorative. A simple confidence-weighted score ranks accepted papers above rejected papers surprisingly well, especially in ICLR 2024 and 2025. That is the part of the "paper weights" intuition that is basically right: if all we know is the public score vector, we already know a lot about the final outcome.
 
-![Predictiveness metrics](plots/png/01_predictiveness_metrics.png)
+![Predictiveness metrics](plots/01_predictiveness_metrics.svg)
 
 Here is a small score-weight transfer playground, included as a fun transfer sanity check rather than a validation claim. Learn the best confidence-weighted score cutoff on one ICLR year, apply that same cutoff to another ICLR year, and ask whether the rule travels well enough to make the AC override zone visible. The interesting column is the last one: near the learned gate, target-year accept-to-reject cases are exactly where borderline papers can suffer under selective acceptance pressure.
 
@@ -2373,49 +2373,49 @@ Here is a small score-weight transfer playground, included as a fun transfer san
 
 But prediction is not the same as governance. The interesting cases are the ones where the final decision moves against the reviewer-majority signal. Those are not rare enough to dismiss as clerical noise. In ICLR 2024 and 2025 especially, hundreds of papers sit in the region where the AC/PC decision visibly changes the outcome relative to a simple majority rule.
 
-![Override counts](plots/png/02_override_counts.png)
+![Override counts](plots/02_override_counts.svg)
 
 The reason this can happen is visible in the score distributions. Accepted and rejected ICLR papers separate in the aggregate, but they overlap around the threshold. That overlap is the real decision surface. On one side are papers with apparently positive scores but unresolved novelty, correctness, or evaluation problems. On the other are papers with mixed scores where the AC appears to have decided that the written concerns were either answerable or outweighed by the contribution.
 
-![ICLR score overlap](plots/png/03_score_overlap_iclr.png)
+![ICLR score overlap](plots/03_score_overlap_iclr.svg)
 
 This turns the question into a transparency question. When an AC overrides the reviewer-majority signal, do we get a public rationale strong enough to learn from? In this fetched sample, availability alone is nearly saturated, so the plot below uses a stricter public-evidence screen: longer rationales score higher when they also mention reviews, rebuttal, and why the decision moved. These bins are not judgments about decision correctness. Separately, the parser now captures nested public forum discussion: among {len(discussion_rows):,} analyzable accept/reject papers, {discussion_cases:,} have at least one public non-review/non-decision discussion note after excluding administrative acknowledgements and withdrawals, {reviewer_followups:,} have reviewer follow-up, and {author_responses:,} have author response. Those notes are engagement evidence, not a substitute for final rationale.
 
-![Public rationale completeness](plots/png/04_public_rationale_availability.png)
+![Public rationale completeness](plots/04_public_rationale_availability.svg)
 
 For ICLR, the public rationales can be coded into broad topic mentions. The assumption matters: these are regex-coded, multi-label flags over public rationale text, not sentiment labels, causal proof, or a claim that the same theme means the same thing in both directions. A novelty phrase in an accept-to-reject case can mean "the contribution was not novel enough"; a novelty phrase in a reject-to-accept case can mean "the AC found enough novelty despite reviewer concern." The improved plot therefore shows directional lift rather than two nearly identical frequency bars. The main result is that broad issue classes recur in both directions, while calibration/review-quality, evidence/baselines, and implementation/reproducibility tilt more toward reject-to-accept overrides.
 
-![ICLR override reason themes](plots/png/05_iclr_override_reason_themes.png)
+![ICLR override reason themes](plots/05_iclr_override_reason_themes.svg)
 
 An unsupervised pass over the public ICLR override meta-reviews tells the same story in another way. The clusters are coarse, exploratory groupings, not stable reason taxonomies. Where two clusters share a parent label, the plot now disambiguates them with top terms rather than implying that k-means found a clean ontology. The value is to turn thousands of borderline decisions into a process map that still points back to individual public records.
 
-![Meta-review reason clusters](plots/png/06_meta_review_reason_clusters.png)
+![Meta-review reason clusters](plots/06_meta_review_reason_clusters.svg)
 
 The guideline question is sharper. AC guides generally ask ACs to synthesize reviews, manage discussion, assess rebuttal, and justify decisions. Public ICLR meta-reviews often show evidence of this behavior, especially for override cases. The saturated rows in the scorecard are sanity checks; the more informative rows are rebuttal handling, balanced strengths/weaknesses, and causal justification. The metric here is deliberately conservative: it measures public evidence of guideline-like behavior, not private compliance.
 
-![Guideline evidence scorecard](plots/png/07_guideline_evidence_scorecard.png)
+![Guideline evidence scorecard](plots/07_guideline_evidence_scorecard.svg)
 
 The hardest cases are unanimous-reviewer overrides. If all reviewers point one way and the AC/PC moves the other way, the public explanation should be unusually explicit. The data shows a mixed picture: many ICLR unanimous overrides have strong public rationale signals, but not all of them do. This plot is a high-bar public-record screen, not a claim that the decisions were right or wrong. It marks exactly where conferences should require a structured decision delta.
 
-![Unanimous override rationale](plots/png/08_unanimous_override_rationale.png)
+![Unanimous override rationale](plots/08_unanimous_override_rationale.svg)
 
 The low-acceptance-rate story needs its own denominator check. Official acceptance rates are calculated over submitted or valid papers. ACs often experience a later decision pool after withdrawals and desk rejects. Official rates in the sources here run roughly 24-32% for the main comparable venues, and ICLR's later public pool has a substantially higher accept share than the headline acceptance rate. So the budget pressure is real, but a literal "25% of fully reviewed papers" interpretation is too crude.
 
 The strongest version of the critique is: what happens when a paper gets at least three accept-leaning reviews? The answer is not "always accept." ICLR still rejects a meaningful minority of those papers, and the public rationales often point to novelty, correctness, missing evidence, or calibration concerns. The better norm is not a mechanical 3-accept rule; it is a high-rationale burden for rejecting such papers.
 
-![Three accept votes fate](plots/png/10_three_accept_votes_fate.png)
+![Three accept votes fate](plots/10_three_accept_votes_fate.svg)
 
 The capacity question can be made more precise. If every paper with at least three accept-leaning public reviews were accepted first, would that alone overflow the official accept budget? Usually no. ICLR 2025 is the clearest pressure case: the 3+ accept-vote set is slightly larger than the official accept count. ICLR 2024 and 2026 do not show that arithmetic pressure in the same way.
 
-![Three accept capacity load](plots/png/12_three_accept_capacity_load.png)
+![Three accept capacity load](plots/12_three_accept_capacity_load.svg)
 
 That leads to a useful accountability split. Some 3+ accept-vote rejections may be unavoidable under a hard slot budget, but many are not forced by slot arithmetic. Those cases can still be correct decisions; the point is that their explanation burden is higher because capacity alone does not explain the outcome.
 
-![Three accept rejection decomposition](plots/png/13_three_accept_rejection_decomposition.png)
+![Three accept rejection decomposition](plots/13_three_accept_rejection_decomposition.svg)
 
 The requested NeurIPS case, SophiaVL-R1, shows the distinction cleanly. It has four accept-leaning public scores and a final reject. The public decision comment is substantive and points to empirical/significance concerns, but there is no separate public meta-review exposed in the ICLR-style structure. That makes it a useful transparency case: the rationale is not absent, but it is harder to compare systematically with AC-guideline expectations.
 
-![Case diagnostic iJ4i5HE5ER](plots/png/11_case_iJ4i5HE5ER.png)
+![Case diagnostic iJ4i5HE5ER](plots/11_case_iJ4i5HE5ER.svg)
 
 The new meta-review layer covers {len(iclr_overrides):,} public ICLR majority-signal override cases, of which {len(iclr_with_meta):,} expose a public meta-review. The unsupervised reason clustering uses {total_clusters:,} public ICLR override meta-reviews with at least 30 words.
 

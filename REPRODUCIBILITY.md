@@ -21,8 +21,8 @@ The repository keeps derived CSVs so readers can audit the exact numbers used in
 
 ## Notion Export
 
-The public repository treats reports/notion_blog_openreview_ac_overrides.md as the canonical report for the published Notion post:
+The public repository treats the published Notion page as the canonical public reading surface:
 
 https://kishan-panaganti-rl-vagabond.notion.site/Area-Chairs-vs-Paper-Weights-What-ACs-Add-and-How-to-AC-Well-3641ada07aa481049c69d60d934da9e0
 
-Local Notion import files and zip packages are generated artifacts and are ignored by git.
+Local Markdown reports, Notion import files, zip packages, and PNG plot exports are generated artifacts and are ignored by git.

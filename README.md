@@ -12,14 +12,26 @@ Read the published essay on Notion: [Area Chairs vs Paper Weights: What ACs Add,
 
 Use [CITATION.bib](CITATION.bib) to cite the essay and accompanying reproducibility package.
 
+```bibtex
+@misc{panaganti2026areaChairsPaperWeights,
+  author = {Kishan Panaganti Badrinath},
+  title = {Area Chairs vs Paper Weights: What ACs Add, and How to AC Well},
+  year = {2026},
+  month = may,
+  url = {https://kishan-panaganti-rl-vagabond.notion.site/Area-Chairs-vs-Paper-Weights-What-ACs-Add-and-How-to-AC-Well-3641ada07aa481049c69d60d934da9e0},
+  note = {Public blog post; source repository: \url{https://github.com/kishanpb/openreview-ac-audit}},
+  urldate = {2026-05-18}
+}
+```
+
 ## What Is Included
 
 - scripts/analyze_openreview_ac_overrides.py: fetches public OpenReview submissions, reviews, decisions, meta-reviews, and non-administrative nested public discussion notes, then writes base CSVs.
 - scripts/enhance_openreview_report_with_plots.py: builds the meta-review/rationale and public-discussion analysis, plot SVGs, and final Markdown report from cached rows.
-- scripts/validate_outputs.py: checks that the published Markdown, CSV summaries, plots, and packaged artifacts are internally consistent.
+- scripts/validate_outputs.py: checks that the regenerated local Markdown, CSV summaries, plots, and optional packaged artifacts are internally consistent.
 - data/: cached derived CSVs from public OpenReview records and public source metadata.
-- reports/notion_blog_openreview_ac_overrides.md: canonical Markdown for the published blog post.
-- reports/plots/: generated SVG plots and PNG exports referenced by the Markdown.
+- reports/plots/: generated SVG plots used by the analysis and published post.
+- reports/experiment_history.md: short summary of the current analysis pass and cleanup history.
 
 ## Reproduce
 
@@ -29,11 +41,7 @@ Install dependencies:
     . .venv/bin/activate
     pip install -r requirements.txt
 
-Validate the committed artifacts:
-
-    python3 scripts/validate_outputs.py
-
-Regenerate the enhanced report and SVG plots from cached public-data rows:
+Regenerate the local report, SVG plots, and derived CSV summaries from cached public-data rows, then validate them:
 
     python3 scripts/enhance_openreview_report_with_plots.py
     python3 scripts/validate_outputs.py
@@ -44,7 +52,7 @@ Refresh from the current public OpenReview API surface:
     python3 scripts/enhance_openreview_report_with_plots.py --refresh
     python3 scripts/validate_outputs.py
 
-The refresh path requests both directReplies and replies from the OpenReview API so nested public forum notes are captured separately from direct review/decision/meta-review records. Administrative acknowledgements and withdrawals are excluded from the discussion counts. The cached CSVs capture the public-data snapshot used by the published post.
+The refresh path requests both directReplies and replies from the OpenReview API so nested public forum notes are captured separately from direct review/decision/meta-review records. Administrative acknowledgements and withdrawals are excluded from the discussion counts. The cached CSVs capture the public-data snapshot used by the published post. Full Markdown reports, PNG exports, and Notion import bundles are local generated artifacts and are not tracked.
 
 ## Scope And Caveats
 

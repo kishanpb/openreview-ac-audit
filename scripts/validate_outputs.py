@@ -99,15 +99,14 @@ def check_report_basics(text: str) -> None:
 
 
 def check_plot_refs(text: str) -> None:
-    refs = re.findall(r"\]\((plots/png/[^)]+\.png)\)", text)
+    refs = re.findall(r"\]\((plots/[^)]+\.svg)\)", text)
     if len(refs) != 12:
         fail(f"expected 12 plot refs, found {len(refs)}")
+    if "plots/png/" in text:
+        fail("canonical report should reference SVG plots, not local Notion PNG exports")
     missing = [ref for ref in refs if not (ROOT / "reports" / ref).exists()]
     if missing:
         fail(f"missing plot files: {missing}")
-    pngs = sorted((ROOT / "reports" / "plots" / "png").glob("*.png"))
-    if len(pngs) != 12:
-        fail(f"expected 12 exported PNGs, found {len(pngs)}")
 
 
 def check_quant_table(text: str) -> None:
@@ -264,7 +263,9 @@ def check_representative_rationale_consistency(text: str) -> None:
 
 
 def check_optional_package(text: str) -> None:
-    if IMPORT_REPORT.exists() and IMPORT_REPORT.read_text(encoding="utf-8") != text:
+    notion_text = re.sub(r"\]\(plots/([^)]+)\.svg\)", r"](plots/png/\1.png)", text)
+    allowed_texts = {text, notion_text}
+    if IMPORT_REPORT.exists() and IMPORT_REPORT.read_text(encoding="utf-8") not in allowed_texts:
         fail("Notion import Markdown is out of sync with canonical report")
     if ZIP_REPORT.exists():
         with zipfile.ZipFile(ZIP_REPORT) as archive:
@@ -272,9 +273,9 @@ def check_optional_package(text: str) -> None:
             if "notion_blog_openreview_ac_overrides.md" not in names:
                 fail("zip is missing Notion Markdown")
             zipped = archive.read("notion_blog_openreview_ac_overrides.md").decode("utf-8")
-            if zipped != text:
+            if zipped not in allowed_texts:
                 fail("zip Markdown is out of sync with canonical report")
-            if sum(name.endswith(".png") for name in names) != 12:
+            if "plots/png/" in zipped and sum(name.endswith(".png") for name in names) != 12:
                 fail("zip should contain 12 PNG plots")
 
 
