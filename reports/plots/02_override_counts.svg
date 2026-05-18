@@ -1,8 +1,8 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="980" height="470" viewBox="0 0 980 470">
 <rect width="100%" height="100%" fill="#fbfbf8"/>
 <text x="28.0" y="36.0" font-family="Inter, Arial, sans-serif" font-size="24" font-weight="700" fill="#111827" text-anchor="start">Where final decisions move against the reviewer-majority signal</text>
-<text x="28.0" y="64.0" font-family="Inter, Arial, sans-serif" font-size="14" font-weight="400" fill="#4b5563" text-anchor="start">Grouped bars count papers where reviewer-majority accept became final reject, and reviewer-majority</text>
-<text x="28.0" y="82.0" font-family="Inter, Arial, sans-serif" font-size="14" font-weight="400" fill="#4b5563" text-anchor="start">reject became final accept. Dark labels show unanimous-reviewer strong overrides.</text>
+<text x="28.0" y="64.0" font-family="Inter, Arial, sans-serif" font-size="14" font-weight="400" fill="#4b5563" text-anchor="start">Grouped bars count override cases, not venue-normalized rates. Dark labels show unanimous-reviewer</text>
+<text x="28.0" y="82.0" font-family="Inter, Arial, sans-serif" font-size="14" font-weight="400" fill="#4b5563" text-anchor="start">strong overrides.</text>
 <line x1="185.0" x2="185.0" y1="120" y2="406" stroke="#e5e7eb"/>
 <text x="185.0" y="424.0" font-family="Inter, Arial, sans-serif" font-size="11" font-weight="400" fill="#6b7280" text-anchor="middle">0</text>
 <line x1="328.2" x2="328.2" y1="120" y2="406" stroke="#e5e7eb"/>
@@ -42,5 +42,5 @@
 <text x="800.0" y="146.0" font-family="Inter, Arial, sans-serif" font-size="12" font-weight="400" fill="#17202a" text-anchor="start">accept-&gt;reject</text>
 <rect x="780" y="160" width="14" height="14" fill="#3478a6"/>
 <text x="800.0" y="172.0" font-family="Inter, Arial, sans-serif" font-size="12" font-weight="400" fill="#17202a" text-anchor="start">reject-&gt;accept</text>
-<text x="28.0" y="454.0" font-family="Inter, Arial, sans-serif" font-size="11" font-weight="400" fill="#6b7280" text-anchor="start">Override = final accept/reject disagrees with reviewer-majority signal. This is a public-data proxy, not private AC intent.</text>
+<text x="28.0" y="454.0" font-family="Inter, Arial, sans-serif" font-size="11" font-weight="400" fill="#6b7280" text-anchor="start">Override = final accept/reject disagrees with reviewer-majority signal. ICML/NeurIPS rejected-case counts are public lower bounds.</text>
 </svg>

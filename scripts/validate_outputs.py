@@ -71,6 +71,8 @@ def check_report_basics(text: str) -> None:
         "SAC/domain co-AC repair before release",
         "regex-coded, multi-label flags over public rationale text",
         "directional lift rather than two nearly identical frequency bars",
+        "coarse, exploratory groupings, not stable reason taxonomies",
+        "their explanation burden is higher because capacity alone does not explain the outcome",
     ]
     for phrase in required:
         if phrase not in text:

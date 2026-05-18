@@ -115,15 +115,15 @@ For ICLR, the public rationales can be coded into broad topic mentions. The assu
 
 ![ICLR override reason themes](plots/png/05_iclr_override_reason_themes.png)
 
-An unsupervised pass over the public ICLR override meta-reviews tells the same story in another way. The clusters are coarse, but they map to recognizable AC moves: benchmark adequacy, novelty positioning, unresolved rebuttal, theoretical support, and review-score calibration. The clustering should not replace reading individual cases; it is useful because it turns thousands of borderline decisions into a process map.
+An unsupervised pass over the public ICLR override meta-reviews tells the same story in another way. The clusters are coarse, exploratory groupings, not stable reason taxonomies. Where two clusters share a parent label, the plot now disambiguates them with top terms rather than implying that k-means found a clean ontology. The value is to turn thousands of borderline decisions into a process map that still points back to individual public records.
 
 ![Meta-review reason clusters](plots/png/06_meta_review_reason_clusters.png)
 
-The guideline question is sharper. AC guides generally ask ACs to synthesize reviews, manage discussion, assess rebuttal, and justify decisions. Public ICLR meta-reviews often show evidence of this behavior, especially for override cases. The metric here is deliberately conservative: it measures public evidence of guideline-like behavior, not private compliance.
+The guideline question is sharper. AC guides generally ask ACs to synthesize reviews, manage discussion, assess rebuttal, and justify decisions. Public ICLR meta-reviews often show evidence of this behavior, especially for override cases. The saturated rows in the scorecard are sanity checks; the more informative rows are rebuttal handling, balanced strengths/weaknesses, and causal justification. The metric here is deliberately conservative: it measures public evidence of guideline-like behavior, not private compliance.
 
 ![Guideline evidence scorecard](plots/png/07_guideline_evidence_scorecard.png)
 
-The hardest cases are unanimous-reviewer overrides. If all reviewers point one way and the AC/PC moves the other way, the public explanation should be unusually explicit. The data shows a mixed picture: many ICLR unanimous overrides have strong public rationale signals, but not all of them do. That is exactly where conferences should require a structured decision delta.
+The hardest cases are unanimous-reviewer overrides. If all reviewers point one way and the AC/PC moves the other way, the public explanation should be unusually explicit. The data shows a mixed picture: many ICLR unanimous overrides have strong public rationale signals, but not all of them do. This plot is a high-bar public-record screen, not a claim that the decisions were right or wrong. It marks exactly where conferences should require a structured decision delta.
 
 ![Unanimous override rationale](plots/png/08_unanimous_override_rationale.png)
 
@@ -137,7 +137,7 @@ The capacity question can be made more precise. If every paper with at least thr
 
 ![Three accept capacity load](plots/png/12_three_accept_capacity_load.png)
 
-That leads to a useful accountability split. Some 3+ accept-vote rejections may be unavoidable under a hard slot budget, but many are not forced by capacity arithmetic. Those cases can still be correct decisions; they just need a public rationale strong enough for future ACs, reviewers, and authors to learn from the choice.
+That leads to a useful accountability split. Some 3+ accept-vote rejections may be unavoidable under a hard slot budget, but many are not forced by slot arithmetic. Those cases can still be correct decisions; the point is that their explanation burden is higher because capacity alone does not explain the outcome.
 
 ![Three accept rejection decomposition](plots/png/13_three_accept_rejection_decomposition.png)
 

@@ -1,49 +1,48 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="1180" height="640" viewBox="0 0 1180 640">
 <rect width="100%" height="100%" fill="#fbfbf8"/>
 <text x="28.0" y="36.0" font-family="Inter, Arial, sans-serif" font-size="24" font-weight="700" fill="#111827" text-anchor="start">Do 3+ accept-vote papers fit inside the official accept budget?</text>
-<text x="28.0" y="64.0" font-family="Inter, Arial, sans-serif" font-size="14" font-weight="400" fill="#4b5563" text-anchor="start">Counterfactual load test inspired by the 3-accept critique: if every paper with at least three</text>
-<text x="28.0" y="82.0" font-family="Inter, Arial, sans-serif" font-size="14" font-weight="400" fill="#4b5563" text-anchor="start">accept-leaning public reviews were accepted first, how much of the official accept budget would they</text>
-<text x="28.0" y="100.0" font-family="Inter, Arial, sans-serif" font-size="14" font-weight="400" fill="#4b5563" text-anchor="start">consume?</text>
-<line x1="275.0" x2="275.0" y1="138" y2="576" stroke="#e5e7eb"/>
+<text x="28.0" y="64.0" font-family="Inter, Arial, sans-serif" font-size="14" font-weight="400" fill="#4b5563" text-anchor="start">Counterfactual load test: if every public paper with at least three accept-leaning reviews were accepted</text>
+<text x="28.0" y="82.0" font-family="Inter, Arial, sans-serif" font-size="14" font-weight="400" fill="#4b5563" text-anchor="start">first, how much of the official accept budget would it consume?</text>
+<line x1="275.0" x2="275.0" y1="120" y2="576" stroke="#e5e7eb"/>
 <text x="275.0" y="598.0" font-family="Inter, Arial, sans-serif" font-size="13" font-weight="400" fill="#6b7280" text-anchor="middle">0</text>
-<line x1="433.2" x2="433.2" y1="138" y2="576" stroke="#e5e7eb"/>
+<line x1="433.2" x2="433.2" y1="120" y2="576" stroke="#e5e7eb"/>
 <text x="433.2" y="598.0" font-family="Inter, Arial, sans-serif" font-size="13" font-weight="400" fill="#6b7280" text-anchor="middle">1338</text>
-<line x1="591.5" x2="591.5" y1="138" y2="576" stroke="#e5e7eb"/>
+<line x1="591.5" x2="591.5" y1="120" y2="576" stroke="#e5e7eb"/>
 <text x="591.5" y="598.0" font-family="Inter, Arial, sans-serif" font-size="13" font-weight="400" fill="#6b7280" text-anchor="middle">2677</text>
-<line x1="749.8" x2="749.8" y1="138" y2="576" stroke="#e5e7eb"/>
+<line x1="749.8" x2="749.8" y1="120" y2="576" stroke="#e5e7eb"/>
 <text x="749.8" y="598.0" font-family="Inter, Arial, sans-serif" font-size="13" font-weight="400" fill="#6b7280" text-anchor="middle">4016</text>
-<line x1="908.0" x2="908.0" y1="138" y2="576" stroke="#e5e7eb"/>
+<line x1="908.0" x2="908.0" y1="120" y2="576" stroke="#e5e7eb"/>
 <text x="908.0" y="598.0" font-family="Inter, Arial, sans-serif" font-size="13" font-weight="400" fill="#6b7280" text-anchor="middle">5355</text>
-<text x="28.0" y="173.0" font-family="Inter, Arial, sans-serif" font-size="16" font-weight="700" fill="#17202a" text-anchor="start">ICLR 2026</text>
-<rect x="275" y="151.0" width="633.0" height="30" rx="3" fill="#eef2f7" stroke="#9ca3af"/>
-<rect x="275" y="156.0" width="278.9" height="20" rx="2" fill="#3478a6"/>
-<rect x="553.9" y="156.0" width="36.4" height="20" rx="2" fill="#b94a48"/>
-<text x="275.0" y="200.0" font-family="Inter, Arial, sans-serif" font-size="13" font-weight="400" fill="#111827" text-anchor="start">3+ vote load 2667/5355 slots (50%)</text>
-<text x="28.0" y="260.6" font-family="Inter, Arial, sans-serif" font-size="16" font-weight="700" fill="#17202a" text-anchor="start">ICLR 2025</text>
-<rect x="275" y="238.6" width="438.5" height="30" rx="3" fill="#eef2f7" stroke="#9ca3af"/>
-<rect x="275" y="243.6" width="374.5" height="20" rx="2" fill="#3478a6"/>
-<rect x="649.5" y="243.6" width="91.3" height="20" rx="2" fill="#b94a48"/>
-<text x="275.0" y="287.6" font-family="Inter, Arial, sans-serif" font-size="13" font-weight="400" fill="#111827" text-anchor="start">3+ vote load 3940/3710 slots (106%); short by 230</text>
-<text x="28.0" y="348.2" font-family="Inter, Arial, sans-serif" font-size="16" font-weight="700" fill="#17202a" text-anchor="start">ICLR 2024</text>
-<rect x="275" y="326.2" width="267.1" height="30" rx="3" fill="#eef2f7" stroke="#9ca3af"/>
-<rect x="275" y="331.2" width="211.7" height="20" rx="2" fill="#3478a6"/>
-<rect x="486.7" y="331.2" width="46.8" height="20" rx="2" fill="#b94a48"/>
-<text x="275.0" y="375.2" font-family="Inter, Arial, sans-serif" font-size="13" font-weight="400" fill="#111827" text-anchor="start">3+ vote load 2187/2260 slots (97%)</text>
-<text x="28.0" y="435.8" font-family="Inter, Arial, sans-serif" font-size="16" font-weight="700" fill="#17202a" text-anchor="start">ICML 2025</text>
-<rect x="275" y="413.79999999999995" width="385.4" height="30" rx="3" fill="#eef2f7" stroke="#9ca3af"/>
-<rect x="275" y="418.79999999999995" width="325.3" height="20" rx="2" fill="#3478a6"/>
-<rect x="600.3" y="418.79999999999995" width="8.5" height="20" rx="2" fill="#b94a48"/>
-<text x="275.0" y="462.8" font-family="Inter, Arial, sans-serif" font-size="13" font-weight="400" fill="#111827" text-anchor="start">3+ vote load 2824/3260 slots (87%)</text>
-<text x="28.0" y="523.4" font-family="Inter, Arial, sans-serif" font-size="16" font-weight="700" fill="#17202a" text-anchor="start">NeurIPS 2025</text>
-<rect x="275" y="501.4" width="625.3" height="30" rx="3" fill="#eef2f7" stroke="#9ca3af"/>
-<rect x="275" y="506.4" width="599.3" height="20" rx="2" fill="#3478a6"/>
-<rect x="874.3" y="506.4" width="15.8" height="20" rx="2" fill="#b94a48"/>
-<text x="275.0" y="550.4" font-family="Inter, Arial, sans-serif" font-size="13" font-weight="400" fill="#111827" text-anchor="start">3+ vote load 5204/5290 slots (98%)</text>
-<rect x="918" y="148" width="15" height="15" fill="#eef2f7" stroke="#9ca3af"/>
-<text x="940.0" y="161.0" font-family="Inter, Arial, sans-serif" font-size="13" font-weight="400" fill="#17202a" text-anchor="start">official accept slots</text>
-<rect x="918" y="176" width="15" height="15" fill="#3478a6"/>
-<text x="940.0" y="189.0" font-family="Inter, Arial, sans-serif" font-size="13" font-weight="400" fill="#17202a" text-anchor="start">3+ vote final accept</text>
-<rect x="918" y="204" width="15" height="15" fill="#b94a48"/>
-<text x="940.0" y="217.0" font-family="Inter, Arial, sans-serif" font-size="13" font-weight="400" fill="#17202a" text-anchor="start">3+ vote final reject</text>
-<text x="28.0" y="622.0" font-family="Inter, Arial, sans-serif" font-size="12" font-weight="400" fill="#6b7280" text-anchor="start">ICML/NeurIPS public rejected samples are incomplete; treat their rejected 3+ counts as public lower bounds, not full-conference estimates.</text>
+<text x="28.0" y="155.0" font-family="Inter, Arial, sans-serif" font-size="16" font-weight="700" fill="#17202a" text-anchor="start">ICLR 2026</text>
+<rect x="275" y="133.0" width="633.0" height="30" rx="3" fill="#eef2f7" stroke="#9ca3af"/>
+<rect x="275" y="138.0" width="278.9" height="20" rx="2" fill="#3478a6"/>
+<rect x="553.9" y="138.0" width="36.4" height="20" rx="2" fill="#b94a48"/>
+<text x="275.0" y="182.0" font-family="Inter, Arial, sans-serif" font-size="13" font-weight="400" fill="#111827" text-anchor="start">3+ vote load 2667/5355 slots (50%)</text>
+<text x="28.0" y="246.2" font-family="Inter, Arial, sans-serif" font-size="16" font-weight="700" fill="#17202a" text-anchor="start">ICLR 2025</text>
+<rect x="275" y="224.2" width="438.5" height="30" rx="3" fill="#eef2f7" stroke="#9ca3af"/>
+<rect x="275" y="229.2" width="374.5" height="20" rx="2" fill="#3478a6"/>
+<rect x="649.5" y="229.2" width="91.3" height="20" rx="2" fill="#b94a48"/>
+<text x="275.0" y="273.2" font-family="Inter, Arial, sans-serif" font-size="13" font-weight="400" fill="#111827" text-anchor="start">3+ vote load 3940/3710 slots (106%); short by 230</text>
+<text x="28.0" y="337.4" font-family="Inter, Arial, sans-serif" font-size="16" font-weight="700" fill="#17202a" text-anchor="start">ICLR 2024</text>
+<rect x="275" y="315.4" width="267.1" height="30" rx="3" fill="#eef2f7" stroke="#9ca3af"/>
+<rect x="275" y="320.4" width="211.7" height="20" rx="2" fill="#3478a6"/>
+<rect x="486.7" y="320.4" width="46.8" height="20" rx="2" fill="#b94a48"/>
+<text x="275.0" y="364.4" font-family="Inter, Arial, sans-serif" font-size="13" font-weight="400" fill="#111827" text-anchor="start">3+ vote load 2187/2260 slots (97%)</text>
+<text x="28.0" y="428.6" font-family="Inter, Arial, sans-serif" font-size="16" font-weight="700" fill="#17202a" text-anchor="start">ICML 2025</text>
+<rect x="275" y="406.6" width="385.4" height="30" rx="3" fill="#eef2f7" stroke="#9ca3af"/>
+<rect x="275" y="411.6" width="325.3" height="20" rx="2" fill="#3478a6"/>
+<rect x="600.3" y="411.6" width="8.5" height="20" rx="2" fill="#b94a48"/>
+<text x="275.0" y="455.6" font-family="Inter, Arial, sans-serif" font-size="13" font-weight="400" fill="#111827" text-anchor="start">3+ vote load 2824/3260 slots (87%)</text>
+<text x="28.0" y="519.8" font-family="Inter, Arial, sans-serif" font-size="16" font-weight="700" fill="#17202a" text-anchor="start">NeurIPS 2025</text>
+<rect x="275" y="497.8" width="625.3" height="30" rx="3" fill="#eef2f7" stroke="#9ca3af"/>
+<rect x="275" y="502.8" width="599.3" height="20" rx="2" fill="#3478a6"/>
+<rect x="874.3" y="502.8" width="15.8" height="20" rx="2" fill="#b94a48"/>
+<text x="275.0" y="546.8" font-family="Inter, Arial, sans-serif" font-size="13" font-weight="400" fill="#111827" text-anchor="start">3+ vote load 5204/5290 slots (98%)</text>
+<rect x="918" y="130" width="15" height="15" fill="#eef2f7" stroke="#9ca3af"/>
+<text x="940.0" y="143.0" font-family="Inter, Arial, sans-serif" font-size="13" font-weight="400" fill="#17202a" text-anchor="start">official accept slots</text>
+<rect x="918" y="158" width="15" height="15" fill="#3478a6"/>
+<text x="940.0" y="171.0" font-family="Inter, Arial, sans-serif" font-size="13" font-weight="400" fill="#17202a" text-anchor="start">3+ vote final accept</text>
+<rect x="918" y="186" width="15" height="15" fill="#b94a48"/>
+<text x="940.0" y="199.0" font-family="Inter, Arial, sans-serif" font-size="13" font-weight="400" fill="#17202a" text-anchor="start">3+ vote final reject</text>
+<text x="28.0" y="622.0" font-family="Inter, Arial, sans-serif" font-size="12" font-weight="400" fill="#6b7280" text-anchor="start">Slot counts use official acceptance totals as a reference line; ICML/NeurIPS rejected 3+ counts are public lower bounds.</text>
 </svg>

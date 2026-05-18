@@ -1,8 +1,8 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="880" height="410" viewBox="0 0 880 410">
 <rect width="100%" height="100%" fill="#fbfbf8"/>
-<text x="28.0" y="36.0" font-family="Inter, Arial, sans-serif" font-size="24" font-weight="700" fill="#111827" text-anchor="start">When all reviewers point one way, is the public override heavily justified?</text>
-<text x="28.0" y="64.0" font-family="Inter, Arial, sans-serif" font-size="14" font-weight="400" fill="#4b5563" text-anchor="start">ICLR-only comparable public meta-review test: 150+ words, mentions reviews, and uses causal</text>
-<text x="28.0" y="82.0" font-family="Inter, Arial, sans-serif" font-size="14" font-weight="400" fill="#4b5563" text-anchor="start">concern/issue language.</text>
+<text x="28.0" y="36.0" font-family="Inter, Arial, sans-serif" font-size="24" font-weight="700" fill="#111827" text-anchor="start">When all reviewers point one way, is the public override record strong?</text>
+<text x="28.0" y="64.0" font-family="Inter, Arial, sans-serif" font-size="14" font-weight="400" fill="#4b5563" text-anchor="start">ICLR-only public-evidence screen: 150+ words, mentions reviews, and uses causal concern/issue language.</text>
+<text x="28.0" y="82.0" font-family="Inter, Arial, sans-serif" font-size="14" font-weight="400" fill="#4b5563" text-anchor="start">This is not a correctness grade.</text>
 <line x1="185.0" x2="185.0" y1="120" y2="346" stroke="#e5e7eb"/>
 <text x="185.0" y="364.0" font-family="Inter, Arial, sans-serif" font-size="11" font-weight="400" fill="#6b7280" text-anchor="middle">0%</text>
 <line x1="320.8" x2="320.8" y1="120" y2="346" stroke="#e5e7eb"/>

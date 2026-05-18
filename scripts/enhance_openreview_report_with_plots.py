@@ -1045,7 +1045,7 @@ def plot_override_counts(summary_rows: list[dict[str, Any]]) -> Path:
         width,
         height,
         "Where final decisions move against the reviewer-majority signal",
-        "Grouped bars count papers where reviewer-majority accept became final reject, and reviewer-majority reject became final accept. Dark labels show unanimous-reviewer strong overrides.",
+        "Grouped bars count override cases, not venue-normalized rates. Dark labels show unanimous-reviewer strong overrides.",
     )
     x0, x1 = left, right - 190
     y_step = (bottom - top) / len(rows)
@@ -1074,7 +1074,7 @@ def plot_override_counts(summary_rows: list[dict[str, Any]]) -> Path:
         yy = top + 14 + j * 26
         parts.append(f'<rect x="{legend_x}" y="{yy}" width="14" height="14" fill="{color}"/>')
         parts.append(svg_text(legend_x + 20, yy + 12, name, size=12))
-    parts.append(svg_text(28, height - 16, "Override = final accept/reject disagrees with reviewer-majority signal. This is a public-data proxy, not private AC intent.", size=11, color="#6b7280"))
+    parts.append(svg_text(28, height - 16, "Override = final accept/reject disagrees with reviewer-majority signal. ICML/NeurIPS rejected-case counts are public lower bounds.", size=11, color="#6b7280"))
     save_svg(path, parts)
     return path
 
@@ -1136,7 +1136,7 @@ def plot_score_overlap(meta_rows: list[dict[str, Any]]) -> Path:
             parts.append(f'<rect x="{sx(p25):.1f}" y="{y-10}" width="{sx(p75)-sx(p25):.1f}" height="20" fill="{colors[decision]}" opacity="0.25" stroke="{colors[decision]}"/>')
             parts.append(f'<line x1="{sx(p50):.1f}" x2="{sx(p50):.1f}" y1="{y-13}" y2="{y+13}" stroke="{colors[decision]}" stroke-width="3"/>')
             parts.append(svg_text(sx(p90) + 6, y + 4, f"n={len(xs)}, median={p50:.2f}", size=11, color="#374151"))
-    parts.append(svg_text(28, height - 16, "Source: public ICLR OpenReview notes; withdrawn and desk-reject papers omitted.", size=11, color="#6b7280"))
+    parts.append(svg_text(28, height - 16, "Source: public ICLR OpenReview notes; withdrawn and desk-reject papers omitted. ICLR 2026 is an unusual review-reset stress test.", size=11, color="#6b7280"))
     save_svg(path, parts)
     return path
 
@@ -1386,7 +1386,7 @@ def plot_reason_clusters(cluster_rows: list[dict[str, Any]]) -> Path:
         width,
         height,
         "Unsupervised clusters of public ICLR override rationales",
-        "TF-IDF k-means over public ICLR override meta-reviews. Cluster labels are assigned from top terms; stacked bars split accept->reject and reject->accept cases.",
+        "Exploratory TF-IDF k-means over public ICLR override meta-reviews. Labels come from top terms and are not stable taxonomies.",
     )
     x0, x1 = 455, right - 225
     y_step = (bottom - top) / max(1, len(rows))
@@ -1395,9 +1395,14 @@ def plot_reason_clusters(cluster_rows: list[dict[str, Any]]) -> Path:
         x = x0 + (x1 - x0) * tick
         parts.append(f'<line x1="{x:.1f}" x2="{x:.1f}" y1="{top}" y2="{bottom}" stroke="#e5e7eb"/>')
         parts.append(svg_text(x, bottom + 22, f"{value}", size=13, color="#6b7280", anchor="middle"))
+    label_counts = Counter(row["cluster_label"] for row in rows)
     for i, row in enumerate(rows):
         y = top + i * y_step + 12
-        label_svg, _ = wrap_svg_text(28, y + 4, row["cluster_label"], max_chars=34, size=20, color="#111827")
+        display_label = row["cluster_label"]
+        if label_counts[display_label] > 1:
+            terms = [term.strip() for term in str(row["top_terms"]).split(",")[:2]]
+            display_label = f"{display_label} ({'/'.join(terms)})"
+        label_svg, _ = wrap_svg_text(28, y + 4, display_label, max_chars=38, size=18, color="#111827")
         parts.append(label_svg)
         term_svg, _ = wrap_svg_text(28, y + 58, f"terms: {row['top_terms']}", max_chars=48, size=15, color="#6b7280")
         parts.append(term_svg)
@@ -1439,11 +1444,17 @@ def plot_guideline_evidence(meta_rows: list[dict[str, Any]]) -> Path:
         width,
         height,
         "Do public ICLR meta-reviews show evidence of guideline-like behavior?",
-        "Heuristic public-evidence checks inspired by AC guidance: synthesize reviews, discuss rebuttal/discussion, justify decisions, and write enough explanation. This is not a private compliance audit.",
+        "Heuristic public-evidence checks inspired by AC guidance. Saturated rows are sanity checks; the useful gaps are rebuttal, balance, and causal-justification signals.",
     )
-    x0, x1 = 295, right - 225
-    y_step = (bottom - top) / len(feature_keys)
+    x0, x1 = 295, right - 45
     colors = ["#2f6f73", "#d58c2a", "#7158a8"]
+    for j, (group, rows) in enumerate(groups.items()):
+        xx = x0 + j * 275
+        yy = top + 8
+        parts.append(f'<rect x="{xx}" y="{yy-11}" width="13" height="13" fill="{colors[j]}"/>')
+        parts.append(svg_text(xx + 19, yy, f"{group} (n={len(rows)})", size=12))
+    top += 42
+    y_step = (bottom - top) / len(feature_keys)
     for tick in [0, 0.25, 0.5, 0.75, 1.0]:
         x = x0 + (x1 - x0) * tick
         parts.append(f'<line x1="{x:.1f}" x2="{x:.1f}" y1="{top}" y2="{bottom}" stroke="#e5e7eb"/>')
@@ -1457,11 +1468,6 @@ def plot_guideline_evidence(meta_rows: list[dict[str, Any]]) -> Path:
             w = (x1 - x0) * pct
             parts.append(f'<rect x="{x0}" y="{yy}" width="{w:.1f}" height="15" rx="2" fill="{colors[j]}"/>')
             parts.append(svg_text(x0 + w + 8, yy + 12, f"{pct*100:.0f}%", size=12, color="#374151"))
-    legend_x = right - 210
-    for j, (group, rows) in enumerate(groups.items()):
-        yy = top + 10 + j * 28
-        parts.append(f'<rect x="{legend_x}" y="{yy}" width="15" height="15" fill="{colors[j]}"/>')
-        parts.append(svg_text(legend_x + 22, yy + 13, f"{group} (n={len(rows)})", size=12))
     parts.append(svg_text(28, height - 16, "Guideline evidence = public text signals; private AC/SAC deliberation may be better or worse than what is public.", size=12, color="#6b7280"))
     save_svg(path, parts)
     return path
@@ -1487,8 +1493,8 @@ def plot_unanimous_override_rationale(meta_rows: list[dict[str, Any]]) -> Path:
     parts, left, right, top, bottom = svg_frame(
         width,
         height,
-        "When all reviewers point one way, is the public override heavily justified?",
-        "ICLR-only comparable public meta-review test: 150+ words, mentions reviews, and uses causal concern/issue language.",
+        "When all reviewers point one way, is the public override record strong?",
+        "ICLR-only public-evidence screen: 150+ words, mentions reviews, and uses causal concern/issue language. This is not a correctness grade.",
     )
     x0, x1 = left, right - 120
     y_step = (bottom - top) / len(rows)
@@ -1531,7 +1537,7 @@ def plot_three_accept_vote_fate(meta_rows: list[dict[str, Any]]) -> Path:
         width,
         height,
         "What happens to papers with at least three accept-leaning reviews?",
-        "This directly probes the 3-accept argument: among papers with 3+ reviewer accept votes, how many are still rejected? Labels show how many such rejects expose any public rationale.",
+        "This probes the 3-accept argument without making it mechanical. Labels show rejected 3+ accept-vote papers and how many expose any public rationale.",
     )
     max_total = max(total for *_, total in rows)
     x0, x1 = 250, right - 250
@@ -1555,7 +1561,7 @@ def plot_three_accept_vote_fate(meta_rows: list[dict[str, Any]]) -> Path:
         yy = top + 10 + j * 28
         parts.append(f'<rect x="{legend_x}" y="{yy}" width="15" height="15" fill="{color}"/>')
         parts.append(svg_text(legend_x + 22, yy + 13, label, size=13))
-    parts.append(svg_text(28, height - 16, "Accept vote uses venue-specific thresholds: ICLR=6, ICML=3, NeurIPS=4. Public samples differ by venue.", size=12, color="#6b7280"))
+    parts.append(svg_text(28, height - 16, "Accept vote uses venue-specific thresholds: ICLR=6, ICML=3, NeurIPS=4. ICML/NeurIPS rejected counts are public lower bounds.", size=12, color="#6b7280"))
     save_svg(path, parts)
     return path
 
@@ -1576,7 +1582,7 @@ def plot_three_accept_capacity_load(meta_rows: list[dict[str, Any]]) -> Path:
         width,
         height,
         "Do 3+ accept-vote papers fit inside the official accept budget?",
-        "Counterfactual load test inspired by the 3-accept critique: if every paper with at least three accept-leaning public reviews were accepted first, how much of the official accept budget would they consume?",
+        "Counterfactual load test: if every public paper with at least three accept-leaning reviews were accepted first, how much of the official accept budget would it consume?",
     )
     x0, x1 = 275, right - 240
     y_step = (bottom - top) / len(rows)
@@ -1615,7 +1621,7 @@ def plot_three_accept_capacity_load(meta_rows: list[dict[str, Any]]) -> Path:
         stroke = ' stroke="#9ca3af"' if color == "#eef2f7" else ""
         parts.append(f'<rect x="{legend_x}" y="{yy}" width="15" height="15" fill="{color}"{stroke}/>')
         parts.append(svg_text(legend_x + 22, yy + 13, label, size=13))
-    parts.append(svg_text(28, height - 18, "ICML/NeurIPS public rejected samples are incomplete; treat their rejected 3+ counts as public lower bounds, not full-conference estimates.", size=12, color="#6b7280"))
+    parts.append(svg_text(28, height - 18, "Slot counts use official acceptance totals as a reference line; ICML/NeurIPS rejected 3+ counts are public lower bounds.", size=12, color="#6b7280"))
     save_svg(path, parts)
     return path
 
@@ -1632,8 +1638,8 @@ def plot_three_accept_rejection_decomposition(meta_rows: list[dict[str, Any]]) -
     parts, left, right, top, bottom = svg_frame(
         width,
         height,
-        "How much of 3+ accept-vote rejection is simple capacity pressure?",
-        "A conservative decomposition: capacity arithmetic can explain at most the shortfall between 3+ accept-vote papers and official accept slots. The remaining public cases require substantive AC/PC rationale.",
+        "How much 3+ accept-vote rejection is not explained by slot pressure?",
+        "Conservative slot-count split: capacity can explain at most the shortfall between 3+ accept-vote papers and official accept slots. The rest needs a substantive public rationale.",
     )
     x0, x1 = 275, right - 260
     y_step = (bottom - top) / len(rows)
@@ -1655,9 +1661,9 @@ def plot_three_accept_rejection_decomposition(meta_rows: list[dict[str, Any]]) -
         w_rat = (x1 - x0) * rationale / max_total if max_total else 0
         parts.append(f'<rect x="{x0}" y="{y}" width="{w_cap:.1f}" height="22" rx="2" fill="#d58c2a"/>')
         parts.append(f'<rect x="{x0 + w_cap:.1f}" y="{y}" width="{w_rat:.1f}" height="22" rx="2" fill="#7158a8"/>')
-        parts.append(svg_text(x0, y + 44, f"{rejected} rejected; capacity <= {capacity}; rationale >= {rationale}", size=13))
+        parts.append(svg_text(x0, y + 44, f"{rejected} rejected; slot-pressure <= {capacity}; explanation burden >= {rationale}", size=13))
     legend_x = right - 246
-    for j, (label, color) in enumerate([("capacity shortfall upper bound", "#d58c2a"), ("requires public rationale", "#7158a8")]):
+    for j, (label, color) in enumerate([("slot-pressure upper bound", "#d58c2a"), ("explanation burden", "#7158a8")]):
         yy = top + 10 + j * 28
         parts.append(f'<rect x="{legend_x}" y="{yy}" width="15" height="15" fill="{color}"/>')
         parts.append(svg_text(legend_x + 22, yy + 13, label, size=13))
@@ -2359,15 +2365,15 @@ For ICLR, the public rationales can be coded into broad topic mentions. The assu
 
 ![ICLR override reason themes](plots/png/05_iclr_override_reason_themes.png)
 
-An unsupervised pass over the public ICLR override meta-reviews tells the same story in another way. The clusters are coarse, but they map to recognizable AC moves: benchmark adequacy, novelty positioning, unresolved rebuttal, theoretical support, and review-score calibration. The clustering should not replace reading individual cases; it is useful because it turns thousands of borderline decisions into a process map.
+An unsupervised pass over the public ICLR override meta-reviews tells the same story in another way. The clusters are coarse, exploratory groupings, not stable reason taxonomies. Where two clusters share a parent label, the plot now disambiguates them with top terms rather than implying that k-means found a clean ontology. The value is to turn thousands of borderline decisions into a process map that still points back to individual public records.
 
 ![Meta-review reason clusters](plots/png/06_meta_review_reason_clusters.png)
 
-The guideline question is sharper. AC guides generally ask ACs to synthesize reviews, manage discussion, assess rebuttal, and justify decisions. Public ICLR meta-reviews often show evidence of this behavior, especially for override cases. The metric here is deliberately conservative: it measures public evidence of guideline-like behavior, not private compliance.
+The guideline question is sharper. AC guides generally ask ACs to synthesize reviews, manage discussion, assess rebuttal, and justify decisions. Public ICLR meta-reviews often show evidence of this behavior, especially for override cases. The saturated rows in the scorecard are sanity checks; the more informative rows are rebuttal handling, balanced strengths/weaknesses, and causal justification. The metric here is deliberately conservative: it measures public evidence of guideline-like behavior, not private compliance.
 
 ![Guideline evidence scorecard](plots/png/07_guideline_evidence_scorecard.png)
 
-The hardest cases are unanimous-reviewer overrides. If all reviewers point one way and the AC/PC moves the other way, the public explanation should be unusually explicit. The data shows a mixed picture: many ICLR unanimous overrides have strong public rationale signals, but not all of them do. That is exactly where conferences should require a structured decision delta.
+The hardest cases are unanimous-reviewer overrides. If all reviewers point one way and the AC/PC moves the other way, the public explanation should be unusually explicit. The data shows a mixed picture: many ICLR unanimous overrides have strong public rationale signals, but not all of them do. This plot is a high-bar public-record screen, not a claim that the decisions were right or wrong. It marks exactly where conferences should require a structured decision delta.
 
 ![Unanimous override rationale](plots/png/08_unanimous_override_rationale.png)
 
@@ -2381,7 +2387,7 @@ The capacity question can be made more precise. If every paper with at least thr
 
 ![Three accept capacity load](plots/png/12_three_accept_capacity_load.png)
 
-That leads to a useful accountability split. Some 3+ accept-vote rejections may be unavoidable under a hard slot budget, but many are not forced by capacity arithmetic. Those cases can still be correct decisions; they just need a public rationale strong enough for future ACs, reviewers, and authors to learn from the choice.
+That leads to a useful accountability split. Some 3+ accept-vote rejections may be unavoidable under a hard slot budget, but many are not forced by slot arithmetic. Those cases can still be correct decisions; the point is that their explanation burden is higher because capacity alone does not explain the outcome.
 
 ![Three accept rejection decomposition](plots/png/13_three_accept_rejection_decomposition.png)
 

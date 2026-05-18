@@ -50,5 +50,5 @@
 <rect x="429.3" y="414.0" width="88.0" height="20" fill="#b94a48" opacity="0.25" stroke="#b94a48"/>
 <line x1="478.2" x2="478.2" y1="411.0" y2="437.0" stroke="#b94a48" stroke-width="3"/>
 <text x="557.5" y="428.0" font-family="Inter, Arial, sans-serif" font-size="11" font-weight="400" fill="#374151" text-anchor="start">n=8371, median=4.00</text>
-<text x="28.0" y="504.0" font-family="Inter, Arial, sans-serif" font-size="11" font-weight="400" fill="#6b7280" text-anchor="start">Source: public ICLR OpenReview notes; withdrawn and desk-reject papers omitted.</text>
+<text x="28.0" y="504.0" font-family="Inter, Arial, sans-serif" font-size="11" font-weight="400" fill="#6b7280" text-anchor="start">Source: public ICLR OpenReview notes; withdrawn and desk-reject papers omitted. ICLR 2026 is an unusual review-reset stress test.</text>
 </svg>

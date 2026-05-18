@@ -1,8 +1,8 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="1180" height="560" viewBox="0 0 1180 560">
 <rect width="100%" height="100%" fill="#fbfbf8"/>
 <text x="28.0" y="36.0" font-family="Inter, Arial, sans-serif" font-size="24" font-weight="700" fill="#111827" text-anchor="start">What happens to papers with at least three accept-leaning reviews?</text>
-<text x="28.0" y="64.0" font-family="Inter, Arial, sans-serif" font-size="14" font-weight="400" fill="#4b5563" text-anchor="start">This directly probes the 3-accept argument: among papers with 3+ reviewer accept votes, how many are</text>
-<text x="28.0" y="82.0" font-family="Inter, Arial, sans-serif" font-size="14" font-weight="400" fill="#4b5563" text-anchor="start">still rejected? Labels show how many such rejects expose any public rationale.</text>
+<text x="28.0" y="64.0" font-family="Inter, Arial, sans-serif" font-size="14" font-weight="400" fill="#4b5563" text-anchor="start">This probes the 3-accept argument without making it mechanical. Labels show rejected 3+ accept-vote</text>
+<text x="28.0" y="82.0" font-family="Inter, Arial, sans-serif" font-size="14" font-weight="400" fill="#4b5563" text-anchor="start">papers and how many expose any public rationale.</text>
 <line x1="250.0" x2="250.0" y1="120" y2="496" stroke="#e5e7eb"/>
 <text x="250.0" y="518.0" font-family="Inter, Arial, sans-serif" font-size="13" font-weight="400" fill="#6b7280" text-anchor="middle">0</text>
 <line x1="412.0" x2="412.0" y1="120" y2="496" stroke="#e5e7eb"/>
@@ -37,5 +37,5 @@
 <text x="965.0" y="143.0" font-family="Inter, Arial, sans-serif" font-size="13" font-weight="400" fill="#17202a" text-anchor="start">final accept</text>
 <rect x="943" y="158" width="15" height="15" fill="#b94a48"/>
 <text x="965.0" y="171.0" font-family="Inter, Arial, sans-serif" font-size="13" font-weight="400" fill="#17202a" text-anchor="start">final reject</text>
-<text x="28.0" y="544.0" font-family="Inter, Arial, sans-serif" font-size="12" font-weight="400" fill="#6b7280" text-anchor="start">Accept vote uses venue-specific thresholds: ICLR=6, ICML=3, NeurIPS=4. Public samples differ by venue.</text>
+<text x="28.0" y="544.0" font-family="Inter, Arial, sans-serif" font-size="12" font-weight="400" fill="#6b7280" text-anchor="start">Accept vote uses venue-specific thresholds: ICLR=6, ICML=3, NeurIPS=4. ICML/NeurIPS rejected counts are public lower bounds.</text>
 </svg>
