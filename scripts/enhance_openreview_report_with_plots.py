@@ -40,6 +40,17 @@ RLC_2026_SUBMISSION_URL = "https://rl-conference.cc/submissionInstructions.html"
 ARR_2026_INCENTIVES_URL = "https://aclrollingreview.org/incentives2026"
 AYAN_LINKEDIN_URL = "https://www.linkedin.com/posts/ayan-banerjee-6337589_neurips-had-close-to-40k-submissions-the-share-7458685306699960320-BoIx"
 BITTER_LESSON_URL = "http://www.incompleteideas.net/IncIdeas/BitterLesson.html"
+PUBLISHED_BLOG_URL = "https://kishan-panaganti-rl-vagabond.notion.site/Area-Chairs-vs-Paper-Weights-What-ACs-Add-and-How-to-AC-Well-3641ada07aa481049c69d60d934da9e0"
+GITHUB_REPO_URL = "https://github.com/kishanpb/openreview-ac-audit"
+BIBTEX_CITATION = f"""@misc{{panaganti2026areaChairsPaperWeights,
+  author = {{Kishan Panaganti Badrinath}},
+  title = {{{BLOG_TITLE}}},
+  year = {{2026}},
+  month = may,
+  url = {{{PUBLISHED_BLOG_URL}}},
+  note = {{Public blog post; source repository: \\url{{{GITHUB_REPO_URL}}}}},
+  urldate = {{2026-05-18}}
+}}"""
 
 VENUES = [
     {
@@ -2307,6 +2318,15 @@ The local source package contains the analysis scripts, cached public-data CSVs,
 To audit the numbers, run `python3 scripts/validate_outputs.py` against the released package. To regenerate from cached public OpenReview rows, run `python3 scripts/enhance_openreview_report_with_plots.py`. A full public-data refresh can be run with `python3 scripts/analyze_openreview_ac_overrides.py` followed by the enhancement script; that path depends on the current public OpenReview API surface and may change as venues update visibility.
 
 """
+    citation = f"""## How To Cite
+
+If you cite this essay or the accompanying reproducibility package, use:
+
+```bibtex
+{BIBTEX_CITATION}
+```
+
+"""
     if "## Reproducibility Package" in text:
         text = re.sub(
             r"## Reproducibility Package\n.*?(?=\n## Caveats)",
@@ -2316,6 +2336,8 @@ To audit the numbers, run `python3 scripts/validate_outputs.py` against the rele
         )
     else:
         text = text.replace("\n## Caveats", "\n" + reproducibility + "## Caveats", 1)
+    text = re.sub(r"\n## How To Cite\n.*?(?=\n## Sources|\Z)", "\n", text, flags=re.S).rstrip()
+    text += "\n\n" + citation.rstrip() + "\n"
     report_path.write_text(text, encoding="utf-8")
 
 

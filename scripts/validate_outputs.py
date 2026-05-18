@@ -13,6 +13,7 @@ REPORT = ROOT / "reports" / "notion_blog_openreview_ac_overrides.md"
 IMPORT_REPORT = ROOT / "reports" / "notion_import" / "notion_blog_openreview_ac_overrides.md"
 ZIP_REPORT = ROOT / "reports" / "notion_blog_openreview_ac_overrides.zip"
 DATA = ROOT / "data"
+PUBLISHED_BLOG_URL = "https://kishan-panaganti-rl-vagabond.notion.site/Area-Chairs-vs-Paper-Weights-What-ACs-Add-and-How-to-AC-Well-3641ada07aa481049c69d60d934da9e0"
 ANALYZABLE_VENUES = ["ICLR 2026", "ICLR 2025", "ICLR 2024", "ICML 2025", "NeurIPS 2025"]
 DISCUSSION_FIELDS = [
     "public_discussion_count",
@@ -73,6 +74,10 @@ def check_report_basics(text: str) -> None:
         "directional lift rather than two nearly identical frequency bars",
         "coarse, exploratory groupings, not stable reason taxonomies",
         "their explanation burden is higher because capacity alone does not explain the outcome",
+        "## How To Cite",
+        "panaganti2026areaChairsPaperWeights",
+        PUBLISHED_BLOG_URL,
+        "source repository: \\url{https://github.com/kishanpb/openreview-ac-audit}",
     ]
     for phrase in required:
         if phrase not in text:

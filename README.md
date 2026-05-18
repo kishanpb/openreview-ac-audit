@@ -1,8 +1,16 @@
 # OpenReview AC Override Audit
 
-This repository contains the analysis code, cached public-data tables, plots, and blog draft for Area Chairs vs Paper Weights: What ACs Add, and How to AC Well.
+This repository contains the analysis code, cached public-data tables, plots, and published blog post for Area Chairs vs Paper Weights: What ACs Add, and How to AC Well.
 
 The audit asks how far public OpenReview final decisions move away from simple reviewer-score aggregation, then reads the visible override cases as a process-quality surface for area-chair work.
+
+## Published Post
+
+Read the published essay on Notion: [Area Chairs vs Paper Weights: What ACs Add, and How to AC Well](https://kishan-panaganti-rl-vagabond.notion.site/Area-Chairs-vs-Paper-Weights-What-ACs-Add-and-How-to-AC-Well-3641ada07aa481049c69d60d934da9e0).
+
+## Citation
+
+Use [CITATION.bib](CITATION.bib) to cite the essay and accompanying reproducibility package.
 
 ## What Is Included
 
@@ -10,7 +18,7 @@ The audit asks how far public OpenReview final decisions move away from simple r
 - scripts/enhance_openreview_report_with_plots.py: builds the meta-review/rationale and public-discussion analysis, plot SVGs, and final Markdown report from cached rows.
 - scripts/validate_outputs.py: checks that the published Markdown, CSV summaries, plots, and packaged artifacts are internally consistent.
 - data/: cached derived CSVs from public OpenReview records and public source metadata.
-- reports/notion_blog_openreview_ac_overrides.md: canonical Markdown blog draft.
+- reports/notion_blog_openreview_ac_overrides.md: canonical Markdown for the published blog post.
 - reports/plots/: generated SVG plots and PNG exports referenced by the Markdown.
 
 ## Reproduce
@@ -36,7 +44,7 @@ Refresh from the current public OpenReview API surface:
     python3 scripts/enhance_openreview_report_with_plots.py --refresh
     python3 scripts/validate_outputs.py
 
-The refresh path requests both directReplies and replies from the OpenReview API so nested public forum notes are captured separately from direct review/decision/meta-review records. Administrative acknowledgements and withdrawals are excluded from the discussion counts. The cached CSVs capture the public-data snapshot used by the blog draft.
+The refresh path requests both directReplies and replies from the OpenReview API so nested public forum notes are captured separately from direct review/decision/meta-review records. Administrative acknowledgements and withdrawals are excluded from the discussion counts. The cached CSVs capture the public-data snapshot used by the published post.
 
 ## Scope And Caveats
 

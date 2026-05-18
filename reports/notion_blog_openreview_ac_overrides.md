@@ -445,3 +445,19 @@ I am not associated with any of the authors corresponding to papers discussed in
 - AAAI 2025 acceptance-rate context: [RIKEN AIP AAAI-25 acceptance note](https://aip.riken.jp/news/202412_aaai25/)
 - OpenReview public API: [api2.openreview.net](https://api2.openreview.net)
 - OpenReview public submission pages: [ICLR 2026](https://openreview.net/submissions?venue=ICLR.cc%2F2026%2FConference), [ICLR 2025](https://openreview.net/submissions?venue=ICLR.cc%2F2025%2FConference), [ICLR 2024](https://openreview.net/submissions?venue=ICLR.cc%2F2024%2FConference), [ICML 2025](https://openreview.net/submissions?venue=ICML.cc%2F2025%2FConference), [NeurIPS 2025](https://openreview.net/submissions?venue=NeurIPS.cc%2F2025%2FConference), [AISTATS 2026](https://openreview.net/submissions?venue=aistats.org%2FAISTATS%2F2026%2FConference), [RLC 2025](https://openreview.net/submissions?venue=rl-conference.cc%2FRLC%2F2025%2FConference), [AAAI 2025](https://openreview.net/submissions?venue=AAAI.org%2F2025%2FConference)
+
+## How To Cite
+
+If you cite this essay or the accompanying reproducibility package, use:
+
+```bibtex
+@misc{panaganti2026areaChairsPaperWeights,
+  author = {Kishan Panaganti Badrinath},
+  title = {Area Chairs vs Paper Weights: What ACs Add, and How to AC Well},
+  year = {2026},
+  month = may,
+  url = {https://kishan-panaganti-rl-vagabond.notion.site/Area-Chairs-vs-Paper-Weights-What-ACs-Add-and-How-to-AC-Well-3641ada07aa481049c69d60d934da9e0},
+  note = {Public blog post; source repository: \url{https://github.com/kishanpb/openreview-ac-audit}},
+  urldate = {2026-05-18}
+}
+```
